@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <title>Document</title>
+    <style>
+       
+      
+        .container5{
+             border: 1px solid gray;
+             width: 70%;
+             height: 90vh;
+             padding: 0;
+            /*height: 80vh;   
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 40px;        
+            background-image: url("{% static 'images/desk.png' %}"); 
+            background-size: cover;  Adjust as needed 
+            background-repeat: no-repeat;
+            background-position: center center; Adjust the position if needed */
+            position: absolute;
+            top: 50%;
+            left: 50% ;
+            transform: translate(-50%,-50%);
+
+        }
+        .cadre{
+            width: 100%;
+            height: 65px;
+            background-color: #00AB51;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          
+        }
+        .cadre >h5{
+            color: white;
+        }
+     
+        table tr td{
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo{
+            
+            background-image: url("{% static 'images/immobili.jpg' %}"); 
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 300px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+          
+        }
+        table{
+            position: absolute;
+            top: 56%;
+            left: 50% ;
+            transform: translate(-50%,-50%);
+        }
+        .num{
+            color: #3D7EA3;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .h3{
+            color: #00AB51;;
+        }
+        .td{
+            gap: 10px;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="container5">
+        <div class="cadre">
+                <h5 class="text-center">منظومة التصرف الالكتروني في الملكية العقارية</h5>
+
+        </div>
+
+        <!-- <img src="{% static 'images/desk.png' %}" alt="My image"> -->
+        <table>
+            
+            <tr>
+                <td class="logo"></td>
+            </tr>
+
+            <tr>
+                <td><h1>رسم @ عقاري</h1></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3 class="text-center h3">الاطلاع اللامادي على الرسوم العقارية</h3> 
+                </td>
+            </tr>
+
+            <tr>
+                <td> <span class="num">عدد الوصل</span></td>
+            </tr>
+            <tr>
+            <td class="td">
+                    <a href="" class="btn btn-danger"><i class="fas fa-lock"></i></a>
+                    <a href="" class="btn btn-success"><i class="fas fa-search"></i></a>
+                    <input type="text" class="form-control">
+            </td>
+
+            </tr>
+        </table>
+
+
+    </div>
+</body>
+</html>

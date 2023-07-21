@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User</title>
+
+    <!-- Add the Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Center the form in the middle of the screen */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Style the form container */
+.form-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply styles to the form fields */
+.form-control {
+  width: 100%;
+  margin-bottom: 10px;
+}
+input{
+    width:400px;
+}
+    </style>
+    <!-- Add your custom CSS, if any -->
+
+</head>
+<body>
+    <!-- Your body content -->
+
+    <!-- Add the link that triggers the modal -->
+    <form method="post" action="/users/update_user_crud/{{user.idemp}}/" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="userauth">المستخدم:</label>
+            <input type="text" name="userauth" value="{{ user.userauth }}" class="form-control" required>
+            <div class="invalid-feedback">Please provide a userauth.</div>
+        </div>
+        <div class="mb-3">
+            <label for="passwd">كلمة العبور:</label>
+            <input type="text" name="passwd" value="{{ user.passwd }}" class="form-control" required>
+            <div class="invalid-feedback">Please provide a password.</div>
+        </div>
+        <div class="mb-3">
+            <label for="categorie">فئة:</label>
+            <input type="number" name="categorie" value="{{ user.categorie }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="active">نشط:</label>
+            <input type="number" name="active" value="{{ user.active }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="adr_ip">عنوان IP:</label>
+            <input type="text" name="adr_ip" value="{{ user.adr_ip }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="etat">حالة:</label>
+            <input type="text" name="etat" value="{{ user.etat }}" class="form-control">
+        </div>
+        <!-- Other form fields -->
+ 
+        <!-- Other form fields -->
+        <div class="mb-3">
+            <input type="submit" value="تحديث عميل" class="btn btn-primary" onclick="confirmAdd()">
+        </div>
+    </form>
+
+    <!-- Add the Bootstrap JS and jQuery (required for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

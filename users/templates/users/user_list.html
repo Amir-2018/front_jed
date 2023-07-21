@@ -1,0 +1,319 @@
+
+
+
+
+
+
+
+
+
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Impact Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css '%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css '%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css '%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/main.css '%}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Impact
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+    .about-text{
+
+            direction: rtl; /* Right-to-left direction for Arabic text */
+            text-align: justify; /* Justify the text */
+
+    }
+
+    body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+        }
+        h2 {
+            text-align: center;
+            /* Add any other desired styles for the heading */
+        }
+   
+        li {
+            list-style-type: none;
+            padding: 5px;
+            /* Add any other desired styles for list items */
+        }
+        .li-style{
+          background-color: #008374;
+          margin: 10px;
+          color: white;
+          font-weight: bold;
+          transition: .2s;
+          cursor: pointer;
+          padding: 10px;
+        }
+        .li-style:hover{
+          transform: scale(1.1);
+        }
+        .content{
+          line-height: 30px;
+          font-size: 20px;
+        }
+      
+        .cadre-img{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            top: -50px;
+        }
+  </style>
+</head>
+
+<body>
+
+  <!-- <section id="topbar" class="topbar d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section> -->
+
+  <header id="header" class="header d-flex align-items-center">
+
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>ادارة الملكية العقارية<span>.</span></h1>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="/users/get_users">إدارة العملاء</a></li>
+          <li><a href="/"> إدارة الوثائق</a></li>
+          <li><a href="/login"> خروج </a></li>
+
+
+        
+        </ul>
+      </nav><!-- .navbar -->
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+  <!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+
+  <body>
+
+
+  <br>
+    <h3 class="text-center">العملة</h3>
+    <br>
+    <input class="form-control" type="text" id="txt2" placeholder="بحث">
+    <br>
+
+<table class="table table-striped table2">
+  <thead>
+    <tr>
+      <th>المستخدم</th>
+      <th>فئة</th>
+      <th>نشط</th>
+      <th>عنوان IP</th>
+      <th>حالة</th>
+      <th>فعل</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.userauth }}</td>
+      <td>{{ user.categorie }}</td>
+      <td>{{ user.active }}</td>
+      <td>{{ user.adr_ip }}</td>
+      <td>{{ user.etat }}</td>
+      <td>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-info" >إضافة</a>
+        <a href="/users/update_user/{{ user.idemp }}"  class="btn btn-success"  >تحديث</a>
+        <a onclick="return confirmDelete()" href="/users/delete_user/{{user.idemp }}"  class="btn btn-danger"> حذف</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div>
+    <!-- Bouton précédent -->
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary">Précédent</a>
+    {% endif %}
+
+    <!-- Bouton suivant -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Suivant</a>
+    {% endif %}
+</div>
+
+<table class="table table-striped table2">
+  <!-- ... table content ... -->
+</table>
+
+
+<!--  The pop up function  -->
+
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/users/insert-user/" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" name="userauth" placeholder="المستخدم" class="form-control" required>
+                        <div class="invalid-feedback">Please provide a userauth.</div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="passwd" placeholder="كلمة العبور" class="form-control" required>
+                        <div class="invalid-feedback">Please provide a password.</div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" name="categorie"  class="form-control" placeholder="فئة">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" name="active"  class="form-control" placeholder="نشط">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="adr_ip"  class="form-control" placeholder="عنوان IP">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="etat" class="form-control" placeholder="حالة">
+                    </div>
+
+                    <div class="mb-3">
+                      <input type="number" name="role" class="form-control" placeholder="دور">
+                  </div>
+                    <!-- Other form fields -->
+                    <div class="mb-3">
+                        <input type="submit" value="إضافة" class="btn btn-primary" onclick="confirmAdd()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script>
+// serarch function 
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('txt2');
+  const rows = document.querySelectorAll('.table2 tbody tr');
+
+  searchInput.addEventListener('keyup', function() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    rows.forEach(function(row) {
+      const cells = row.getElementsByTagName('td');
+      let found = false;
+
+      for (let i = 0; i < cells.length; i++) {
+        const cellText = cells[i].innerText.toLowerCase();
+        if (cellText.includes(searchTerm)) {
+          found = true;
+          break;
+        }
+      }
+
+      if (found) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+});
+   // Function to show the confirmation alert
+   function confirmDelete() {
+        var confirmDelete = confirm("تأكيد الحذف");
+        if (confirmDelete) {
+             
+            alert("تمت عملية الحذف بنجاح")
+            return true ;
+        }else {
+            alert('لم يتم الحذف')
+            return false ; 
+        }
+    }
+
+    
+
+
+
+    </script>
+    
+        <!-- Add jQuery (required for Bootstrap's JavaScript plugins) -->  
+        <!-- Add the script to trigger the modal on page load -->
+        <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <div id="preloader"></div>
+      
+        <!-- Vendor JS Files -->
+        <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+        <script src="{% static 'assets/vendor/aos/aos.js '%}"></script>
+        <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js '%}"></script>
+        <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js '%}"></script>
+        <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js '%}"></script>
+        <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js '%}"></script>
+        <script src="{% static 'assets/vendor/php-email-form/validate.js '%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+
+
+
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js '%}"></script>
+</body>
+
+
+</html>

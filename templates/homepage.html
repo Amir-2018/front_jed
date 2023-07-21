@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Homepage</title>
+        <style>
+        
+            html, body {
+                height: 100%;
+            }
+            .container-fluid {
+                height: 95%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                margin: 0px;
+
+            }
+            .container-fluid .row .col{
+                padding-top: 10px;
+            }
+            .row {
+                height: 100%;
+            }
+            .col {
+                height: 100%;
+            }
+            .create_space{
+                gap: 10px;
+            }
+            .cntr1{
+                margin-top: 10px;
+            }
+            .navbar{
+                height: 60px ; 
+            }
+          .navbar .container-fluid{
+            height: 100%;
+            padding-top:15px;
+
+            
+          }   
+          .navbar .container-fluid >ul {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            right: 10px;
+          }   
+          .navbar .container-fluid >ul >li {
+            list-style: none;
+            background-color: #04AA6D!important;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+          }
+          .up{
+            
+            background-color: #04AA6D!important;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+          }
+          .navbar .container-fluid >ul >li >a{
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+
+          }
+          .btnlock{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+          }
+           .pages{
+            width: 20%;
+            position: relative;
+            left: 33%;
+           
+           }
+           .pages >ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            gap: 10px;
+
+           }
+           .pages >ul >li{
+            list-style: none;
+            color: white;
+           }
+
+           .grid-container {
+
+  display: grid;
+  grid-template-columns: 5% 75% auto;
+  gap: 2px;
+  padding: 10px;
+  position: relative;
+  top: 60px;
+  
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: px;
+  height: 89vh;
+  border: 1px solid black;
+
+}
+.grid-container > div >ul >li{
+    list-style: none;
+    margin: 10px;
+}
+.grid-container > div >ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-right: 30px;
+   
+}
+.table tr td{
+    padding: 2px ;
+   
+}
+.table tr td span{
+    font-size: 15px ;
+   
+}
+.tab1{
+    border: 1px solid black;
+    width: 95%;
+    height: 20%;
+    position: relative;
+    top: 5px;
+    left: 8px;
+
+}
+.tab2{
+    position: relative;
+    top: 15px;
+}
+
+.tab3 {
+    position: relative;
+    top: 15px;
+    padding: 5px;
+}
+
+
+.add{
+    width: 80%;
+    transform: translate(13%);
+    font-size: 15px;
+    padding: 5px;
+    color: white;
+    background-color: #212529;
+}
+
+
+        </style>
+    </head>
+    <body>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Navbar Example</title>
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <div class="container-fluid">
+                    <a href="/login" class="btn btn-danger btnlock">    <i class="fas fa-lock"></i>
+                    </a>
+                    <div class="pages">
+                        <ul>
+                            <li class="up"><i class="fas fa-long-arrow-alt-left"></i></li>
+                            <li>الصفحة</li>
+                            <li class="up"><i class="fas fa-long-arrow-alt-right"></i></li>
+                        </ul>
+                    </div>
+                    <ul>
+                        <li><a href=""><i class="fas fa-lock"></i></a></li>
+                        <li><a href="">    <i class="fas fa-trash"></i>
+                        </a></li>
+                        <li><a href="">    <i class="fas fa-redo"></i></a></li>
+                        <li> <a href="">المصادقة على الرسم العقاري</a> </li>
+
+                    </ul>
+                </div>
+            </nav>
+            <div class="grid-container">
+                <div>
+                    <ul>
+                    <li><a href="" class="btn btn-success"><i class="far fa-copy"></i>
+
+                    </a></li>
+                    <li><a href="" class="btn btn-success"><i class="fas fa-pen"></i>
+
+                    </a></li>
+                    <li><a href="" class="btn btn-success"><i class="fas fa-search-plus"></i>
+
+                    </a></li>
+                    <li><a href="" class="btn btn-success"><i class="fas fa-search-minus"></i>
+
+                    </a></li>
+                    <li><a href="" class="btn btn-success"><i class="fas fa-download"></i>
+
+                    </a></li>
+
+                 
+                   
+                    <li><a href="" class="btn btn-success"><i class="fas fa-trash"></i></a></li>
+                    <li>  <a class="btn btn-success" href=""> <i class="fas fa-redo"></i></a> </li>              
+                  </ul>
+                </div>
+                <div>img</div>
+                <div>
+                    <a href="" class="text-center btn btn-info">يومية الترسيم</a>
+                    <table style="font-size: 12px;" class="tab1">
+                        <tr>
+                            <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;"><i class="fas fa-search"></i>
+                            </a></td>
+                            <td><input type="text" class="form-control" style="font-size: 10px;"></td>
+                            <td><span style="font-size: 10px;">الرسم العقاري</span></td>
+                        </tr>
+                        <tr>
+                            <td><a href=""  style="padding: 5px 10px; font-size: 10px;"></a></td>
+                            <td><select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>بنزرت</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                              </select></td>
+                            <td><span style="font-size: 10px;">الولاية</span></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;">+</a></td>
+                            <td><select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>بنزرت</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                              </select></td>
+                            <td><span style="font-size: 10px;">مكرر </span></td>
+                        </tr>
+                       
+                       
+                    </table>
+                    <br>
+                    <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"></div>
+                    <div class="mytable">
+                        <table style="font-size: 12px;" class="tab1 tab3">
+                            <tr>
+                                
+                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+    
+                                <th><span style="font-size: 10px;"> الولاية</span></th>
+    
+                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+                                <th><span style="font-size: 10px;">الرسم العقاري</span></th>
+    
+                                
+                            </tr>
+    
+                            <tr>
+                                
+                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+    
+                                <th><span style="font-size: 10px;"> صفحة عدد</span></th>
+    
+                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+                                <th><span style="font-size: 10px;">عدد الصفحات </span></th>
+    
+                                
+                            </tr>
+                         
+    
+                            <tr>
+                                
+                                <th><span style="font-size: 10px;"></span></th>
+    
+                                <th><span style="font-size: 10px;"> </span></th>
+    
+                                <th><span style="font-size: 10px;"><input type="date" style="width: 80%;"></span></th>
+                                <th><span style="font-size: 10px;"><span>تاريخ التخزين</span></th>
+    
+                                
+                            </tr>
+                            <tr>
+                                
+                                <th><span style="font-size: 10px;"></span></th>
+    
+                                <th><span style="font-size: 10px;"> </span></th>
+    
+                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+                                <th ><span style="font-size: 10px;"><span>بيانات الماسحة الضوئية</span></th>
+    
+                                
+                            </tr>
+                            <tr>
+                                <td>اختيار السكانار</td>
+                                <td><input type="checkbox" name="" id=""></td>
+    
+                                <td>اظهار بيانات السكانار</td>
+                                <td><input type="checkbox" name="" id=""></td>
+    
+                            </tr>
+                          
+                            
+                          
+                        </table>
+                    </div>
+                    
+                    <br>
+                    <div class="add"><span>اضافة مراجع</span></div>
+                    
+                    <table style="font-size: 12px; overflow:scroll;" class="tab1 tab3">
+                        <tr>
+                            
+                            <th><span style="font-size: 10px;">ص</span></th>
+
+                            <th><span style="font-size: 10px;"> نوع العملية</span></th>
+
+                            <th><span style="font-size: 10px;">العدد</span></th>
+                            <th><span style="font-size: 10px;">التاريخ</span></th>
+
+                            <th><span>المجلد</span></a></th>
+                            <th>الايداع</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        
+                        
+                      
+                    </table>
+                </div>  
+              
+              </div>
+        
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        </body>
+        </html>
+        
+    </body>
+</html>
