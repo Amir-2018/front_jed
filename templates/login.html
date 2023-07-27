@@ -82,6 +82,19 @@
             position: relative;
             top: -50px;
         }
+        /* style the erro message*/
+        .error-container {
+        background-color: #ffdddd;
+        border: 1px solid #f44336;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .error-message {
+        color: #f44336;
+        font-weight: bold;
+    }
   </style>
 </head>
 
@@ -144,7 +157,7 @@
 
           <div class="col-lg-6 img-login">
 
-            <img class="cadre-img" src="../static/assets/img/5101874.jpg" alt="">
+            <img class="cadre-img" src="{% static '/assets/img/5101874.jpg '%}" alt="">
           </div>
 
           <div class="col-lg-6">
@@ -166,18 +179,18 @@
                 <div class="text-center">
                     <a class="btn btn-success" href="/changepass">تغيير كلمة العبور</a>
                 </div>
+                <br>
+                {% if error %}
+                <div class="error-container">
+                    <div class="error-message">{{ error }}</div>
+                </div>
+            {% endif %}
+                
             </form>
           
           </div><!-- End Contact Form -->
            <!-- Your login page content here -->
-    <div>
-        {% if error %}
-            <p>{{ error }}</p>
-        {% else %}
-            <p>No message to display.</p>
-        {% endif %}
-        <!-- Add your login form and other content here -->
-    </div>
+   
         </div>
 
       </div>

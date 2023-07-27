@@ -92,7 +92,30 @@
             position: relative;
             top: -50px;
         }
-  </style>
+
+    .success-container {
+        background-color: #d4edda;
+        border: 1px solid #28a745;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .error-container {
+        background-color: #f8d7da;
+        border: 1px solid #dc3545;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .success-message,
+    .error-message {
+        color: #555;
+        font-weight: bold;
+    }
+</style>
+
 </head>
 
 <body>
@@ -168,25 +191,25 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>تسجيل الدخول</h2>
+          <h2> تغيير كلمة العبور</h2>
         </div>
 
         <div class="row gx-lg-0 gy-4">
 
           <div class="col-lg-6 img-login">
 
-            <img class="cadre-img" src="../static/assets/img/5101874.jpg" alt="">
+            <img class="cadre-img" src="{% static '/assets/img/5101874.jpg '%}" alt="">
           </div>
 
           <div class="col-lg-6">
             <form method="POST" action="/users/changePass/">
               {% csrf_token %}
               <div class="mb-3">
-                  <label for="username" class="form-label">كلمة العبور</label>
+                  <label for="username" class="form-label">كلمة العبور القديمة </label>
                   <input type="password" class="form-control" id="username" name="old" required>
               </div>
               <div class="mb-3">
-                  <label for="password" class="form-label ">تأكيد كلمة العبور</label>
+                  <label for="password" class="form-label ">كلمة العبور الجديدة  </label>
                   <input type="password" class="form-control" id="password" name="new" required>
               </div>
               <div class="text-center"> 
@@ -194,7 +217,17 @@
                   <button type="reset" class="btn btn-warning"> إلغاء</button>
               </div>
               <br>
-             
+              {% if msg %}
+              <div class="success-container">
+                  <div class="success-message">{{ msg }}</div>
+              </div>
+          {% endif %}
+      
+          {% if error %}
+              <div class="error-container">
+                  <div class="error-message">{{ error }}</div>
+              </div>
+          {% endif %}
           </form>
           </div><!-- End Contact Form -->
 

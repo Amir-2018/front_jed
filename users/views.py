@@ -74,7 +74,39 @@ def insert_user(request):
                 return JsonResponse(response_data, status=400)
 
     
+
+
 def login_user(request):
+    error = None
+    if request.method == 'POST':
+        username = request.POST.get('userauth')
+        reqpwd = request.POST.get('passwd')
+        
+        try:
+            user = TUser.objects.get(userauth=username)
+            # effacer espace au début et à la  fin de la chaine 
+            passwddb = user.passwd.strip()
+            iduser = user.idemp
+            strpwd = reqpwd + str(iduser)
+            passwd = hashlib.md5(strpwd.encode()).hexdigest().strip()
+            if passwd == passwddb:
+                request.session['username'] = username
+                if user.role == 1:
+                    return redirect('/adminUser')
+                else: 
+                    return redirect('/smp')
+            else:
+                error = "خطأ في كلمة العبور"
+
+        except TUser.DoesNotExist:
+            error = "خطأ في  إسم المستخدم  "
+
+        # Redirect to /login with the error message as a URL parameter
+    return render(request, 'login.html', {'error': error})
+
+    print('test 3 ')
+    return render(request, 'login.html', {'error': error})
+
     error = None
     if request.method == 'POST':
         username = request.POST.get('userauth')
@@ -98,10 +130,12 @@ def login_user(request):
                 # error = 'معطيات غير متطابقة مع قاعدة البيانات الرجاء التثبت'
                 error = "check your credentials please"
                 return redirect('/login',error)
+
         except TUser.DoesNotExist:
             error = "check your credentials please"
+            print('test 2 ')
             return redirect('/login',error)
-            
+    print('test 3 ')    
     return render(request, 'login.html', {'error': error})
     
 
@@ -162,6 +196,7 @@ def get_user_by_idemp(request,idemp):
 
 
 def changePass(request):
+    msg = None
     error = None
     if request.method == 'POST':
         username = request.session.get('username')
@@ -184,16 +219,12 @@ def changePass(request):
                 newpasswd = hashlib.md5(strnewpwd.encode()).hexdigest().strip()
                 user.passwd = newpasswd
                 user.save()
-                response_data = {'message': 'Password updated successfully'}
-                return JsonResponse(response_data)
+                msg = 'تم تغيير كلمة العبور'
             else:
-                error = "Check your credentials, please"
-                return JsonResponse({'error': error})
+                error = "كلمة العبور غير صحيحة"
         except TUser.DoesNotExist:
-            error = "Please try again"
-            # error = 'الرجاء إعادة المحاولة'
-            # try again, please
-            return JsonResponse({'error': error})
+            error = "خدمة تغيير كلمة العبور غير متاحة الآن"
+    return render(request, 'ChangePass.html', {'msg': msg, 'error': error})
             
     return render(request, 'login.html', {'error': error})
 from django.shortcuts import render, get_object_or_404
@@ -227,3 +258,7 @@ def update_user_crud(request, user_id):
 
     # If it's a GET request, render the 'users/update.html' template with the user object
     return render(request, 'users/update.html', {'user': user})
+
+
+
+    
