@@ -33,4 +33,5 @@ def get_first(request):
     return render(request, 'first.html')
 def admin(request):
     return render(request, 'admin.html')
-
+def test(request):
+    return render(request, 'test.html')

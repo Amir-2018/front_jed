@@ -15,6 +15,16 @@ urlpatterns = [
     path('update_user/<int:user_id>/', views.update_user),
     path('update_user_crud/<int:user_id>/', views.update_user_crud),
 
+# Add large object into database 
+    path('add_file/', views.add_file),
+
+    # Your other URL patterns
+    path('show_files/', views.show_files, name='show_files'),
+    path('download/<int:file_id>/', views.download_file, name='download_file'),
+
+
+    path('logout/', views.logout),
+
     
 
 

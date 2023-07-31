@@ -261,4 +261,149 @@ def update_user_crud(request, user_id):
 
 
 
+from django.http import HttpResponse
+from .models import TFichiers  # Import your TFiles model
+
+
+
+from django.http import HttpResponse
+from django.db import connection
+from django.db.transaction import atomic
+from .models import TFichiers
+
+
+
+def add_file(request):
+    if request.method == 'POST' and request.FILES:
+        try:
+            # Get the uploaded file from the request
+            file_to_upload = request.FILES['file_to_upload']
+
+            # Create a new TFiles instance and save it to the database
+            tfile = TFichiers()
+
+            # Save the TFiles instance without committing to the database yet
+            tfile.save()
+
+            # Open the Large Object for writing
+            lo_file = tfile.file.open(mode='wb')
+
+            # Read the file data as bytes
+            file_data = file_to_upload.read()
+
+            # Write the file data to the Large Object
+            lo_file.write(file_data)
+
+            # Close the Large Object
+            lo_file.close()
+
+            # Set the description for the file (if you have it from the form)
+            tfile.description = "Your file description"
+            tfile.save()  # Save the TFiles instance with the updated description
+
+            # Return a success response to the user
+            return HttpResponse("File uploaded successfully.")
+        except Exception as e:
+            # Handle any exceptions that might occur during the process
+            print("Error:", e)
+            return HttpResponse("Error occurred during file upload.")
+    else:
+        # Render the upload form for the user to submit a file
+        return render(request, 'upload.html')
+
+    if request.method == 'POST' and request.FILES:
+        try:
+            # Get the uploaded file from the request
+            file_to_upload = request.FILES['file_to_upload']
+
+            # Create a new TFiles instance and save it to the database
+            tfile = TFile()
+
+            # Save the TFiles instance without committing to the database yet
+            tfile.save()
+
+            # Open the Large Object for writing using PostgreSQL-specific method
+            oid = connection.ops.lo_creat(connection.connection)
+
+            # Write the file data to the Large Object
+            with connection.connection.lo_open(oid, 'wb') as lo_file:
+                file_data = file_to_upload.read()
+                lo_file.write(file_data)
+
+            # Set the Large Object OID in the TFiles instance
+            tfile.file = oid
+            tfile.save()
+
+            # Set the description for the file (if you have it from the form)
+            tfile.description = "Your file description"
+            tfile.save()  # Save the TFiles instance with the updated description
+
+            # Return a success response to the user
+            return HttpResponse("File uploaded successfully.")
+        except Exception as e:
+            # Handle any exceptions that might occur during the process
+            print("Error:", e)
+            return HttpResponse("Error occurred during file upload.")
+    else:
+        # Render the upload form for the user to submit a file
+        return render(request, 'upload.html')
+
+
+
+
+
+def show_files(request):
+    # Retrieve all TFiles objects from the database
+    all_files = TFiles.objects.all()
+
+    # Pass the files to the template
+    return render(request, 'test.html', {'files': all_files})
+
+
+
+import docx
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+
+
+def download_file(request, file_id):
+    try:
+        # Retrieve the TFiles object using the file_id
+        tfile = TFiles.objects.get(idemp=file_id)
+
+        # Assume the file is a Word document (docx)
+        # Convert the memoryview object to bytes
+        file_data = bytes(tfile.file)
+
+        # Read the content from the Word document
+        doc = docx.Document(file_data)
+        text_content = "\n".join([para.text for para in doc.paragraphs])
+
+        # Create a PDF file with the extracted content
+        pdf_filename = f"{file_id}.pdf"
+
+        # Set the Content-Disposition header to force download
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{pdf_filename}"'
+
+        # Generate the PDF content and write it directly to the response
+        c = canvas.Canvas(response, pagesize=letter)
+        c.drawString(72, 800, text_content)
+        c.save()
+
+        # Return the response with the generated PDF content
+        return response
+
+    except TFiles.DoesNotExist:
+        return HttpResponse("File not found.")
+
+def logout(request):
+    # check if username exists in session 
+        if 'username' in request.session:
+            # delete the username
+            del request.session['username']
+            return HttpResponse("User logged out successfully")
+
+
     
