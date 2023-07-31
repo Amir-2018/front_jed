@@ -16,7 +16,7 @@ urlpatterns = [
     path('', views.homepage),
     path('get_first/', views.get_first),
     path('adminUser/', views.admin),
-
-    
+    path('GetListDir/', views.get_list_dir, name='GetListDir'),
+   
 ]
 urlpatterns += staticfiles_urlpatterns()
