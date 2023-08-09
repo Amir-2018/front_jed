@@ -230,10 +230,9 @@
                 </div>
                 <div style="padding: 10px;">
 
-                    <img style="width: 100%;height: 100%;" src="data:image/png;base64,{{ file_data_base64 }}" alt="s15.png">
                     <h5 id="msg"></h5>
                     <h1>{{response_data}}</h1>
-                    
+                    <div id="images_db"></div>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -509,6 +508,38 @@
     </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+function get_images() {
+    $.ajax({
+        type: "GET",
+        url: "/display_images/",
+        success: function(data) {
+            console.log(data); // Output the received data to the console
+            
+            // Check if the response has the "images" property
+            if (data.hasOwnProperty("images")) {
+                var imagesArray = data.images;
+
+                // Iterate through the array of image data
+                imagesArray.forEach(function(imageData) {
+                    // Create an <img> element and set its src attribute to the image data
+                    var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+                    // Append the <img> element to the #images_db div
+                    $("#images_db").append(img);
+                });
+            } else {
+                console.log("Response does not contain 'images' property.");
+            }
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+
+
  $(document).ready(function() {
  $('.div-activate').hide();
  $('.pages').hide();
@@ -551,6 +582,7 @@
 
           divToToggle.show(); // Afficher le div
           pageToToggle.show()
+          get_images()
         }
       },
       error: function(xhr, textStatus, errorThrown) {

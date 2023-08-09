@@ -30,6 +30,7 @@ urlpatterns = [
     path('exist_titre_ged/',views.tester_titre_existance),
     # import multiple files in titreimages table 
     path('import_files_with_codetitre/',views.test_import),
+    path('display_images/',views.display_images_from_tempd),
 
     
 

@@ -225,6 +225,12 @@ def tester_titre_existance(request):
         return JsonResponse({'msg':'Type de requete invalide'})
 
 # got to the folder and display all the images 
+def display_images_from_tempd(request):
+    ins = Logical()
+    images = ins.display_images(request)
+    response_data = {'images': images}
+    return JsonResponse(response_data)
+
 
 
 

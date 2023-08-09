@@ -147,36 +147,42 @@ class Logical :
                 return HttpResponse("Session variable session_code_titre is not set")
 
             codetitre = request.session['session_code_titre']
-            upload_folder = 'D:/tempd/'  # Set the folder path where files will be uploaded
 
-            success = True
             with self.conn.cursor() as cursor:
-                for uploaded_file in uploaded_files:
-                    file_path = os.path.join(upload_folder, uploaded_file.name)
-                    
-                    try:
-                        # Save the uploaded file to the designated folder
-                        with open(file_path, 'wb') as destination:
-                            for chunk in uploaded_file.chunks():
-                                destination.write(chunk)
+                for idx, uploaded_file in enumerate(uploaded_files, start=1):
+                    # Generate a unique number for each uploaded file
+                    unique_num = self.get_unique_number(cursor)
 
-                        # Insert the file information into the database
+                    # Create the new filename using unique number and original file name
+                    file_name = f"{unique_num}_{uploaded_file.name}"
+                    file_path = os.path.join('D:/tempd/', file_name)
+
+                    with open(file_path, 'wb') as destination:
+                        for chunk in uploaded_file.chunks():
+                            destination.write(chunk)
+
+                    try:
                         cursor.execute("""
                             INSERT INTO titresimages (codetitre, doc)
                             VALUES (%s, lo_import(%s))
                         """, [codetitre, file_path])
                         self.conn.commit()
                     except Exception as e:
-                        success = False
                         print(e)
+                        return 'Some files failed to import'
 
-            if success:
                 return 'Files imported with codetitre values'
-            else:
-                return 'Some files failed to import'
 
         return 'This is not a post request'
+    
+    def get_unique_number(self, cursor):
+        # Get the current length of the titresimages table
+        cursor.execute("SELECT COUNT(*) FROM titresimages;")
+        table_length = cursor.fetchone()[0]
 
+        # Generate a unique number based on table length and current index
+        unique_num = table_length + 1
+        return unique_num
     def display_images(self, request):
         folder_path = 'D:/tempd/'  # Path to the folder containing images
         image_files = [filename for filename in os.listdir(folder_path) if filename.lower().endswith(('.tiff', '.tif'))]
@@ -208,7 +214,7 @@ class Logical :
 
                 # Delete the .tiff and .png files after reading the data to avoid filling up the server disk
                 os.remove(file_path_tiff)
-                os.remove(file_path_png)
+                #os.remove(file_path_png)
 
                 # Convert binary data to base64-encoded string
                 file_data_base64 = base64.b64encode(file_data).decode('utf-8')
