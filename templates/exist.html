@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test GetTitreExiste Function</title>
+</head>
+<body>
+    <h1>Test GetTitreExiste Function</h1>
+    <form id="testForm" method="POST" accept="/if_exist">
+        <label for="numtitre">Numtitre:</label>
+        <input type="text" name="numtitre" id="numtitre" required>
+        <br>
+        <label for="gouvtitre">Gouvtitre:</label>
+        <input type="text" name="gouvtitre" id="gouvtitre">
+        <br>
+        <label for="doubtitre">Doubtitre:</label>
+        <input type="text" name="doubtitre" id="doubtitre">
+        <br>
+        <label for="dreg">Dreg:</label>
+        <input type="text" name="dreg" id="dreg" required>
+        <br>
+        <input type="submit" value="Test GetTitreExiste" onclick="testGetTitreExiste()">
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function testGetTitreExiste() {
+            const numtitre = document.getElementById('numtitre').value;
+            const gouvtitre = document.getElementById('gouvtitre').value;
+            const doubtitre = document.getElementById('doubtitre').value;
+            const dreg = document.getElementById('dreg').value;
+
+            const data = {
+                "numtitre": numtitre,
+                "gouvtitre": gouvtitre,
+                "doubtitre": doubtitre,
+                "dreg": dreg
+            };
+
+            fetch('http://your-django-server-url/get_titre_existe/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('result').textContent = "Result: " + result;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

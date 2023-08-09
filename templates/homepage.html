@@ -161,6 +161,7 @@
 }
 
 
+
         </style>
     </head>
     <body>
@@ -173,6 +174,10 @@
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
         </head>
         <body>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -197,9 +202,11 @@
                 </div>
             </nav>
             <div class="grid-container">
-                <div>
-                    <ul>
-                    <li><a href="" class="btn btn-success"><i class="far fa-copy"></i>
+                <div >
+                    <ul class="div-activate">
+                    <li class="btn btn-success">
+                    <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" ></i> 
+
 
                     </a></li>
                     <li><a href="" class="btn btn-success"><i class="fas fa-pen"></i>
@@ -221,46 +228,91 @@
                     <li>  <a class="btn btn-success" href=""> <i class="fas fa-redo"></i></a> </li>              
                   </ul>
                 </div>
-                <div>img</div>
+                <div style="padding: 10px;">
+
+                    <img style="width: 100%;height: 100%;" src="data:image/png;base64,{{ file_data_base64 }}" alt="s15.png">
+                    <h5 id="msg"></h5>
+                    <h1>{{response_data}}</h1>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Upload Files</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data" id="uploadForm">
+                                        <div class="mb-3">
+                                            <label for="fileInput" class="form-label">Select multiple files:</label>
+                                            <input type="file" class="form-control" id="fileInput" name="files" multiple>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="uploadButton">Upload</button>
+                                        </div>
+                                    </form>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <h1>{{response_data}}</h1>
+
+
+
+                </div>
                 <div>
                     <a href="" class="text-center btn btn-info">يومية الترسيم</a>
-                    <table style="font-size: 12px;" class="tab1">
-                        <tr>
-                            <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;"><i class="fas fa-search"></i>
-                            </a></td>
-                            <td><input type="text" class="form-control" style="font-size: 10px;"></td>
-                            <td><span style="font-size: 10px;">الرسم العقاري</span></td>
-                        </tr>
-                        <tr>
-                            <td><a href=""  style="padding: 5px 10px; font-size: 10px;"></a></td>
-                            <td><select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>بنزرت</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                              </select></td>
-                            <td><span style="font-size: 10px;">الولاية</span></td>
-                        </tr>
-                        <tr>
-                            <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;">+</a></td>
-                            <td><select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>بنزرت</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                              </select></td>
-                            <td><span style="font-size: 10px;">مكرر </span></td>
-                        </tr>
-                       
-                       
-                    </table>
+                    
+                        <table style="font-size: 12px;" class="tab1">
+                            <tr>
+                                <td ><a id="checkTitleButton" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;"><i class="fas fa-search" ></i>
+                                </a></td>
+                                <td><input type="text" class="form-control" style="font-size: 10px;" name="numtitre" id="numtitre"></td>
+                                <td><span style="font-size: 10px;">الرسم العقاري</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href=""  style="padding: 5px 10px; font-size: 10px;"></a></td>
+                                <td>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitre" id="gouvtitre">
+                                        {% for item in gouv_list %}
+                                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td><span style="font-size: 10px;">الولاية</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">+</a></td>
+                                <td>
+                                    
+                                        <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitre" id="doubtitre">
+                                                <option value="0"></option>
+                                                <option value="1">مكرر</option>
+                                                <option value="2">مثلث</option>
+    
+                                        </select>
+                                
+                                </td>
+                                <td><span style="font-size: 10px;">مكرر </span></td>
+                            </tr>
+                           
+                           
+                        </table>
+                  
                     <br>
                     <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"></div>
                     <div class="mytable">
                         <table style="font-size: 12px;" class="tab1 tab3">
                             <tr>
                                 
-                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+                                <th><span style="font-size: 10px;"><select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    {% for item in gouv_list %}
+                                    <option name="gouvtitre" value="{{ item.0 }}">{{ item.1 }}</option>
+                                    {% endfor %}
+                                </select></span></th>
     
                                 <th><span style="font-size: 10px;"> الولاية</span></th>
     
@@ -272,7 +324,7 @@
     
                             <tr>
                                 
-                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
+                                <th><span style="font-size: 10px;"><input type="number" style="width: 80%;"></span></th>
     
                                 <th><span style="font-size: 10px;"> صفحة عدد</span></th>
     
@@ -399,6 +451,143 @@
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        </body>
         </html>
-        
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">إضافة رسم عقاري</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="container mt-5">
+                <form method="POST" action="/ajouter_titre/">   
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="numtitre" class="form-label">Num Titre</label>
+                        <input type="number" class="form-control" id="numtitre" name="numtitre">
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitre" >
+                            {% for item in gouv_list %}
+                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    
+                    </div>
+                    <div class="mb-3">
+                        <label for="doubtitre" class="form-label">مكرر</label>
+                        <input type="number" class="form-control" id="doubtitre" name="doubtitre">
+                    </div>
+                    <div class="mb-3">
+
+                      <div class="mb-3">
+                        <label for="dreg" class="form-label">عدد الصفحات</label>
+                        <input type="number" class="form-control" id="nbpage" name="nbpage">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">إضافة</button>
+                      </div>
+                </form>
+          <!-- Modal footer -->
+          
+<!-- Modal -->
+
+
+
+
+          
+          
+        </div>
+      </div>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+ $(document).ready(function() {
+ $('.div-activate').hide();
+ $('.pages').hide();
+
+ $('#msg').text("وثائق السجل العقاري");
+
+  $('#checkTitleButton').on('click', function() {
+    var numtitre = $('#numtitre').val();
+    var gouvtitre = $('#gouvtitre').val();
+    var doubtitre = $('#doubtitre').val();
+
+    $.ajax({
+      type: 'POST',
+      url: '/test_exist_in_tfich/',  // Mettez à jour cette URL avec l'URL réelle
+      data: {
+        numtitre: numtitre,
+        gouvtitre: gouvtitre,
+        doubtitre: doubtitre,
+      },
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      success: function(response) {
+        // Display the JSON response on the HTML page
+        var responseContainer = $('#responseContainer');
+        responseContainer.html(JSON.stringify(response));
+
+        // Contrôler l'affichage du div en fonction de la réponse
+        var divToToggle = $('.div-activate');
+        var pageToToggle = $('.pages');
+        if (response.msg.response_data === '0') {
+           
+        // Show the message 
+          $('#msg').text("الرّجاء التثبت من معلومات البحث");
+
+          divToToggle.hide(); // Masquer le div
+          pageToToggle.hide(); // Masquer le div
+        } else if (response.msg.response_data === '1') {
+         $('#msg').text("");
+
+          divToToggle.show(); // Afficher le div
+          pageToToggle.show()
+        }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        // Gérer l'erreur ici
+        console.error('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+});
+
+
+$(document).ready(function() {
+    
+    $("#uploadButton").on("click", function() {
+        var formData = new FormData($("#uploadForm")[0]);
+
+        $.ajax({
+            type: "POST",
+            url: "/import_files_with_codetitre/",
+            data: formData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                console.log(data); // Handle the response here
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+});
+
+
+    </script>
+
     </body>
 </html>

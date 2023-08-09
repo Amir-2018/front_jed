@@ -6,25 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- upload.html -->
-<form method="post" enctype="multipart/form-data" action="/users/add_file/">
-    {% csrf_token %}
-    <input type="file" name="file_to_upload" accept=".tif">
-    <input type="submit" value="Upload">
-</form>
+    {% for item in gouv_list %}
+    <div class="gouv-item"> 
+        <h3>Code Gouv: {{ item.0 }}</h3>
+        <p>Lib Gouv: {{ item.1 }}</p>
+        <p>DR: {{ item.2 }}</p>
+    </div>
+{% endfor %}
+
 
 
 
 <ul>
-    {% for file in files %}
-        <li>
-            <strong>ID:</strong> {{ file.idemp }}<br>
-            <strong>Description:</strong> {{ file.description }}<br>
-            <strong>File Size:</strong> {{ file.file.size }} bytes<br>
-            <a href="{% url 'download_file' file.idemp %}">Download</a>
-        </li>
-        <br>
-    {% endfor %}
+  
 </ul>
 
 </body>

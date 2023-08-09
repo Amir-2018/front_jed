@@ -6,6 +6,7 @@ from django.shortcuts import  redirect, render
 from django.core.paginator import Paginator
 
 
+
 # display all users
 
 def user_list(request):
@@ -262,91 +263,12 @@ def update_user_crud(request, user_id):
 
 
 from django.http import HttpResponse
-from .models import TFichiers  # Import your TFiles model
 
 
 
 from django.http import HttpResponse
 from django.db import connection
 from django.db.transaction import atomic
-from .models import TFichiers
-
-
-
-def add_file(request):
-    if request.method == 'POST' and request.FILES:
-        try:
-            # Get the uploaded file from the request
-            file_to_upload = request.FILES['file_to_upload']
-
-            # Create a new TFiles instance and save it to the database
-            tfile = TFichiers()
-
-            # Save the TFiles instance without committing to the database yet
-            tfile.save()
-
-            # Open the Large Object for writing
-            lo_file = tfile.file.open(mode='wb')
-
-            # Read the file data as bytes
-            file_data = file_to_upload.read()
-
-            # Write the file data to the Large Object
-            lo_file.write(file_data)
-
-            # Close the Large Object
-            lo_file.close()
-
-            # Set the description for the file (if you have it from the form)
-            tfile.description = "Your file description"
-            tfile.save()  # Save the TFiles instance with the updated description
-
-            # Return a success response to the user
-            return HttpResponse("File uploaded successfully.")
-        except Exception as e:
-            # Handle any exceptions that might occur during the process
-            print("Error:", e)
-            return HttpResponse("Error occurred during file upload.")
-    else:
-        # Render the upload form for the user to submit a file
-        return render(request, 'upload.html')
-
-    if request.method == 'POST' and request.FILES:
-        try:
-            # Get the uploaded file from the request
-            file_to_upload = request.FILES['file_to_upload']
-
-            # Create a new TFiles instance and save it to the database
-            tfile = TFile()
-
-            # Save the TFiles instance without committing to the database yet
-            tfile.save()
-
-            # Open the Large Object for writing using PostgreSQL-specific method
-            oid = connection.ops.lo_creat(connection.connection)
-
-            # Write the file data to the Large Object
-            with connection.connection.lo_open(oid, 'wb') as lo_file:
-                file_data = file_to_upload.read()
-                lo_file.write(file_data)
-
-            # Set the Large Object OID in the TFiles instance
-            tfile.file = oid
-            tfile.save()
-
-            # Set the description for the file (if you have it from the form)
-            tfile.description = "Your file description"
-            tfile.save()  # Save the TFiles instance with the updated description
-
-            # Return a success response to the user
-            return HttpResponse("File uploaded successfully.")
-        except Exception as e:
-            # Handle any exceptions that might occur during the process
-            print("Error:", e)
-            return HttpResponse("Error occurred during file upload.")
-    else:
-        # Render the upload form for the user to submit a file
-        return render(request, 'upload.html')
 
 
 

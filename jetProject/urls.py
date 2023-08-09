@@ -16,7 +16,24 @@ urlpatterns = [
     path('', views.homepage),
     path('get_first/', views.get_first),
     path('adminUser/', views.admin),
-    path('GetListDir/', views.get_list_dir, name='GetListDir'),
-   
+    path('exist/', views.exist),
+
+    path('ajouter_titre/', views.testgvs3),
+
+    #path('GetListDir/', views.get_list_dir, name='GetListDir'),
+    path('export_and_show/', views.export_and_show_file, name='export_and_show'),
+    path('if_exist/', views.GetTitreExiste),
+    #path('insert_data/', views.insert_data),
+    path('get_list_gouv/', views.testgvs),
+    path('test_exist_in_tfich/', views.test_exist_in_tfich),
+    path('insert_data/', views.data_insert, name='data_insert'),
+    path('exist_titre_ged/',views.tester_titre_existance),
+    # import multiple files in titreimages table 
+    path('import_files_with_codetitre/',views.test_import),
+
+    
+
+
+
 ]
 urlpatterns += staticfiles_urlpatterns()
