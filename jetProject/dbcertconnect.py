@@ -105,17 +105,36 @@ class LogicalDB :
                 #self.conn1.close()        
                 if len(irows) > 0 :                     
                     return "2"                   
-                else:
+                else: 
                     return "1"                                         
         else:
             return "0"
+    def Increment_num_titre(self):
+        numtitre = 0
+        max_numtitre_query = "SELECT MAX(numtitre) FROM titres"
+        cursor = self.conn.cursor()
+        cursor.execute(max_numtitre_query)
+        max_numtitre = cursor.fetchone()[0]
+        if max_numtitre is not None:
+            numtitre = max_numtitre + 1  # Increment by 1
+        return numtitre
 
-    def ajouter_titre(self,numtitre,gouvtitre,doubtitre,dreg):
-            insert_query = '''INSERT INTO titres (numtitre, gouvtitre, doubtitre, dreg) VALUES (%s, %s, %s, %s)'''
+    def ajouter_titre(self, numtitre, gouvtitre, doubtitre, nbpage):
+        test = False
+        # Check if the title exists in the distant server
+        response_data = self.GetTitreExiste(numtitre, gouvtitre, doubtitre, 9) 
+        # Test if title exists in the distant server
+        print("response_data = ",response_data)
+        if response_data == "1" or response_data == "2": 
+            print('oui') 
+            insert_query = '''INSERT INTO titres (numtitre, gouvtitre, doubtitre, nbpage) VALUES (%s, %s, %s, %s)'''
             cursor = self.conn.cursor()
-            cursor.execute(insert_query, [numtitre, gouvtitre, doubtitre, dreg])
-            if(self.conn.commit()): 
-                return "titre inserted with success"
+            cursor.execute(insert_query, [numtitre, gouvtitre, doubtitre, nbpage])
+            self.conn.commit()
+            test = True
+        return test
+       
+       
             
         
 

@@ -24,6 +24,7 @@ def test_exist_in_tfich(request):
     #logical_instance = Logical()  # Create an instance of the class
    # res = logical_instance.get_list_gouv()
    if(request.method == 'POST'):
+        # delete all files from folder 
         numtitre = request.POST.get('numtitre')
         gouvtitre = request.POST.get('gouvtitre')
         # Créer deux instances de deux classes qui sont connectées sur deux bases différentes 
@@ -32,7 +33,7 @@ def test_exist_in_tfich(request):
         # classe connect
         logical_instance2 = Logical()
         # tester l'existance dans la table tfich 
-        response_data=logical_instance.GetTitreExiste(numtitre,gouvtitre,0,9)
+        response_data=logical_instance.GetTitreExiste(numtitre,gouvtitre,0,9)  
         # tester l'existance dans la tables titres dans la base de données de dged 
         res =logical_instance2.tester_ged_existance(response_data,numtitre,gouvtitre,0)
         # ça veut dire existe dans les deux tables 
@@ -41,9 +42,7 @@ def test_exist_in_tfich(request):
               request.session['session_code_titre'] = numtitre
                   #response_data=logical_instance.GetTitreExiste(12457,9,0,9)
               context = {
-                'response_data': response_data,
-                 
-
+                'response_data': response_data,      
               }
 
         # ça veut dire existe dans la tables tfich et non dans la table titres dans titres
@@ -55,20 +54,22 @@ def test_exist_in_tfich(request):
 
 # import multiple files into database 
 
-
-
-
-
-
 def testgvs3(request):
      if request.method =='POST' : 
-            numtitre = request.POST.get('numtitre')
+            
             gouvtitre = request.POST.get('gouvtitre')
             doubtitre = request.POST.get('doubtitre')
             nbpage = request.POST.get('nbpage')  # You need to provide 'dreg' in your POST data
-            logical_instance = Logical() 
+            logical_instance = LogicalDB() 
+            numtitre =logical_instance.Increment_num_titre()
+            print(numtitre)
             res = logical_instance.ajouter_titre(numtitre,gouvtitre,doubtitre,nbpage)
-            return JsonResponse({'msg':res})
+            print(res)
+            if(res) : 
+                return JsonResponse({'msg' : '1'})
+            else : 
+                return JsonResponse({'msg' : '0'})
+
      else:
             return JsonResponse({'msg': 'Invalid request method'})
 
@@ -194,8 +195,9 @@ def GetTitreExiste(self, request):
 
 def data_insert():
 
-    logical_instance = LogicalDB()  # Create an instance of the class
+    logical_instance = Logical()  # Create an instance of the class
         #response_data =logical_instance.insert_titre(request)  # Call the insert_titre function
+        
     response_data=LogicalDB.tester_ged_existance()
     
     return JsonResponse(response_data)
@@ -204,6 +206,7 @@ def test_import(request):
     logical_instance = Logical()
     response_message = logical_instance.import_files_with_codetitre(request)
     response_data = {'message': response_message}
+    print(response_data)
     return JsonResponse(response_data)
 
 
@@ -232,10 +235,14 @@ def display_images_from_tempd(request):
     return JsonResponse(response_data)
 
 
-
-
-
-
+# tester le téléchargement des images dans le dossier tempd
+#def del_All(request) : 
+  #  ins = Logical()
+  #  print(ins.delete_all_files())
+   # if(ins.delete_all_files()) : 
+   #    return JsonResponse({'message' : 'All deleted with success'})
+    #else : 
+     #  return JsonResponse({'message' : 'Not deleted'}) 
         
 
 

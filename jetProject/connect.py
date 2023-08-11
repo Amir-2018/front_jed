@@ -129,11 +129,39 @@ class Logical :
             return "0"
     # import multiple files into database 
 
+    def upload_files_from_database(self,codetitre):
+        folder_path = 'D:/tempd/'
+        test = False
+        #if 'session_code_titre' not in request.session:
+        #    return False
+        #codetitre = request.session['session_code_titre']
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT doc FROM titresimages WHERE codetitre = %s", [codetitre])
+                files_to_export = cursor.fetchall()
+                # truc to add file
+                if(len(files_to_export)==0) : 
+                    return True
+                num = 1
+                for (oid_value,) in files_to_export:
+                    file_name = str(num)+"_"+f"{str(oid_value)}.tiff"
+                    new_file_path = os.path.join(folder_path, file_name)
+                    num += 1 
+                    # Construct the lo_export query
+                    lo_export_query = f"SELECT lo_export({oid_value}, '{new_file_path}')"
+                    cursor.execute(lo_export_query)
 
+                    if os.path.exists(new_file_path):
+                        test = True
+                    else:
+                        test = False
+                        break  # Stop processing if export fails
 
+        except Exception as e:
+            print(e)
+            test = False
 
-
-
+        return test
 
 
   # ... (other methods)
@@ -141,39 +169,45 @@ class Logical :
     @transaction.atomic
     def import_files_with_codetitre(self, request):
         if request.method == 'POST' and request.FILES:
+            self.delete_all_files()
+            print("Files deleted with success")
             uploaded_files = request.FILES.getlist('files')
 
             if 'session_code_titre' not in request.session:
                 return HttpResponse("Session variable session_code_titre is not set")
 
             codetitre = request.session['session_code_titre']
+            if(self.upload_files_from_database(codetitre)) : 
 
-            with self.conn.cursor() as cursor:
-                for idx, uploaded_file in enumerate(uploaded_files, start=1):
-                    # Generate a unique number for each uploaded file
-                    unique_num = self.get_unique_number(cursor)
+                with self.conn.cursor() as cursor3:
+                    for idx, uploaded_file in enumerate(uploaded_files, start=1):
+                        # Generate a unique number for each uploaded file
+                        unique_num = self.get_unique_number(cursor3)
 
-                    # Create the new filename using unique number and original file name
-                    file_name = f"{unique_num}_{uploaded_file.name}"
-                    file_path = os.path.join('D:/tempd/', file_name)
+                        # Create the new filename using unique number and original file name
+                        file_name = f"{unique_num}_{uploaded_file.name}"
+                        file_path = os.path.join('D:/tempd/', file_name)
 
-                    with open(file_path, 'wb') as destination:
-                        for chunk in uploaded_file.chunks():
-                            destination.write(chunk)
+                        with open(file_path, 'wb') as destination:
+                            for chunk in uploaded_file.chunks():
+                                destination.write(chunk)
 
-                    try:
-                        cursor.execute("""
-                            INSERT INTO titresimages (codetitre, doc)
-                            VALUES (%s, lo_import(%s))
-                        """, [codetitre, file_path])
-                        self.conn.commit()
-                    except Exception as e:
-                        print(e)
-                        return 'Some files failed to import'
+                        try:
+                            cursor3.execute("""
+                                INSERT INTO titresimages (codetitre, doc)
+                                VALUES (%s, lo_import(%s))
+                            """, [codetitre, file_path])
+                            self.conn.commit()
+                        except Exception as e:
+                            print(e)
+                            return '0'
 
-                return 'Files imported with codetitre values'
+                    return '1'
+            else : 
+                    return '0'
 
-        return 'This is not a post request'
+        return '0'
+
     
     def get_unique_number(self, cursor):
         # Get the current length of the titresimages table
@@ -183,40 +217,69 @@ class Logical :
         # Generate a unique number based on table length and current index
         unique_num = table_length + 1
         return unique_num
+        
     def display_images(self, request):
         folder_path = 'D:/tempd/'  # Path to the folder containing images
-        image_files = [filename for filename in os.listdir(folder_path) if filename.lower().endswith(('.tiff', '.tif'))]
-
         images = []
         codetitre = request.session['session_code_titre']
 
-        for image_file in image_files:
-            file_path_tiff = os.path.join(folder_path, image_file)
-            file_path_png = os.path.splitext(file_path_tiff)[0] + '.png'
+        if self.delete_all_files():  # Execute delete function and check its result
+            if self.upload_files_from_database(codetitre):
+                image_files = [filename for filename in os.listdir(folder_path)]
 
-            with self.conn.cursor() as cursor:
-                # Execute the lo_export query
-                cursor.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s;", [file_path_tiff, codetitre])
+                print("codetitre =", codetitre)
+                for image_file in image_files:
+                    file_path_tiff = os.path.join(folder_path, image_file)
+                    file_path_png = os.path.splitext(file_path_tiff)[0] + '.png'
 
-            if os.path.exists(file_path_tiff):
-                print("Before Conversion:", file_path_tiff)
+                    with self.conn.cursor() as cursor2:
+                        # Execute the lo_export query
+                        cursor2.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s;", [file_path_tiff, codetitre])
 
-                # Convert the .tiff image to .png format
-                img = Image.open(file_path_tiff)
-                img.save(file_path_png, 'PNG')
-                img.close()
-                print("After Conversion:", file_path_png)
+                    if os.path.exists(file_path_tiff):
+                        print("Before Conversion:", file_path_tiff)
 
-                # Open the converted .png file in binary read mode
-                with open(file_path_png, 'rb') as file:
-                    # Read the file data
-                    file_data = file.read()
+                        # Convert the .tiff image to .png format
+                        img = Image.open(file_path_tiff)
+                        img.save(file_path_png, 'PNG')
+                        img.close()
+                        print("After Conversion:", file_path_png)
 
-                # Delete the .tiff and .png files after reading the data to avoid filling up the server disk
-                os.remove(file_path_tiff)
-                #os.remove(file_path_png)
+                        # Open the converted .png file in binary read mode
+                        with open(file_path_png, 'rb') as file:
+                            # Read the file data
+                            file_data = file.read()
 
-                # Convert binary data to base64-encoded string
-                file_data_base64 = base64.b64encode(file_data).decode('utf-8')
-                images.append(file_data_base64)
+                        # Delete the .tiff and .png files after reading the data to avoid filling up the server disk
+                        os.remove(file_path_tiff)
+                        #os.remove(file_path_png)
+
+                        # Convert binary data to base64-encoded string
+                        file_data_base64 = base64.b64encode(file_data).decode('utf-8')
+                        images.append(file_data_base64)
+                        print('images')
+        else:
+            images = []
+
         return images
+
+
+
+    # delete all files from tempd folder  
+
+    def delete_all_files(self):
+        folder_path = 'D:/tempd/'
+        test = False 
+        try:
+            for filename in os.listdir(folder_path):
+                file_path = os.path.join(folder_path, filename)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+            test = True
+        except Exception as e:
+            print(e)
+            test = False
+        return test
+
+
+

@@ -51,7 +51,10 @@
             background-color: #04AA6D!important;
             padding: 10px;
             border-radius: 5px;
-            font-weight: bold;
+        
+          }
+          .navbar .container-fluid >ul >li:hover{
+            transform: scale(1.1);
           }
           .up{
             
@@ -59,6 +62,15 @@
             padding: 10px;
             border-radius: 5px;
             font-weight: bold;
+            cursor: pointer;
+            transition: .1s;
+            
+          }
+          .btn-sucess:hover,.btn-danger:hover{
+            transform: scale(1.1);
+          }
+          .up:hover{
+            transform: scale(1.1);
           }
           .navbar .container-fluid >ul >li >a{
             text-decoration: none;
@@ -159,8 +171,18 @@
     color: white;
     background-color: #212529;
 }
+.loading{
+    color: green;
+    text-align: center;
+    font-size: 30px;
+}
 
-
+#checkTitleButton:hover{
+    transform: scale(1.1);
+}
+#bt{
+    transform: scale(1.1);
+}
 
         </style>
     </head>
@@ -203,7 +225,7 @@
             </nav>
             <div class="grid-container">
                 <div >
-                    <ul class="div-activate">
+                    <ul class="div-activate" >
                     <li class="btn btn-success">
                     <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" ></i> 
 
@@ -230,7 +252,7 @@
                 </div>
                 <div style="padding: 10px;">
 
-                    <h5 id="msg"></h5>
+                    <h5 id="msg" class="mt-2"></h5>
                     <h1>{{response_data}}</h1>
                     <div id="images_db"></div>
                     <!-- Modal -->
@@ -238,19 +260,20 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Upload Files</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">تحميل الوثائق</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form enctype="multipart/form-data" id="uploadForm">
                                         <div class="mb-3">
-                                            <label for="fileInput" class="form-label">Select multiple files:</label>
+                                            <label for="fileInput" class="form-label">إدراج أكثر من وثيقة</label>
                                             <input type="file" class="form-control" id="fileInput" name="files" multiple>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" id="uploadButton">Upload</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">غلق</button>
+                                            <button type="button" class="btn btn-primary" id="uploadButton">تحميل</button>
                                         </div>
+                                        <div id="msg2"></div>
                                     </form>
                                 </div>
                               
@@ -262,7 +285,7 @@
 
 
                 </div>
-                <div>
+                <div class="droit_div">
                     <a href="" class="text-center btn btn-info">يومية الترسيم</a>
                     
                         <table style="font-size: 12px;" class="tab1">
@@ -284,7 +307,7 @@
                                 <td><span style="font-size: 10px;">الولاية</span></td>
                             </tr>
                             <tr>
-                                <td><a href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">+</a></td>
+                                <td><a id="bt" href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">+</a></td>
                                 <td>
                                     
                                         <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitre" id="doubtitre">
@@ -419,24 +442,7 @@
                             <td>5</td>
                             <td>6</td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-
-
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
+                     
                         
                         
                       
@@ -464,15 +470,12 @@
           <!-- Modal body -->
           <div class="modal-body">
             <div class="container mt-5">
-                <form method="POST" action="/ajouter_titre/">   
-                    {% csrf_token %}
+                <form >   
 
+             
                     <div class="mb-3">
-                        <label for="numtitre" class="form-label">Num Titre</label>
-                        <input type="number" class="form-control" id="numtitre" name="numtitre">
-                    </div>
-                    <div class="mb-3">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitre" >
+                        <label for="numtitre" class="form-label">الولاية</label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitr" >
                             {% for item in gouv_list %}
                             <option value="{{ item.0 }}">{{ item.1 }}</option>
                             {% endfor %}
@@ -480,18 +483,24 @@
                     
                     </div>
                     <div class="mb-3">
-                        <label for="doubtitre" class="form-label">مكرر</label>
-                        <input type="number" class="form-control" id="doubtitre" name="doubtitre">
+                        <div class="mb-3"></div>
+                            <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitr" id="doubtitr">
+                                <option value="0"></option>
+                                <option value="1">مكرر</option>
+                                <option value="2">مثلث</option>
+
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
 
                       <div class="mb-3">
                         <label for="dreg" class="form-label">عدد الصفحات</label>
-                        <input type="number" class="form-control" id="nbpage" name="nbpage">
+                        <input type="number" class="form-control" id="nbpage" name="nbpag">
                       </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">إضافة</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addtitle">إضافة</button>
                       </div>
                 </form>
           <!-- Modal footer -->
@@ -509,6 +518,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
 function get_images() {
+    // Display a loading indicator while waiting for images
+    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
+    
     $.ajax({
         type: "GET",
         url: "/display_images/",
@@ -519,14 +531,21 @@ function get_images() {
             if (data.hasOwnProperty("images")) {
                 var imagesArray = data.images;
 
-                // Iterate through the array of image data
-                imagesArray.forEach(function(imageData) {
-                    // Create an <img> element and set its src attribute to the image data
-                    var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+                // Clear the loading indicator and iterate through the array of image data
+                $("#images_db").empty();
 
-                    // Append the <img> element to the #images_db div
-                    $("#images_db").append(img);
-                });
+                if (imagesArray.length === 0) {
+                    // Display an alert message when imagesArray is empty
+                    $("#images_db").html('<div class="alert alert-info">الوثائق غير مدرجة بالرسم العقاري</div>');
+                } else {
+                    imagesArray.forEach(function(imageData) {
+                        // Create an <img> element and set its src attribute to the image data
+                        var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+                        // Append the <img> element to the #images_db div
+                        $("#images_db").append(img);
+                    });
+                }
             } else {
                 console.log("Response does not contain 'images' property.");
             }
@@ -536,6 +555,8 @@ function get_images() {
         }
     });
 }
+
+
 
 
 
@@ -573,8 +594,7 @@ function get_images() {
         if (response.msg.response_data === '0') {
            
         // Show the message 
-          $('#msg').text("الرّجاء التثبت من معلومات البحث");
-
+          $("#msg").html('<div class="alert alert-danger">الرّجاء التثبت من معلومات البحث</div>');
           divToToggle.hide(); // Masquer le div
           pageToToggle.hide(); // Masquer le div
         } else if (response.msg.response_data === '1') {
@@ -595,7 +615,7 @@ function get_images() {
 
 
 $(document).ready(function() {
-    
+
     $("#uploadButton").on("click", function() {
         var formData = new FormData($("#uploadForm")[0]);
 
@@ -609,14 +629,87 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log(data); // Handle the response here
+                var msgDiv = $("#msg2");
+                if (data.message === '1') {
+                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');             
+                } else {
+                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافة</div>');
+                }
+                
+                // Fade in the message with animation
+                msgDiv.fadeIn();
+
+                // Automatically fade out and remove the message after 2 seconds
+                setTimeout(function() {
+                    msgDiv.fadeOut(function() {
+                        msgDiv.empty(); // Clear the content after fading out
+                    });
+                }, 2000); // 2000 milliseconds = 2 seconds
             },
             error: function(error) {
                 console.error("Error:", error);
             }
+            
+
+        }).then(res=>{
+
+        })
+    });
+
+});
+
+
+
+
+$(document).ready(function() {
+    $("#addtitle").on("click", function() {
+        var gouvtitre = $("select[name='gouvtitr']").val();
+        var doubtitre = $("select[name='doubtitr']").val();
+        var nbpage = $("input[name='nbpag']").val();
+
+        var postData = {
+            'gouvtitre': gouvtitre,
+            'doubtitre': doubtitre,
+            'nbpage': nbpage
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/ajouter_titre/",
+            data: postData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            success: function(data) {
+                var msgDiv = $("#msg");
+                if (data.msg === '1') {
+                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+                } else if (data.msg === '0') {
+                    msgDiv.html('<div class="alert alert-danger">الرّسم العقاري غير موجود في قاعدة البيانات الأصلية</div>');
+                } else {
+                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافةe</div>');
+                }
+                
+                // Fade in the message with animation
+                msgDiv.fadeIn();
+
+                // Automatically fade out and remove the message after 2 seconds
+                setTimeout(function() {
+                    msgDiv.fadeOut(function() {
+                        msgDiv.empty(); // Clear the content after fading out
+                    });
+                }, 2000); // 2000 milliseconds = 2 seconds
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+
         });
     });
 });
+
+
+
 
 
     </script>

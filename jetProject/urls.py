@@ -31,6 +31,8 @@ urlpatterns = [
     # import multiple files in titreimages table 
     path('import_files_with_codetitre/',views.test_import),
     path('display_images/',views.display_images_from_tempd),
+    #path('uptest/',views.uptest)
+    #path('del_All/',views.del_All)
 
     
 
