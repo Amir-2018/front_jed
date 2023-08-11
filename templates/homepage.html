@@ -183,6 +183,25 @@
 #bt{
     transform: scale(1.1);
 }
+#images_db {
+    overflow: hidden;
+}
+#images_db >img{
+    width: 100%;
+    height: 80vh;
+}
+#over{
+    overflow: scroll;
+}
+
+.zoomable {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.zoomable.zoomed {
+    transform: scale(1.2);
+}
 
         </style>
     </head>
@@ -234,7 +253,7 @@
                     <li><a href="" class="btn btn-success"><i class="fas fa-pen"></i>
 
                     </a></li>
-                    <li><a href="" class="btn btn-success"><i class="fas fa-search-plus"></i>
+                    <li><a  class="btn btn-success"><i class="fas fa-search-plus"></i>
 
                     </a></li>
                     <li><a href="" class="btn btn-success"><i class="fas fa-search-minus"></i>
@@ -250,11 +269,13 @@
                     <li>  <a class="btn btn-success" href=""> <i class="fas fa-redo"></i></a> </li>              
                   </ul>
                 </div>
-                <div style="padding: 10px;">
+                <div id="over" style="padding: 10px;">
 
                     <h5 id="msg" class="mt-2"></h5>
                     <h1>{{response_data}}</h1>
-                    <div id="images_db"></div>
+                    <div id="images_db" >
+
+                    </div>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -286,6 +307,7 @@
 
                 </div>
                 <div class="droit_div">
+                    <!-- <a href="#img6">go to link 6 </a> -->
                     <a href="" class="text-center btn btn-info">يومية الترسيم</a>
                     
                         <table style="font-size: 12px;" class="tab1">
@@ -325,7 +347,9 @@
                         </table>
                   
                     <br>
-                    <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"></div>
+                    <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
+                        <button id="goToImageBtn" class="btn btn-primary">Go to Image</button>
+                    </div>
                     <div class="mytable">
                         <table style="font-size: 12px;" class="tab1 tab3">
                             <tr>
@@ -395,7 +419,7 @@
                     
                     <br>
                     <div class="add"><span>اضافة مراجع</span></div>
-                    
+<!--                     
                     <table style="font-size: 12px; overflow:scroll;" class="tab1 tab3">
                         <tr>
                             
@@ -446,7 +470,7 @@
                         
                         
                       
-                    </table>
+                    </table> -->
                 </div>  
               
               </div>
@@ -515,6 +539,7 @@
         </div>
       </div>
     </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
 function get_images() {
@@ -525,31 +550,36 @@ function get_images() {
         type: "GET",
         url: "/display_images/",
         success: function(data) {
-            console.log(data); // Output the received data to the console
-            
-            // Check if the response has the "images" property
-            if (data.hasOwnProperty("images")) {
-                var imagesArray = data.images;
+    console.log(data); // Output the received data to the console
+    var msgDiv = $("#msg");
+    var myModal2 = $("#myModal2");
 
-                // Clear the loading indicator and iterate through the array of image data
-                $("#images_db").empty();
+    if (data.message === '0') {
+        msgDiv.html('<div class="alert alert-warning">No such files here</div>');
+    } else if (data.message === '1') {
+        msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+    } else {
+        msgDiv.html('');
+    }
 
-                if (imagesArray.length === 0) {
-                    // Display an alert message when imagesArray is empty
-                    $("#images_db").html('<div class="alert alert-info">الوثائق غير مدرجة بالرسم العقاري</div>');
-                } else {
-                    imagesArray.forEach(function(imageData) {
-                        // Create an <img> element and set its src attribute to the image data
-                        var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+    myModal2.modal('hide'); // Hide the modal
 
-                        // Append the <img> element to the #images_db div
-                        $("#images_db").append(img);
-                    });
-                }
-            } else {
-                console.log("Response does not contain 'images' property.");
-            }
-        },
+    var imagesArray = data.images;
+    var imagesContainer = $("#images_db");
+    imagesContainer.empty(); // Clear existing images
+
+    // Iterate through the array of image data
+    imagesArray.forEach(function(imageData, index) {
+        // Create an <img> element and set its src attribute to the image data
+        var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+        // Set a unique ID for each image based on the index
+        img.attr("id", "img" + (index + 1));
+
+        // Append the <img> element to the #images_db div
+        imagesContainer.append(img);
+    });
+},
         error: function(error) {
             console.error("Error:", error);
         }
@@ -707,6 +737,21 @@ $(document).ready(function() {
         });
     });
 });
+
+
+$("#goToImageBtn").on("click", function() {
+    var go = $("#go").val();
+    var target = "#img"+go
+    window.location.href = target;
+});
+
+
+
+
+
+
+
+
 
 
 
