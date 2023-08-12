@@ -549,6 +549,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+var clickedImageId; // Global variable to store the clicked image ID
+
 function get_images() {
     // Display a loading indicator while waiting for images
     $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
@@ -589,12 +591,14 @@ function get_images() {
         img.on("click", function() {
             var imageId = this.id;
             console.log("Clicked on image with ID: " + imageId);
-            
+            clickedImageId = imageId; // Save the clicked image ID
             // Remove red border from all images
             $(".zoomable").css("border", "none");
             
             // Add red border to the clicked image
             $(this).css("border", "5px solid green");
+           
+
         });
     });
 },
@@ -768,18 +772,29 @@ $("#goToImageBtn").on("click", function() {
 var zoomLevel = 0;
 
 function zoom() {
-    zoomLevel++;
-    var zoomClass = "zoom-" + zoomLevel;
-    $(".zoomable").addClass(zoomClass);
+    if (clickedImageId) {
+        var targetImage = $("#" + clickedImageId);
+        
+        if (targetImage.length) {
+            zoomLevel++;
+            var zoomClass = "zoom-" + zoomLevel;
+            targetImage.addClass(zoomClass);
+        }
+    }
 }
 
 function zoomOut() {
-    if (zoomLevel > 0) {
-        var zoomClass = "zoom-" + zoomLevel;
-        $(".zoomable").removeClass(zoomClass);
-        zoomLevel--;
+    if (clickedImageId) {
+        var targetImage = $("#" + clickedImageId);
+        
+        if (targetImage.length) {
+            var zoomClass = "zoom-" + zoomLevel;
+            targetImage.removeClass(zoomClass);
+            zoomLevel--;
+        }
     }
 }
+
 
 
 
