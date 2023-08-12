@@ -575,6 +575,7 @@ function get_images() {
 
         // Set a unique ID for each image based on the index
         img.attr("id", "img" + (index + 1));
+        img.addClass("zoomable");
 
         // Append the <img> element to the #images_db div
         imagesContainer.append(img);
@@ -745,6 +746,11 @@ $("#goToImageBtn").on("click", function() {
     window.location.href = target;
 });
 
+$(document).ready(function() {
+    $(".zoomable").on("click", function() {
+        console.log("clicked")
+    });
+});
 
 
 
