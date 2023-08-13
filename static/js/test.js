@@ -1,17 +1,5 @@
-function deleteImage() {
-    if (clickedImageId) {
-        var targetImage = $("#" + clickedImageId);
-        
-        if (targetImage.length) {
-            var confirmDelete = confirm("Are you sure you want to delete the selected image?");
-            if (confirmDelete) {
-                targetImage.remove();
-                alert('Image deleted with success')
-                clickedImageId = null; // Clear the clickedImageId
-            }
-        }
-    }
-}
+
+
 
 
 $("#goToImageBtn").on("click", function() {

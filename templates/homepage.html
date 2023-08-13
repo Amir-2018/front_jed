@@ -266,7 +266,7 @@
                     <li onclick="zoomOut()"><a  class="btn btn-success"><i class="fas fa-search-minus"></i>
 
                     </a></li>
-                    <li><a href="" class="btn btn-success"><i class="fas fa-download"></i>
+                    <li><a  class="btn btn-success"><i class="fas fa-download"></i>
 
                     </a></li>
 
@@ -609,7 +609,42 @@ function get_images() {
 }
 
 
-
+// Delete selected title 
+function deleteImage() {
+    if (clickedImageId) {
+        var targetImage = $("#" + clickedImageId);
+        
+        if (targetImage.length) {
+            var confirmDelete = confirm("Are you sure you want to delete the selected image?");
+            if (confirmDelete) {
+                var prefixValue = parseInt(clickedImageId[clickedImageId.length - 1]);
+                
+                // Send an AJAX request to the server to delete the image
+                $.ajax({
+                    type: "POST",  // Use the appropriate HTTP method
+                    url: "/find_dell/",  // Replace with the actual URL for deleting images
+                    data: {prefix_value: prefixValue},
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    success: function(response) {
+                        console.log(response.res)
+                        if (response.res==true) {
+                            targetImage.remove();
+                            alert("Image deleted with success");
+                            clickedImageId = null;  // Clear the clickedImageId
+                        } else {
+                            alert("Image deletion failed.");
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+        }
+    }
+}
 
 
 

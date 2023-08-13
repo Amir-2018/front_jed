@@ -281,5 +281,27 @@ class Logical :
             test = False
         return test
 
+    def find_to_delete(self,request,prefix_value):
+        folder_path = 'D:/tempd/'
+        code_titre = int(request.session['session_code_titre'])
+        print(code_titre)
+        try:
+            file_names = [os.path.splitext(f[2:])[0] for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f.startswith(str(prefix_value) + '_')]
+            if file_names:
+                file_name = file_names[0]  # Get the first file_name
+                print(file_name)
+                with self.conn.cursor() as cursor2:
+                    # Delete the row based on 'code_titre' and 'file_name'
+                    cursor2.execute("DELETE FROM titresimages WHERE codetitre = %s AND doc = %s;", [code_titre, int(file_name)])
+                    self.conn.commit()  # Commit the transaction
+
+                return True  # Return True to indicate successful deletion
+            else:
+                return False  # Return False to indicate no file found
+        except Exception as e:
+            print("Error:", e)
+            return False  # Return False to indicate an error
+
+
 
 
