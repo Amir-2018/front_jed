@@ -305,3 +305,20 @@ class Logical :
 
 
 
+    def get_count(self, request):
+        code_titre = int(request.session['session_code_titre'])
+        
+        try:
+            with self.conn.cursor() as cursorN:
+                # Execute a SELECT query to get the count of images
+                cursorN.execute("SELECT COUNT(*) FROM titresimages WHERE codetitre = %s;", [code_titre])
+                images_count = cursorN.fetchone()[0]
+            
+            if images_count:
+                return images_count  # Return the count of images
+            else:
+                return 0  # Return 0 to indicate no file found
+        except Exception as e:
+            print("Error:", e)
+            return -1  # Return -1 to indicate an error
+

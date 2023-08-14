@@ -33,9 +33,9 @@ urlpatterns = [
     path('display_images/',views.display_images_from_tempd),
     #path('uptest/',views.uptest)
     #path('del_All/',views.del_All)
-    path('find_dell/',views.find_dell)
+    path('find_dell/',views.find_dell),
+    path('get_count/',views.get_count_titresimages)
 
-    
 
 
 

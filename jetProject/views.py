@@ -251,4 +251,6 @@ def find_dell(request):
         doc_file = ins.find_to_delete(request,prefix_value)
         return JsonResponse({'res' : doc_file})
 
-
+def get_count_titresimages(request) : 
+    ins = Logical()
+    return JsonResponse({'num' : ins.get_count(request) })
