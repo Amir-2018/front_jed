@@ -891,22 +891,42 @@ function get_count() {
     .then(data => {
         const myDivBlock = document.getElementById("myDivBlock");
 
-        // Delete existing boxes
+        // Delete existing content
         while (myDivBlock.firstChild) {
             myDivBlock.removeChild(myDivBlock.firstChild);
         }
 
-        // Insert new boxes
+        // Insert new boxes with input elements
         for (let i = 0; i < data.num; i++) {
             const box = document.createElement("div");
             box.classList.add("box");
-            box.textContent = i + 1;
+
+            const boxNumber = document.createElement("span");
+            boxNumber.textContent = i + 1;
+            box.appendChild(boxNumber);
+
+            const inputFile = document.createElement("input");
+            inputFile.setAttribute("type", "file");
+            inputFile.setAttribute("name", "files"); // Set the name attribute as needed
+            inputFile.style.display = "none"; // Hide the input element
+
+            // Assign unique ID to each box
+            box.setAttribute("id", `pos${i + 1}`);
+
+            box.appendChild(inputFile);
+
+            // Add click event to the box
             box.addEventListener("click", () => {
-              box.classList.add("clicked");
-              setTimeout(() => {
-                box.classList.remove("clicked");
-              }, 500);
+              // Trigger the file input when the box is clicked
+              inputFile.click();
+              
+              // Listen for changes in the input (file selection)
+              inputFile.addEventListener("change", () => {
+                // Perform any desired action with the selected file here
+                console.log(`File selected for box ${i + 1}:`, inputFile.files[0].name);
+              });
             });
+
             myDivBlock.appendChild(box);
         }
     })
@@ -914,6 +934,8 @@ function get_count() {
       console.error('Error:', error);
     });
 }
+
+
 
 
 

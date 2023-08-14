@@ -177,36 +177,47 @@ class Logical :
                 return HttpResponse("Session variable session_code_titre is not set")
 
             codetitre = request.session['session_code_titre']
-            if(self.upload_files_from_database(codetitre)) : 
 
-                with self.conn.cursor() as cursor3:
-                    for idx, uploaded_file in enumerate(uploaded_files, start=1):
-                        # Generate a unique number for each uploaded file
-                        unique_num = self.get_unique_number(cursor3)
+            # Check if images exist for the given codetitre
+            existing_images_count = self.get_count(request)  # Replace with your count retrieval function
 
-                        # Create the new filename using unique number and original file name
-                        file_name = f"{unique_num}_{uploaded_file.name}"
-                        file_path = os.path.join('D:/tempd/', file_name)
+            with self.conn.cursor() as cursor3:
+    # Get the current maximum numpage for the given codetitre
+                cursor3.execute("SELECT MAX(numpage) FROM titresimages WHERE codetitre = %s", [codetitre])
+                max_numpage = cursor3.fetchone()[0]
 
-                        with open(file_path, 'wb') as destination:
-                            for chunk in uploaded_file.chunks():
-                                destination.write(chunk)
+                if max_numpage is None:
+                    max_numpage = 0
 
-                        try:
-                            cursor3.execute("""
-                                INSERT INTO titresimages (codetitre, doc)
-                                VALUES (%s, lo_import(%s))
-                            """, [codetitre, file_path])
-                            self.conn.commit()
-                        except Exception as e:
-                            print(e)
-                            return '0'
+                for idx, uploaded_file in enumerate(uploaded_files, start=max_numpage + 1):
+                    # Generate a unique number for each uploaded file
+                    unique_num = self.get_unique_number(cursor3)
 
-                    return '1'
-            else : 
-                    return '0'
+                    # Create the new filename using unique number and original file name
+                    file_name = f"{unique_num}_{uploaded_file.name}"
+                    file_path = os.path.join('D:/tempd/', file_name)
+
+                    with open(file_path, 'wb') as destination:
+                        for chunk in uploaded_file.chunks():
+                            destination.write(chunk)
+
+                    try:
+                        cursor3.execute("""
+                            INSERT INTO titresimages (codetitre, doc, numpage)
+                            VALUES (%s, lo_import(%s), %s)
+                        """, [codetitre, file_path, idx])
+
+                        self.conn.commit()
+
+                    except Exception as e:
+                        print(e)
+                        return '0'
+
+                return '1'
 
         return '0'
+
+
 
     
     def get_unique_number(self, cursor):
@@ -306,8 +317,7 @@ class Logical :
 
 
     def get_count(self, request):
-        code_titre = int(request.session['session_code_titre'])
-        
+        code_titre = int(request.session['session_code_titre'])   
         try:
             with self.conn.cursor() as cursorN:
                 # Execute a SELECT query to get the count of images
