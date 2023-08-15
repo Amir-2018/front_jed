@@ -33,53 +33,7 @@
             .cntr1{
                 margin-top: 10px;
             }
-            .navbar{
-                height: 60px ; 
-            }
-          .navbar .container-fluid{
-            height: 100%;
-            padding-top:15px;
-
             
-          }   
-          .navbar .container-fluid >ul {
-            display: flex;
-            gap: 10px;
-            position: absolute;
-            right: 10px;
-          }   
-          .navbar .container-fluid >ul >li {
-            list-style: none;
-            background-color: #04AA6D!important;
-            padding: 10px;
-            border-radius: 5px;
-        
-          }
-          .navbar .container-fluid >ul >li:hover{
-            transform: scale(1.1);
-          }
-          .up{
-            
-            background-color: #04AA6D!important;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: .1s;
-            
-          }
-          .btn-sucess:hover,.btn-danger:hover{
-            transform: scale(1.1);
-          }
-          .up:hover{
-            transform: scale(1.1);
-          }
-          .navbar .container-fluid >ul >li >a{
-            text-decoration: none;
-            color: white;
-            font-size: 14px;
-
-          }
           .btnlock{
             position: absolute;
             left: 10px;
@@ -107,11 +61,11 @@
            .grid-container {
 
   display: grid;
-  grid-template-columns: 5% 75% auto;
+  grid-template-columns: 7% 73% auto;
   gap: 2px;
   padding: 10px;
   position: relative;
-  top: 60px;
+  /*top: 60px;*/
   
 }
 
@@ -289,7 +243,24 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+            <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+            <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+          
+            <!-- Google Fonts -->
+            
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+          
+            <!-- Vendor CSS Files -->
+            <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/aos/aos.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css '%}" rel="stylesheet">
+          
+            <!-- Template Main CSS File -->
+            <link href="{% static 'assets/css/main.css '%}" rel="stylesheet">
 
         </head>
         <body>
@@ -306,37 +277,37 @@
 
                       </div>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">غلق</button>
-                      <button type="button" class="btn btn-primary">تأكيد</button>
-                    </div>
+               
                   </div>
                 </div>
               </div>
               
               
               </div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <div class="container-fluid">
-                    <a href="/login" class="btn btn-danger btnlock">    <i class="fas fa-lock"></i>
-                    </a>
-                    <div class="pages">
-                        <ul>
-                            <li class="up"><i class="fas fa-long-arrow-alt-left"></i></li>
-                            <li>الصفحة</li>
-                            <li class="up"><i class="fas fa-long-arrow-alt-right"></i></li>
-                        </ul>
-                    </div>
-                    <ul>
-                        <li><a href=""><i class="fas fa-lock"></i></a></li>
-                        <li><a href="">    <i class="fas fa-trash"></i>
-                        </a></li>
-                        <li><a href="">    <i class="fas fa-redo"></i></a></li>
-                        <li> <a href="">المصادقة على الرسم العقاري</a> </li>
+              <header id="header" class="header d-flex align-items-center">
 
+                <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+                  <a href="/index" class="logo d-flex align-items-center">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1>ادارة الملكية العقارية<span></span></h1>
+                  </a>
+                  <nav id="navbar" class="navbar">
+                    <ul>
+                      <li><a href="#contact">الاستقبال</a></li>
+                      <li><a href="blog.html">التعريف بنا </a></li>
+                      <li><a href="#team">الخدمات</a></li>
+                      <li><a href="#portfolio">الإتصال بالديوان الوطني للملكية العقارية</a></li>
+                      <li><a href="#services">التواصل معنا</a></li>
+                    
                     </ul>
+                  </nav><!-- .navbar -->
+            
+                  <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+                  <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+            
                 </div>
-            </nav>
+              </header><!-- End Header -->
             <div class="grid-container">
                 <div >
                     <ul class="div-activate" >
@@ -443,7 +414,7 @@
                   
                     <br>
                     <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
-                        <button id="goToImageBtn" class="btn btn-primary">Go to Image</button>
+                        <button id="goToImageBtn" class="btn btn-success">Go</button>
                     </div>
                     <div class="mytable">
                         <table style="font-size: 12px;" class="tab1 tab3">
@@ -569,11 +540,90 @@
                 </div>  
               
               </div>
-        
+              <footer id="footer" class="footer">
+
+                <div class="container">
+                  <div class="row gy-4">
+                    <div class="col-lg-5 col-md-12 footer-info">
+                      <a href="index.html" class="logo d-flex align-items-center">
+                        <span>ادارة الملكية العقارية</span>
+                      </a>
+                      <div class="social-links d-flex mt-4">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                      </div>
+                    </div>
+            
+                    <div class="col-lg-2 col-6 footer-links">
+                      <h4>روابط</h4>
+                      <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                      </ul>
+                    </div>
+            
+                    <div class="col-lg-2 col-6 footer-links">
+                      <h4>خدمات</h4>
+                      <ul>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Product Management</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                      </ul>
+                    </div>
+            
+                    <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                      <h4>إتصل بنا</h4>
+                      <p>
+                        53 شارع الحرية البلفدير تونس<br>
+                        <strong>الهاتف:</strong> 71.831.700 - 71.832.358 - 71.832.248
+                        <br>
+                        <strong>البريد الإلكتروني:</strong> contact@cpf.gov.tn
+            
+                        <br>
+                      </p>
+            
+                    </div>
+            
+                  </div>
+                </div>
+            
+                <div class="container mt-4">
+                  <div class="copyright">
+                   <strong><span></span></strong> حقوق الطبع محفوظة 2023
+            
+                  </div>
+                  <div class="credits">
+                    <!-- All the links in the footer should remain intact. -->
+                    <!-- You can delete the links only if you purchased the pro version. -->
+                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/impact-bootstrap-business-website-template/ -->
+                    الديوان الوطني للملكية العقارية - الإدارة العامة للتنظيم والأساليب والإعلامية والإدارة الإلكترونية
+                </div>
+                </div>
+            
+              </footer><!-- End Footer -->
+              <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+              <script src="{% static 'assets/vendor/aos/aos.js '%}"></script>
+              <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js '%}"></script>
+              <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/php-email-form/validate.js '%}"></script>
+            
+              <!-- Template Main JS File -->
+              <script src="{% static 'assets/js/main.js '%}"></script>
             <!-- Bootstrap JS -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        </body>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>       
+         </body>
         </html>
 
 
@@ -886,54 +936,119 @@ $(document).ready(function() {
 
 
 function get_count() {
-  fetch('/get_count/')
-    .then(response => response.json())
-    .then(data => {
-        const myDivBlock = document.getElementById("myDivBlock");
+    fetch('/get_count/')
+        .then(response => response.json())
+        .then(data => {
+            const myDivBlock = document.getElementById("myDivBlock");
 
-        // Delete existing content
-        while (myDivBlock.firstChild) {
-            myDivBlock.removeChild(myDivBlock.firstChild);
-        }
+            // Delete existing content
+            while (myDivBlock.firstChild) {
+                myDivBlock.removeChild(myDivBlock.firstChild);
+            }
+            // Insert new boxes with input elements
+            for (let i = 0; i < data.num; i++) {
+                const box = document.createElement("div");
+                box.classList.add("box");
 
-        // Insert new boxes with input elements
-        for (let i = 0; i < data.num; i++) {
-            const box = document.createElement("div");
-            box.classList.add("box");
+                const boxNumber = document.createElement("span");
+                boxNumber.textContent = i + 1;
+                box.appendChild(boxNumber);
 
-            const boxNumber = document.createElement("span");
-            boxNumber.textContent = i + 1;
-            box.appendChild(boxNumber);
+                const inputFile = document.createElement("input");
+                inputFile.setAttribute("type", "file");
+                inputFile.setAttribute("name", "files"); // Set the name attribute as needed
+                inputFile.style.display = "none"; // Hide the input element
 
-            const inputFile = document.createElement("input");
-            inputFile.setAttribute("type", "file");
-            inputFile.setAttribute("name", "files"); // Set the name attribute as needed
-            inputFile.style.display = "none"; // Hide the input element
+                // Assign unique ID to each box
+                box.setAttribute("id", `pos${i + 1}`);
 
-            // Assign unique ID to each box
-            box.setAttribute("id", `pos${i + 1}`);
+                box.appendChild(inputFile);
 
-            box.appendChild(inputFile);
+                // Add click event to the box
+             // ... your other code ...
+             box.addEventListener("click", (event) => {
+    event.stopPropagation();
+    
+    console.log(`Box ${i + 1} clicked`);
+    
+    // Trigger the file input when the box is clicked
+    inputFile.click();
+});
 
-            // Add click event to the box
-            box.addEventListener("click", () => {
-              // Trigger the file input when the box is clicked
-              inputFile.click();
-              
-              // Listen for changes in the input (file selection)
-              inputFile.addEventListener("change", () => {
-                // Perform any desired action with the selected file here
-                console.log(`File selected for box ${i + 1}:`, inputFile.files[0].name);
-              });
-            });
+inputFile.addEventListener("change", () => {
+    console.log(`Change event triggered for box ${i + 1}`);
+    
+    const selectedFile = inputFile.files[0];
+    console.log(`File selected for box ${i + 1}:`, selectedFile.name);
+    
+    // Call the sendPostRequest function here
+    sendPostRequest(i + 1, selectedFile);
+});
 
-            myDivBlock.appendChild(box);
+
+
+// ... your other code ...
+
+
+                myDivBlock.appendChild(box);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+const requestQueue = [];  // Initialize an empty queue
+
+function sendPostRequest(desiredPosition, file) {
+    requestQueue.push({ desiredPosition, file });  // Add the request to the queue
+
+    if (requestQueue.length === 1) {
+        // If this is the only request in the queue, process it immediately
+        processNextRequest();
+    }
+}
+
+function processNextRequest() {
+    if (requestQueue.length === 0) {
+        return;  // No more requests in the queue
+    }
+
+    const { desiredPosition, file } = requestQueue[0];  // Get the first request
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('desired_position', desiredPosition);
+
+    fetch('/insert_record/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
         }
     })
+    .then(response => response.text())
+    .then(data => {
+        const jsonData = JSON.parse(data);
+        if (jsonData.res === "1") {
+            console.log('Record inserted successfully');
+        } else {
+            console.error('Failed to insert record');
+        }
+
+        requestQueue.shift();  // Remove the processed request from the queue
+        processNextRequest();  // Process the next request in the queue
+    })
     .catch(error => {
-      console.error('Error:', error);
+        console.error('An error occurred:', error);
+
+        requestQueue.shift();  // Remove the processed request from the queue
+        processNextRequest();  // Process the next request in the queue
     });
 }
+
+
+
+
 
 
 

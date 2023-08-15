@@ -73,6 +73,20 @@ def testgvs3(request):
      else:
             return JsonResponse({'msg': 'Invalid request method'})
 
+def insert_record_at_pos(request): 
+    ins = Logical()
+    x = ins.insert_record_at_position(request)
+    
+    if(x =="1"):
+        context = {
+            "res" : "1"
+        }
+        return JsonResponse(context)
+    else : 
+        context = {
+            "res" : "0"
+        }
+        return JsonResponse(context)
            
 
     #ires=cslcn.get_list_gouv()
@@ -202,6 +216,8 @@ def data_insert():
     
     return JsonResponse(response_data)
   
+# Function that import multiple files to the specific title 
+
 def test_import(request):
     logical_instance = Logical()
     response_message = logical_instance.import_files_with_codetitre(request)

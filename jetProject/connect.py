@@ -132,22 +132,19 @@ class Logical :
     def upload_files_from_database(self,codetitre):
         folder_path = 'D:/tempd/'
         test = False
-        #if 'session_code_titre' not in request.session:
-        #    return False
-        #codetitre = request.session['session_code_titre']
+
         try:
             with self.conn.cursor() as cursor:
-                cursor.execute("SELECT doc FROM titresimages WHERE codetitre = %s", [codetitre])
+                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s", [codetitre])
                 files_to_export = cursor.fetchall()
-                # truc to add file
-                if(len(files_to_export)==0) : 
+
+                if len(files_to_export) == 0:
                     return True
-                num = 1
-                for (oid_value,) in files_to_export:
-                    file_name = str(num)+"_"+f"{str(oid_value)}.tiff"
+                
+                for (codetitre, numpage, oid_value) in files_to_export:
+                    file_name = f"{str(numpage)}_{str(codetitre)}.tiff"
                     new_file_path = os.path.join(folder_path, file_name)
-                    num += 1 
-                    # Construct the lo_export query
+
                     lo_export_query = f"SELECT lo_export({oid_value}, '{new_file_path}')"
                     cursor.execute(lo_export_query)
 
@@ -162,6 +159,8 @@ class Logical :
             test = False
 
         return test
+
+
 
 
   # ... (other methods)
@@ -216,6 +215,67 @@ class Logical :
                 return '1'
 
         return '0'
+
+# ... (imports and class definition)
+
+# ... (other imports and class definition)
+
+    def insert_record_at_position(self, request):
+        if request.method == 'POST' and request.FILES:
+            if 'session_code_titre' not in request.session:
+                return HttpResponse("Session variable session_code_titre is not set")
+
+            codetitre = request.session['session_code_titre']
+            desired_position = int(request.POST['desired_position'])  # Extract desired_position from the POST request
+            uploaded_file = request.FILES['files']  # Get the uploaded file
+            existing_images_count = self.get_count(request)  # Replace with your count retrieval function
+
+            with self.conn.cursor() as cursor5:
+                cursor5.execute("SELECT MAX(numpage) FROM titresimages WHERE codetitre = %s", [codetitre])
+                max_numpage = cursor5.fetchone()[0]
+
+                if max_numpage is None:
+                    max_numpage = 0
+
+                if desired_position > max_numpage:
+                    new_numpage = desired_position
+                else:
+                    cursor5.execute("UPDATE titresimages SET numpage = numpage + 1 WHERE codetitre = %s AND numpage >= %s", [codetitre, desired_position])
+                    new_numpage = desired_position
+
+                file_name = uploaded_file.name
+                file_path = os.path.join('D:/tempd/', file_name)
+
+                try:
+                    # ... (other code for file write)
+
+                    with open(file_path, 'wb') as destination:
+                        for chunk in uploaded_file.chunks():
+                            destination.write(chunk)
+
+                    # Insert record into the database
+                    cursor5.execute("""
+                        INSERT INTO titresimages (codetitre, doc, numpage)
+                        VALUES (%s, lo_import(%s), %s)
+                    """, [codetitre, file_path, new_numpage])
+
+                    self.conn.commit()
+                    self.display_images(request)
+                    print('Record inserted successfully')
+
+                except Exception as e:
+                    print('Exception was occurred')
+                    print(e)
+                    return '0'
+                
+                return '1'
+        print('Not inserted')
+        return '0'
+
+
+
+
+
 
 
 

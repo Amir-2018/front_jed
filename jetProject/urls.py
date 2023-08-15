@@ -34,7 +34,9 @@ urlpatterns = [
     #path('uptest/',views.uptest)
     #path('del_All/',views.del_All)
     path('find_dell/',views.find_dell),
-    path('get_count/',views.get_count_titresimages)
+    path('get_count/',views.get_count_titresimages) ,
+    # insert record at the desire position 
+    path('insert_record/', views.insert_record_at_pos)
 
 
 
