@@ -1,0 +1,273 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>iPortfolio Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+
+  <link href="{% static 'assests2/img/favicon.png'%}" rel="icon">
+  <link href="{% static 'assests2/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assests2/vendor/aos/aos.css" rel="stylesheet'%}">
+  <link href="{% static 'assests2/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assests2/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+  <link href="{% static 'assests2/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assests2/vendor/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assests2/vendor/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assests2/css/style.css'%}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iPortfolio
+  * Updated: Jul 27 2023 with Bootstrap v5.3.1
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+      /* Additional custom styles for RTL layout */
+      body {
+            font-family: 'Tajawal', Arial, sans-serif; /* Use an Arabic font if available */
+        }
+        #header{
+          background: #198754;
+        }
+        #footer{
+           background: #198754;;
+        }
+        .list:hover{
+          background-color: #3ab67c;
+          width: 300px;
+        }
+        #list3{
+          background-color: #3ab67c;
+          width: 300px;
+        }
+        .list a{
+          font-weight: bold;
+          font-size: 16px;
+        }
+        .nav-menu a:hover i, .nav-menu .active i, .nav-menu .active:focus i, .nav-menu li:hover>a i {
+          color: white;
+        }
+        .nav-menu a, .nav-menu a:focus {
+          color: rgb(211, 206, 206);
+        }
+        #header .profile img {
+          border: 8px solid white;
+          width: 120px;
+          height: 120px;
+        }
+
+       
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="{% static 'assests2/img/pf.jpg'%}" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="index.html">إدارة الملكية </a></h1>
+        <h1 class="text-light"><a href="index.html">العقارية</a></h1>
+
+        
+       
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+
+          <li class="list" id="list1"><a href="/get_dash/" class="nav-link scrollto "><i class="bx bx-user"></i> <span>الموضفين</span></a></li>
+          <li class="list" id="list2"><a href="/get_dashtitres/" class="nav-link scrollto "><i class="bx bx-home"></i> <span>الرسوم العقارية</span></a></li>
+          <li class="list" id="list3"><a href="/get_stat/" class="nav-link scrollto active"><i class="bx bx-file-blank"></i> <span>الإحصائيات</span></a></li>
+          <li class="list" id="list4"><a href="/login/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>خروج</span></a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+            <h2>الإحصائيات</h2>
+        </div>
+
+        <div class="container mt-5">
+            <h3 class="text-center">إحصائيات الموظفين</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Statistiques Générales
+                        </div>
+                        <div class="card-body">
+                            <!-- Display general statistics here -->
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            Statistiques Mensuelles
+                        </div>
+                        <div class="card-body">
+                            <!-- Display monthly statistics here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Répartition Géographique
+                        </div>
+                        <div class="card-body">
+                            <!-- Display geographical distribution here (map or chart) -->
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            Activité Quotidienne
+                        </div>
+                        <div class="card-body">
+                            <!-- Display daily activity chart here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      </div>
+
+      </div>
+    </section><!-- End About Section -->
+    <br>
+    <br>
+    <br>
+
+
+
+    <section id="titres" class="titres">
+        <div class="container">
+  
+
+  
+          <div class="container mt-5">
+              <h3 class="text-center">إحصائيات الموظفين</h3>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="card mb-4">
+                          <div class="card-header">
+                              Statistiques Générales
+                          </div>
+                          <div class="card-body">
+                              <!-- Display general statistics here -->
+                          </div>
+                      </div>
+                      
+                      <div class="card">
+                          <div class="card-header">
+                              Statistiques Mensuelles
+                          </div>
+                          <div class="card-body">
+                              <!-- Display monthly statistics here -->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="card mb-4">
+                          <div class="card-header">
+                              Répartition Géographique
+                          </div>
+                          <div class="card-body">
+                              <!-- Display geographical distribution here (map or chart) -->
+                          </div>
+                      </div>
+                      
+                      <div class="card">
+                          <div class="card-header">
+                              Activité Quotidienne
+                          </div>
+                          <div class="card-body">
+                              <!-- Display daily activity chart here -->
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+        </div>
+  
+        </div>
+      </section><!-- End About Section -->
+
+ 
+
+    <!-- ======= Services Section ======= -->
+    
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version>. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/ -->
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assests2/vendor/purecounter/purecounter_vanilla.js'%}"></script>
+  <script src="{% static 'assests2/vendor/aos/aos.js'%}"></script>
+  <script src="{% static 'assests2/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'assests2/vendor/glightbox/js/glightbox.min.js'%}"></script>
+  <script src="{% static 'assests2/vendor/isotope-layout/isotope.pkgd.min.js'%}"></script>
+  <script src="{% static 'assests2/vendor/swiper/swiper-bundle.min.js'%}"></script>
+  <script src="{% static 'assests2/vendor/typed.js/typed.umd.js'%}"></script>
+  <script src="{% static 'assests2/vendor/waypoints/noframework.waypoints.js'%}"></script>
+  <script src="{% static 'assests2/vendor/php-email-form/validate.js'%}"></script>
+<!-- Bootstrap JS (Optional, for modal functionality) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'assests2/js/main.js'%}"></script>
+
+</body>
+
+</html>

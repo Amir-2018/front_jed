@@ -116,6 +116,14 @@ def consulter(request):
     print(BASE_DIR) 
     return render(request, 'consultation.html')
 
+def get_dash(request): 
+    return render(request, 'dash.html')
+
+def get_dashtitres(request):
+    return render(request, 'dashtitres.html')
+
+def get_stat(request):
+    return render(request, 'stat.html')
 def adduser(request):
     return render(request, 'adduser.html')
 

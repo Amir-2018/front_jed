@@ -18,8 +18,11 @@ urlpatterns = [
     path('adminUser/', views.admin),
     path('exist/', views.exist),
 
-    path('ajouter_titre/', views.testgvs3),
+    path('get_dash/', views.get_dash),
+    path('get_dashtitres/', views.get_dashtitres),
+    path('get_stat/', views.get_stat),
 
+    path('ajouter_titre/', views.testgvs3),
     #path('GetListDir/', views.get_list_dir, name='GetListDir'),
     path('export_and_show/', views.export_and_show_file, name='export_and_show'),
     path('if_exist/', views.GetTitreExiste),
