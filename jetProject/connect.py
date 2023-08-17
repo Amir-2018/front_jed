@@ -427,20 +427,69 @@ class Logical :
 
 
 
-    def add_new_emp(self,username,password,tip,status,address,etat,role):
-            import hashlib
+
+    def add_new_user(self, username, password, tip, status, address, etat, role):
+        import hashlib
+        try:
+            # Hash the password
+            strpwd = password + str(username)
+            hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
+
+            # Find the next available idemp value
+            idemp = self.get_next_available_idemp()
+
+            # Insert the user data using a cursor
+            with self.conn.cursor() as cursor:
+                cursor.execute("INSERT INTO users_tuser (idemp, userauth, passwd, categorie, active, adr_ip, etat, role) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
+                            [idemp, username, hashed_password, tip, status, address, etat, role])
+                self.conn.commit()
+
+            return True
+        except Exception as e:
+            print("Error:", e)
+            return False
+
+    def get_next_available_idemp(self):
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT MAX(idemp) FROM users_tuser;")
+                max_idemp = cursor.fetchone()[0]
+                if max_idemp is None:
+                    return 1
+                else:
+                    return max_idemp + 1
+        except Exception as e:
+            print("Error:", e)
+            return 0
+
+
+# statistiques  
+
+
+    def get_stat(self):
             try:
-                # Hash the password
-                strpwd = password + str(username)
-                hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
-
-                # Insert the user data using a cursor
+                # Get the counts using a cursor
                 with self.conn.cursor() as cursor:
-                    cursor.execute("INSERT INTO users_tuser (userauth,passwd, categorie,active, add_ip,etat,role) VALUES (%s, %s, %s, %s, %s, %s);",
-                                [username, password, tip, status,address, etat,role])
-                    self.conn.commit()
+                    cursor.execute("SELECT COUNT(*) FROM users_tuser;")
+                    total_users_count = cursor.fetchone()[0]
+                    
+                    cursor.execute("SELECT COUNT(*) FROM users_tuser WHERE role = 1;")
+                    role_1_users_count = cursor.fetchone()[0]
+                    
+                    cursor.execute("SELECT COUNT(*) FROM users_tuser WHERE role = 0;")
+                    role_0_users_count = cursor.fetchone()[0]
 
-                return True
+                # Other code related to your view
+
+                result_list = [
+                    total_users_count,
+                    role_1_users_count,
+                    role_0_users_count,
+                    # Other data you want to include in the list
+                ]
+
+                return result_list
+            
             except Exception as e:
                 print("Error:", e)
-                return False
+                return []  # Return an empty list in case of an error

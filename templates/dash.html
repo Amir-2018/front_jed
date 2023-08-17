@@ -145,8 +145,8 @@
               <tr>
                 <td>
                   <button class="btn btn-danger" onclick="confirmDelete(this, '{{ user.0 }}')">حذف</button>
-                  <button class="btn btn-primary">تحديث</button>
-              </td>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal2">تحديث</button>
+                </td>
                   <!-- <td><p>{{ user.0}}</p></td> -->
                   <!-- <td>{{ user.2 }}</td> -->
                   <td>{{ user.4 }}</td>
@@ -209,7 +209,7 @@
               <form>
               
                   <div class="form-group">
-                      <input type="text" class="form-control" id="userauth" placeholder="إسم المستخدم">
+                      <input type="text" class="form-control" id="username" placeholder="إسم المستخدم">
                   </div>
                   <div class="form-group">
                     <input type="password" class="form-control" id="password" placeholder="كلمة العبور">
@@ -242,10 +242,73 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
               <button type="button" class="btn btn-primary" id="addEmpForm">حفظ</button>
             </div>
-
+            <div id="msg2"></div>
       </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <!-- Form fields or content for the modal body -->
+              <form>
+              
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" placeholder="إسم المستخدم">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" id="password" placeholder="كلمة العبور">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" id="type" placeholder="النوع">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" id="status" placeholder="نشط">
+                </div>
+
+                <div class="form-group">
+                  <label for="address"></label>
+                  <input type="text" class="form-control" id="address" placeholder="العنوان">
+              </div>
+              <div class="form-group">
+                <label for="status"></label>
+                <input type="number" class="form-control" id="etat" placeholder="الحالة">
+            </div>
+                <div class="form-group">
+                    <label for="role"></label>
+                    <input type="number" class="form-control" id="role" placeholder="الدور">
+                </div>
+              
+            </form>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">غلق</button>
+              <button type="button" class="btn btn-primary">تحديث </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Link to Bootstrap JS (including Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
 
   </main><!-- End #main -->
 
@@ -319,45 +382,78 @@
 
 
 $(document).ready(function() {
-    $('#addEmpForm').submit(function(event) {
+    $('#addEmpForm').click(function(event) {
         event.preventDefault();
         var username = $('#username').val();
-        var password= $('#password').val();
+        var password = $('#password').val();
         var type = $('#type').val();
+        var status = $('#status').val();
         var address = $('#address').val();
-        var etat = $('#password').val();
+        var etat = $('#etat').val();  // Fixed the ID to "etat"
         var role = $('#role').val();
 
         var formData = {
             username: username,
             password: password,
-            address : address,
+            type: type,
+            status: status,
+            address: address,
             etat: etat,
             role: role,
-        };
+        }
 
         $.ajax({
-            url: '/add_emp/',
+            url: '/add_new_user/',
             type: 'POST',
             data: formData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
             dataType: 'json',
             success: function(data) {
                 if (data.res === '1') {
-                    $('#msg').text('تمت إضافة الموظف بنجاح.').addClass('success');
+                    $("#msg2").html('<div class="alert alert-success">تمت إضافة الموظف بنجاح.</div>');
+
+                    // Add a new row to the table
+                    var newRow = '<tr>' +
+                        '<td>' +
+                        '<button class="btn btn-danger" onclick="confirmDelete(this, \'' + username + '\')">حذف</button>' +
+                        '<button class="btn btn-primary">تحديث</button>' +
+                        '</td>' +
+                        '<td>' + status + '</td>' +
+                        '<td>' + etat + '</td>' +
+                        '<td>' + type + '</td>' +
+                        '<td>' + role + '</td>' +
+                        '<td>' + username + '</td>' +
+                        '</tr>';
+
+                    $('table tbody').append(newRow);
+
                     setTimeout(function() {
-                        $('#msg').text('').removeClass('success');
+                        $("#msg2").empty();
                     }, 2000);
                 } else {
-                    $('#msg').text('حدث خطأ أثناء إضافة الموظف.').addClass('error');
+                    $("#msg2").html('<div class="alert alert-danger">حدث خطأ أثناء إضافة الموظف.</div>');
+                    setTimeout(function() {
+                        $("#msg2").empty();
+                    }, 2000);
                 }
             },
             error: function(error) {
                 console.error('Error:', error);
-                $('#msg').text('حدث خطأ أثناء إضافة الموظف.').addClass('error');
+                $("#msg").html('<div class="alert alert-danger">حدث خطأ أثناء إضافة الموظف.</div>');
+                setTimeout(function() {
+                    $("#msg").empty();
+                }, 2000);
             }
         });
     });
 });
+
+
+
+
+
 
 
 

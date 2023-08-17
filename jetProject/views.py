@@ -131,8 +131,23 @@ def get_dash(request):
 def get_dashtitres(request):
     return render(request, 'dashtitres.html')
 
-def get_stat(request):
-    return render(request, 'stat.html')
+def get_statistiues(request):
+    try:
+        ins = Logical()
+        result_list = ins.get_stat()
+
+        # Other code related to your view
+
+        context = {
+            'result_list': result_list,
+            # Other context variables
+        }
+
+        return render(request, 'stat.html', context)
+    
+    except Exception as e:
+        print("Error:", e)
+        return render(request, 'error.html')
 def adduser(request):
     return render(request, 'adduser.html')
 
@@ -314,21 +329,19 @@ def delete_from_tuser(request, user_id):
 
 
 
-
 def add_emp(request):
     try:
         if request.method == 'POST':
             ins = Logical()
-
             username = request.POST.get('username')
             password = request.POST.get('password')
-            tip = request.POST.get('type')
-            status = request.POST.get('status')
+            tipe = int(request.POST.get('type'))
+            status = int(request.POST.get('status'))
             address = request.POST.get('address')
-            etat = request.POST.get('etat')
-            role = request.POST.get('role')
+            etat = int(request.POST.get('etat'))
+            role = int(request.POST.get('role'))
 
-            result = ins.add_new_user( username,password, tipe, status,address,etat, role)
+            result = ins.add_new_user(username, password, tipe, status, address, etat, role)
 
             if result:
                 return JsonResponse({'res': '1'}, status=200)
@@ -339,3 +352,4 @@ def add_emp(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'res': '0'}, status=500)
+

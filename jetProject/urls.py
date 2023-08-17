@@ -20,7 +20,8 @@ urlpatterns = [
 
     path('get_dash/', views.get_dash),
     path('get_dashtitres/', views.get_dashtitres),
-    path('get_stat/', views.get_stat),
+    path('get_stat/', views.get_statistiues),
+
 
     path('ajouter_titre/', views.testgvs3),
     #path('GetListDir/', views.get_list_dir, name='GetListDir'),
@@ -45,7 +46,7 @@ urlpatterns = [
      
     path('delete_from_tuser/<int:user_id>/', views.delete_from_tuser, name='delete_from_tuser'),
     # Ajouter un nouveau employé 
-    path('add_new_user/', views.add_emp),
+    path('add_new_user/', views.add_emp)
 
     
 
