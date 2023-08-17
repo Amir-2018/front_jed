@@ -423,4 +423,24 @@ class Logical :
         except Exception as e:
             print("Error:", e)
             return test  # Return False in case of an error
+            
 
+
+
+    def add_new_emp(self,username,password,tip,status,address,etat,role):
+            import hashlib
+            try:
+                # Hash the password
+                strpwd = password + str(username)
+                hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
+
+                # Insert the user data using a cursor
+                with self.conn.cursor() as cursor:
+                    cursor.execute("INSERT INTO users_tuser (userauth,passwd, categorie,active, add_ip,etat,role) VALUES (%s, %s, %s, %s, %s, %s);",
+                                [username, password, tip, status,address, etat,role])
+                    self.conn.commit()
+
+                return True
+            except Exception as e:
+                print("Error:", e)
+                return False

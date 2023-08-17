@@ -312,3 +312,30 @@ def delete_from_tuser(request, user_id):
 
 
 
+
+
+
+def add_emp(request):
+    try:
+        if request.method == 'POST':
+            ins = Logical()
+
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            tip = request.POST.get('type')
+            status = request.POST.get('status')
+            address = request.POST.get('address')
+            etat = request.POST.get('etat')
+            role = request.POST.get('role')
+
+            result = ins.add_new_user( username,password, tipe, status,address,etat, role)
+
+            if result:
+                return JsonResponse({'res': '1'}, status=200)
+            else:
+                return JsonResponse({'res': '0'}, status=500)
+        else:
+            print('It\'s not a POST request')
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'res': '0'}, status=500)

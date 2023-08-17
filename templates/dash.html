@@ -207,25 +207,31 @@
           <!-- Modal body -->
           <div class="modal-body">
               <form>
+              
                   <div class="form-group">
-                      <label for="name">الإسم:</label>
-                      <input type="text" class="form-control" id="name">
+                      <input type="text" class="form-control" id="userauth" placeholder="إسم المستخدم">
                   </div>
                   <div class="form-group">
-                      <label for="username">إسم المستخدم:</label>
-                      <input type="text" class="form-control" id="username">
+                    <input type="password" class="form-control" id="password" placeholder="كلمة العبور">
                   </div>
                   <div class="form-group">
-                      <label for="type">النوع:</label>
-                      <input type="text" class="form-control" id="type">
+                      <input type="number" class="form-control" id="type" placeholder="النوع">
                   </div>
                   <div class="form-group">
-                      <label for="status">الحالة:</label>
-                      <input type="text" class="form-control" id="status">
+                      <input type="number" class="form-control" id="status" placeholder="نشط">
                   </div>
+
                   <div class="form-group">
-                      <label for="role">الدور:</label>
-                      <input type="text" class="form-control" id="role">
+                    <label for="address"></label>
+                    <input type="text" class="form-control" id="address" placeholder="العنوان">
+                </div>
+                <div class="form-group">
+                  <label for="status"></label>
+                  <input type="number" class="form-control" id="etat" placeholder="الحالة">
+              </div>
+                  <div class="form-group">
+                      <label for="role"></label>
+                      <input type="number" class="form-control" id="role" placeholder="الدور">
                   </div>
                 
               </form>
@@ -234,8 +240,8 @@
           <!-- Modal footer -->
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
-              <button type="button" class="btn btn-primary">حفظ</button>
-          </div>
+              <button type="button" class="btn btn-primary" id="addEmpForm">حفظ</button>
+            </div>
 
       </div>
   </div>
@@ -310,6 +316,49 @@
         });
     }
 }
+
+
+$(document).ready(function() {
+    $('#addEmpForm').submit(function(event) {
+        event.preventDefault();
+        var username = $('#username').val();
+        var password= $('#password').val();
+        var type = $('#type').val();
+        var address = $('#address').val();
+        var etat = $('#password').val();
+        var role = $('#role').val();
+
+        var formData = {
+            username: username,
+            password: password,
+            address : address,
+            etat: etat,
+            role: role,
+        };
+
+        $.ajax({
+            url: '/add_emp/',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                if (data.res === '1') {
+                    $('#msg').text('تمت إضافة الموظف بنجاح.').addClass('success');
+                    setTimeout(function() {
+                        $('#msg').text('').removeClass('success');
+                    }, 2000);
+                } else {
+                    $('#msg').text('حدث خطأ أثناء إضافة الموظف.').addClass('error');
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                $('#msg').text('حدث خطأ أثناء إضافة الموظف.').addClass('error');
+            }
+        });
+    });
+});
+
 
 
 </script>
