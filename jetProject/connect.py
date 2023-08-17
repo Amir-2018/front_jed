@@ -392,3 +392,35 @@ class Logical :
             print("Error:", e)
             return -1  # Return -1 to indicate an error
 
+
+
+
+
+    # Crud for Users
+    def select_users(self):
+        selected_users = []  # List to store selected users
+        
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT * FROM users_tuser;")
+                selected_users = cursor.fetchall()  # Fetch all rows
+            
+            return selected_users  # Return the list of selected user data
+        except Exception as e:
+            print("Error:", e)  
+            return []  # Return an empty list in case of an error
+
+
+    def delete_users_by_id(self, user_id):
+        test = False
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("DELETE FROM users_tuser WHERE idemp = %s;", [int(user_id)])
+                self.conn.commit()
+                test = True  # Set test to True to indicate successful deletion
+                
+            return test  # Return True if successful, otherwise False
+        except Exception as e:
+            print("Error:", e)
+            return test  # Return False in case of an error
+

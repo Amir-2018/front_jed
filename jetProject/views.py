@@ -116,8 +116,17 @@ def consulter(request):
     print(BASE_DIR) 
     return render(request, 'consultation.html')
 
-def get_dash(request): 
-    return render(request, 'dash.html')
+def get_dash(request):
+    logical_instance = Logical()  # Create an instance of the Logical class
+    
+    # Call the select_users function from the logical_instance
+    selected_users = logical_instance.select_users()
+    
+    context = {
+        'selected_users': selected_users
+    }
+    
+    return render(request, 'dash.html', context)
 
 def get_dashtitres(request):
     return render(request, 'dashtitres.html')
@@ -278,3 +287,28 @@ def find_dell(request):
 def get_count_titresimages(request) : 
     ins = Logical()
     return JsonResponse({'num' : ins.get_count(request) })
+
+
+
+
+def delete_from_tuser(request, user_id):
+    try:
+        if request.method == 'DELETE':
+            ins = Logical()
+            print("Received user_id:", user_id)  # Add this line to print the received user_id
+            result = ins.delete_users_by_id(user_id)  # Call delete_users_by_id with a single user ID
+            print(result)
+            if result:
+                return JsonResponse({'res': '1'}, status=200)
+            else:
+                return JsonResponse({'res': '0'}, status=500)
+        else:
+            print('It\'s not a DELETE request')
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'res': '0'}, status=500)
+
+
+
+
+

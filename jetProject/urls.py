@@ -39,9 +39,11 @@ urlpatterns = [
     path('find_dell/',views.find_dell),
     path('get_count/',views.get_count_titresimages) ,
     # insert record at the desire position 
-    path('insert_record/', views.insert_record_at_pos)
+    path('insert_record/', views.insert_record_at_pos),
 
-
+    # Crud Users 
+     
+    path('delete_from_tuser/<int:user_id>/', views.delete_from_tuser, name='delete_from_tuser'),
 
 
 ]
