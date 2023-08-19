@@ -123,6 +123,11 @@
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
             إضافة موظف جديد
         </button>
+        <br>
+        <br>
+        <div class="input-group mb-3">
+          <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+        </div>
         </div>
 
     
@@ -145,7 +150,7 @@
               <tr>
                 <td>
                   <button class="btn btn-danger" onclick="confirmDelete(this, '{{ user.0 }}')">حذف</button>
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal2">تحديث</button>
+                  <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp = '{{ user.0 }}' id="view-details-btn">تحديث</button>
                 </td>
                   <!-- <td><p>{{ user.0}}</p></td> -->
                   <!-- <td>{{ user.2 }}</td> -->
@@ -257,43 +262,46 @@
           </div>
           <div class="modal-body">
               <!-- Form fields or content for the modal body -->
-              <form>
+              <form id="userForm">
               
                 <div class="form-group">
-                    <input type="text" class="form-control" id="username" placeholder="إسم المستخدم">
+                    <input type="text" class="form-control" id="username1" placeholder="إسم المستخدم">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" id="password" placeholder="كلمة العبور">
+                  <input type="text" class="form-control" id="password1" placeholder="كلمة العبور" required>
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" id="type" placeholder="النوع">
+                    <input type="number" class="form-control" id="type1" placeholder="النوع">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" id="status" placeholder="نشط">
+                    <input type="number" class="form-control" id="status1" placeholder="نشط">
                 </div>
 
                 <div class="form-group">
                   <label for="address"></label>
-                  <input type="text" class="form-control" id="address" placeholder="العنوان">
+                  <input type="text" class="form-control" id="address1" placeholder="العنوان">
               </div>
               <div class="form-group">
                 <label for="status"></label>
-                <input type="number" class="form-control" id="etat" placeholder="الحالة">
+                <input type="number" class="form-control" id="etat1" placeholder="الحالة">
             </div>
                 <div class="form-group">
                     <label for="role"></label>
-                    <input type="number" class="form-control" id="role" placeholder="الدور">
+                    <input type="number" class="form-control" id="role1" placeholder="الدور">
                 </div>
               
             </form>
-              </form>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">غلق</button>
-              <button type="button" class="btn btn-primary">تحديث </button>
+              <button type="button" class="btn btn-primary" onclick="addUser()" id="upuser">تحديث </button>
           </div>
       </div>
   </div>
+</div>
+<div id="alert-message" class="alert alert-dismissible fade show" role="alert" style="display: none;">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <span id="alert-text"></span>
 </div>
 
 <!-- Link to Bootstrap JS (including Popper.js) -->
@@ -450,7 +458,112 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    // Click event for the "View Details" button
+    $(".update_user").click(function() {
+      var idemp = $(this).data("idemp"); // Get the idemp from the data attribute
+      console.log('idemp=' + idemp);
+      $.ajax({
+        url: '/get_user_details/', // URL of the get_user_details endpoint
+        type: 'GET',
+        data: { 'idemp': idemp }, // Pass the idemp as a GET parameter
+        dataType: 'json', // Change to JSON data type
+        success: function(data) {
+          if (data.res === '1') {
+            // Update the user details container with the fetched user data
+            $("#username1").val(data.user_data[1]);
+            //$("#upuser").attr("data-idemp", data.user_data[0]);
+            $("#type1").val(data.user_data[3]);
+            $("#status1").val(data.user_data[4]);
+            $("#address1").val(data.user_data[5]);
+            $("#etat1").val(data.user_data[6]);
+            $("#role1").val(data.user_data[7]);
+            
+          } else {
+            // Handle the case where the user data is not found
+            console.log('User data not found');
+          }
+        },
+        error: function(error) {
+          console.error('Error:', error);
+        }
+      });
+    });
+});
 
+
+
+$(document).ready(function() {
+    // Handle form submission
+    $("#upuser").click(function(event) {
+        event.preventDefault();
+
+        // Get form data
+        var formData = {
+            idemp : 22 , 
+            username1: $('#username1').val(),
+            password1: $('#password1').val(),
+            type1: $('#type1').val(),
+            status1: $('#status1').val(),
+            address1: $('#address1').val(),
+            etat1: $('#etat1').val(),
+            role1: $('#role1').val()
+        };
+
+        // Send a POST request to the Django view
+        $.ajax({
+            url: '/update_user_by_idemp/', // URL of the update_user endpoint
+            type: 'POST',
+            data: formData, // Send the form data
+            headers: {  
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+            dataType: 'json',
+            success: function(data) {
+              if (data.res === '1') {
+  // Handle success
+  $("#alert-message").removeClass("alert-danger").addClass("alert-success");
+  $("#alert-text").text("User updated with success");
+} else {
+  // Handle failure
+  $("#alert-message").removeClass("alert-success").addClass("alert-danger");
+  $("#alert-text").text("User update failed.");
+}
+
+$("#alert-message").fadeIn();
+
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                // Handle error
+                alert("User update failed.");
+            }
+        });
+    });
+});
+
+$(".btn-close").click(function() {
+  $("#alert-message").fadeOut();
+});
+
+// Search user 
+
+
+$(document).ready(function() {
+  $("#searchInput").on("keyup", function() {
+    var searchText = $(this).val().toLowerCase();
+    $("table tbody tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+    });
+  });
+});
+
+</script>
+
+<!-- Example button to trigger the AJAX request -->
+
+<!-- Container to display the fetched user details -->
+<div id="user-details-container"></div>
 
 
 

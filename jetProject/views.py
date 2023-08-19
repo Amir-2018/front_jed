@@ -353,3 +353,52 @@ def add_emp(request):
         print("Error:", e)
         return JsonResponse({'res': '0'}, status=500)
 
+# get One single user  
+
+
+
+def get_user_details(request):
+    try:
+        ins = Logical()
+
+        idemp = request.GET.get('idemp')  # Get the idemp from the GET request parameter
+        print('Idemp =  ',idemp)
+        user_data = ins.get_user_by_idemp(idemp)
+
+        if user_data:
+            return JsonResponse({'res': '1', 'user_data': user_data})
+        else:
+            return JsonResponse({'res': '0', 'error': 'User not found'}, status=404)
+
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'res': '0', 'error': 'An error occurred'}, status=500)
+
+# Update user By idemp 
+
+def update_user_by_idemp(request):
+    if request.method == 'POST':
+        try:
+            idemp = request.POST.get('idemp')
+            username = request.POST.get('username1')
+            password = request.POST.get('password1')
+            tipe = request.POST.get('type1')
+            status = request.POST.get('status1')
+            address = request.POST.get('address1')
+            etat = request.POST.get('etat1')
+            role = request.POST.get('role1')
+
+            ins = Logical()  # Create an instance of the Logical class
+            result = ins.update_user_by_idemp(idemp, username, password, tipe, status, address, etat, role)
+
+            if result:
+                return JsonResponse({'res': '1'}, status=200)
+            else:
+                return JsonResponse({'res': '0'}, status=500)
+        except Exception as e:
+            print("Error:", e)
+            return JsonResponse({'res': '0'}, status=500)
+    else:
+        print('It\'s not a POST request')
+        return JsonResponse({'res': '0'}, status=500)
+

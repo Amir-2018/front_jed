@@ -493,3 +493,33 @@ class Logical :
             except Exception as e:
                 print("Error:", e)
                 return []  # Return an empty list in case of an error
+
+    def get_user_by_idemp(self, idemp):
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT * FROM users_tuser WHERE idemp = %s;", [idemp])
+                user_data = cursor.fetchone()
+                print(user_data[2])
+                return user_data
+        except Exception as e:
+            print("Error:", e)
+            return None
+
+    def update_user_by_idemp(self, idemp, username, password, tip, status, address, etat, role):
+        import hashlib
+        try:
+            # Hash the password
+            strpwd = password + str(username)
+            hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
+
+            # Perform the update using a cursor
+            with self.conn.cursor() as cursor:
+                cursor.execute("UPDATE users_tuser SET userauth = %s, passwd = %s, categorie = %s, active = %s, adr_ip = %s, etat = %s, role = %s WHERE idemp = %s;",
+                                [username, hashed_password, tip, status, address, etat, role, idemp])
+                self.conn.commit()
+
+            return True
+        except Exception as e:
+            print("Error:", e)
+            return False
+

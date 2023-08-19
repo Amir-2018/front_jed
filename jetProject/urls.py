@@ -46,7 +46,10 @@ urlpatterns = [
      
     path('delete_from_tuser/<int:user_id>/', views.delete_from_tuser, name='delete_from_tuser'),
     # Ajouter un nouveau employé 
-    path('add_new_user/', views.add_emp)
+    path('add_new_user/', views.add_emp),
+    path('get_user_details/', views.get_user_details, name='get_user_details'),
+    #Update user by idemp 
+    path('update_user_by_idemp/', views.update_user_by_idemp, name='update_user_by_idemp'),
 
     
 
