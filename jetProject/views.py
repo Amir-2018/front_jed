@@ -88,7 +88,6 @@ def insert_record_at_pos(request):
         }
         return JsonResponse(context)
            
-
     #ires=cslcn.get_list_gouv()
     #return ires
 def homepage(request):
@@ -97,7 +96,10 @@ def homepage(request):
 
 def login(request):
     # return HttpResponse('about')
+    if 'user_id' in request.session:
+        del request.session['user_id']
     return render(request, 'login.html')
+
 
 def ChangePass(request):
     # return HttpResponse('about')
@@ -401,4 +403,46 @@ def update_user_by_idemp(request):
     else:
         print('It\'s not a POST request')
         return JsonResponse({'res': '0'}, status=500)
+
+
+
+
+def login_emp(request):
+    if request.method == 'POST':
+        username = request.POST.get('userauth')
+        password = request.POST.get('passwd')
+      
+
+        ins = Logical()  # Create an instance of the Logical class
+        user_data = ins.get_user_by_username_password(username, password)
+
+        if user_data:
+            # Log the user in and set session or cookies
+            request.session['user_id'] = user_data[0]
+            request.session['username'] = user_data[1]
+            
+            return JsonResponse({'res': '1'})  # User found
+        else:
+            return JsonResponse({'res': '0'})  # User not found
+
+    return render(request, 'login.html')
+
+def change_password_view(request):
+    if 'user_id' in request.session:
+        if request.method == 'POST':
+            old_password = request.POST.get('old')
+            new_password = request.POST.get('new')
+            user_id = request.session.get('user_id')
+
+            ins = Logical()  # Create an instance of the Logical class
+            result = ins.change_password(old_password, new_password, user_id)
+
+            if result:
+                return JsonResponse({'res': '1'}, status=200)
+            else:
+                return JsonResponse({'res': '0'}, status=200)
+        else:
+            return JsonResponse({'res': '0'}, status=500)
+    else:
+        return JsonResponse({'res': '0'}, status=401)  # Unauthorized response
 

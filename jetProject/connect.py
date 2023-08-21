@@ -523,3 +523,60 @@ class Logical :
             print("Error:", e)
             return False
 
+    def get_user_by_username_password(self, username, password):
+        import hashlib
+        try:
+            # Hash the password using the same method you used during registration
+            strpwd = password + str(username)
+            hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
+            print(hashed_password)
+            with self.conn.cursor() as cursorS:
+                cursorS.execute("SELECT * FROM users_tuser WHERE userauth = %s AND passwd = %s;", [username, hashed_password])
+                user_data = cursorS.fetchone()
+
+            if user_data:
+                return user_data
+            else:
+                return None
+
+        except Exception as e:
+            print("Error:", e)
+            return None
+
+    # ...
+
+    def change_password(self, old_password, new_password, user_id):
+            # Get the username associated with the user ID
+            import hashlib
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT userauth FROM users_tuser WHERE idemp = %s;", [user_id])
+                username = cursor.fetchone()
+
+                if username:
+                    username = username[0]
+                    # Hash the user-provided old password with the retrieved username
+                    strpwd = old_password + str(username)
+                    hashed_old_password = hashlib.md5(strpwd.encode()).hexdigest()
+
+                    # Check if the old password matches the one in the database
+                    cursor.execute("SELECT passwd FROM users_tuser WHERE idemp = %s;", [user_id])
+                    user_password = cursor.fetchone()
+
+                    if user_password and user_password[0] == hashed_old_password:
+                        # Hash the new password before updating it in the database
+                        strpwd = new_password + str(username)
+                        hashed_new_password = hashlib.md5(strpwd.encode()).hexdigest()
+
+                        # Update the hashed password in the database
+                        cursor.execute("UPDATE users_tuser SET passwd = %s WHERE idemp = %s;", [hashed_new_password, user_id])
+                        self.conn.commit()
+                        return True  # Password changed successfully
+                    else:
+                        print('Incorrect old password')
+                        return False  # Incorrect old password
+                else:
+                    print('User not found')
+                    return False  # User not found
+
+
+

@@ -51,7 +51,10 @@ urlpatterns = [
     #Update user by idemp 
     path('update_user_by_idemp/', views.update_user_by_idemp, name='update_user_by_idemp'),
 
-    
+    path('login-user/', views.login_emp, name='login_user'),
+
+    path('change_password_view/', views.change_password_view, name='change_password_view')
+
 
 ]
 urlpatterns += staticfiles_urlpatterns()

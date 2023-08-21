@@ -99,8 +99,12 @@
         <ul>
           <li class="list" id="list1"><a href="/get_dash/" class="nav-link scrollto active"><i class="bx bx-user"></i> <span>الموضفين</span></a></li>
           <li class="list" id="list2"><a href="/get_dashtitres/" class="nav-link scrollto "><i class="bx bx-home"></i> <span>الرسوم العقارية</span></a></li>
+          <li class="list" id="list2"><a href="/get_list_gouv/" class="nav-link scrollto "><i class="bx bx-home"></i> <span> إدارة الرسوم العقارية</span></a></li>
           <li class="list" id="list3"><a href="/get_stat/" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>الإحصائيات</span></a></li>
           <li class="list" id="list4"><a href="/login/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>خروج</span></a></li>
+          <li class="list" id="list4"><a href="/changepass/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>تغيير كلمة العبور</span></a></li>
+
+
         </ul>
       </nav><!-- .nav-menu -->
     </div>
@@ -126,7 +130,7 @@
         <br>
         <br>
         <div class="input-group mb-3">
-          <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+          <input type="text" id="searchInput" class="form-control" placeholder="بحث" style="text-align: right;">
         </div>
         </div>
 
@@ -169,25 +173,12 @@
           </tbody>
       </table>
       
-          <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">التالي</a>
-                </li>
-            </ul>
-        </nav>
+      <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center" id="pagination">
+            <!-- Pagination items will be generated dynamically using JavaScript -->
+        </ul>
+    </nav>
+    
     </div>
       </div>
 
@@ -557,6 +548,45 @@ $(document).ready(function() {
     });
   });
 });
+
+// Define the total number of pages and the current page (you can modify these values)
+const totalPages = 20; // Total number of pages
+let currentPage = 1;  // Current page
+
+// Function to generate pagination items
+function generatePagination(currentPage, totalPages) {
+    const paginationContainer = document.getElementById('pagination');
+    paginationContainer.innerHTML = '';
+
+    // Create "Previous" button
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+    </li>`;
+
+    // Calculate start and end pages for the current group
+    const startPage = Math.max(currentPage - 5, 1);
+    const endPage = Math.min(currentPage + 5, totalPages);
+
+    // Create pagination items for the current group of pages
+    for (let i = startPage; i <= endPage; i++) {
+        paginationContainer.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#">${i}</a>
+        </li>`;
+    }
+
+    // Create "Next" button
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+        <a class="page-link" href="#">التالي</a>
+    </li>`;
+}
+
+// Initial pagination generation
+generatePagination(currentPage, totalPages);
+
+// Example: Change the current page and regenerate pagination
+currentPage = 3;
+generatePagination(currentPage, totalPages);
+
 
 </script>
 
