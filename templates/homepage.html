@@ -288,7 +288,8 @@
               
               
               </div>
-       
+              <br>
+                    
             <div class="grid-container">
                 <div >
 
@@ -318,6 +319,20 @@
                   </ul>
                 </div>
                 <div id="over" style="padding: 10px;">
+                    <nav aria-label="Pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item ">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+                            </li>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#"><span id="num1">10</span> / <span id="num2">1000</span></a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link" href="#">التالي</a>
+                            </li>
+                        </ul>
+                    </nav> 
                     <!-- <h1>Page test</h1> -->
                     <h5 id="msg" class="mt-2"></h5>
                     <h1>{{response_data}}</h1>
@@ -963,10 +978,7 @@ function processNextRequest() {
 }
 
 
-
-
-
-
+// work on pagination 
 
 
 
