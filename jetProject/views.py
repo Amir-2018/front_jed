@@ -280,9 +280,12 @@ def tester_titre_existance(request):
 # got to the folder and display all the images 
 def display_images_from_tempd(request):
     ins = Logical()
-    images = ins.display_images(request)
-    response_data = {'images': images}
+    images,numlen = ins.display_images(request)
+
+    response_data = {'images': images, 'count': numlen}
+    print('Numlen = ',numlen)
     return JsonResponse(response_data)
+
 
 
 # tester le téléchargement des images dans le dossier tempd
@@ -446,3 +449,28 @@ def change_password_view(request):
     else:
         return JsonResponse({'res': '0'}, status=401)  # Unauthorized response
 
+
+
+
+# Import the Logical class
+
+def display_images_view(request):
+    # Create an instance of the Logical class
+    ins = Logical()
+    print(request.POST)
+    posFrom = request.POST.get('posFrom')
+    posTo = request.POST.get('posTo')
+    print('posFrom = ',posFrom)
+    print('posTo = ',posTo)
+    # Call the display_images_paginations method
+    images, count, countImage = ins.display_images_paginations(request, posFrom,posTo)
+    print('countImage = ',countImage)
+    # Create a response data dictionary
+    response_data = {
+        'images': images,
+        'count': count,
+        'countImage' : countImage
+    }
+
+    # Return the response as JSON
+    return JsonResponse(response_data)

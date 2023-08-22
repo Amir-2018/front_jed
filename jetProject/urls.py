@@ -53,8 +53,9 @@ urlpatterns = [
 
     path('login-user/', views.login_emp, name='login_user'),
 
-    path('change_password_view/', views.change_password_view, name='change_password_view')
+    path('change_password_view/', views.change_password_view, name='change_password_view'),
 
+    path('display_images_pagination/', views.display_images_view, name='display_images')
 
 ]
 urlpatterns += staticfiles_urlpatterns()

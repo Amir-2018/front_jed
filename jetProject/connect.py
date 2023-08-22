@@ -134,8 +134,13 @@ class Logical :
         test = False
 
         try:
+            # Get the count of titres 
+            #with self.conn.cursor() as cursor:
+               #cursor.execute("SELECT COUNT(*) FROM titresimages WHERE codetitre = %s;", [codetitre])
+               #count = cursor.fetchone()[0]
+
             with self.conn.cursor() as cursor:
-                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s", [codetitre])
+                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s limit 10 ; ", [codetitre])
                 files_to_export = cursor.fetchall()
 
                 if len(files_to_export) == 0:
@@ -159,6 +164,42 @@ class Logical :
             test = False
 
         return test
+
+
+    def upload_files_from_database_pages(self, codetitre, posFrom,posTo):
+        folder_path = 'D:/tempd/'
+        test = False
+        files_exported_count = 0  # Initialize the count of exported files
+
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s AND numpage BETWEEN %s AND %s ORDER BY numpage", [codetitre, posFrom, posTo])
+                files_to_export = cursor.fetchall()
+
+                if len(files_to_export) == 0:
+                    return (test, files_exported_count)  # Return both values
+
+                for (codetitre, numpage, oid_value) in files_to_export:
+                    file_name = f"{str(numpage)}_{str(codetitre)}.tiff"
+                    new_file_path = os.path.join(folder_path, file_name)
+
+                    lo_export_query = f"SELECT lo_export({oid_value}, '{new_file_path}')"
+                    cursor.execute(lo_export_query)
+
+                    if os.path.exists(new_file_path):
+                        test = True
+                        files_exported_count += 1  # Increment the count of exported files
+                    else:
+                        test = False
+                        break  # Stop processing if export fails
+
+        except Exception as e:
+            print(e)
+            test = False
+
+        return (test, files_exported_count)  # Return both values
+
+
 
 
 
@@ -279,21 +320,24 @@ class Logical :
 
 
 
-    
-    def get_unique_number(self, cursor):
+        
+    def get_unique_number(self,cursor):
         # Get the current length of the titresimages table
-        cursor.execute("SELECT COUNT(*) FROM titresimages;")
-        table_length = cursor.fetchone()[0]
+        with self.conn.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM titresimages;")
+            table_length = cursor.fetchone()[0]
 
         # Generate a unique number based on table length and current index
-        unique_num = table_length + 1
+        unique_num = table_length + 1  # You can increment the length by 1 to get a unique number
+
         return unique_num
+
         
     def display_images(self, request):
         folder_path = 'D:/tempd/'  # Path to the folder containing images
         images = []
         codetitre = request.session['session_code_titre']
-
+        count = self.get_count(request)
         if self.delete_all_files():  # Execute delete function and check its result
             if self.upload_files_from_database(codetitre):
                 image_files = [filename for filename in os.listdir(folder_path)]
@@ -305,7 +349,7 @@ class Logical :
 
                     with self.conn.cursor() as cursor2:
                         # Execute the lo_export query
-                        cursor2.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s;", [file_path_tiff, codetitre])
+                        cursor2.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s ;", [file_path_tiff, codetitre])
 
                     if os.path.exists(file_path_tiff):
                         print("Before Conversion:", file_path_tiff)
@@ -315,7 +359,6 @@ class Logical :
                         img.save(file_path_png, 'PNG')
                         img.close()
                         print("After Conversion:", file_path_png)
-
                         # Open the converted .png file in binary read mode
                         with open(file_path_png, 'rb') as file:
                             # Read the file data
@@ -329,10 +372,12 @@ class Logical :
                         file_data_base64 = base64.b64encode(file_data).decode('utf-8')
                         images.append(file_data_base64)
                         print('images')
+                        
+
         else:
             images = []
-
-        return images
+        
+        return images , count
 
 
 
@@ -579,4 +624,62 @@ class Logical :
                     return False  # User not found
 
 
+
+
+
+    def display_images_paginations(self, request, posFrom,posTo):
+        folder_path = 'D:/tempd/'  # Path to the folder containing images
+        images = []
+        codetitre = request.session['session_code_titre']
+
+        # Modify this line to get the count of records for pagination
+        count = self.get_count(request)
+
+        # Calculate the starting position for records
+
+        if self.delete_all_files():  # Execute delete function and check its result
+                result, countImage = self.upload_files_from_database_pages(codetitre, posFrom,posTo)
+                if(result) : 
+                    image_files = [filename for filename in os.listdir(folder_path)]
+
+                    print("codetitre =", codetitre)
+
+                    # Modify the following loop to use LIMIT and OFFSET
+                    for image_file in image_files:
+                        file_path_tiff = os.path.join(folder_path, image_file)
+                        file_path_png = os.path.splitext(file_path_tiff)[0] + '.png'
+
+                        with self.conn.cursor() as cursor2:
+                            # Execute the lo_export query
+                            cursor2.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s ;", [file_path_tiff, codetitre])
+
+    
+
+
+                        if os.path.exists(file_path_tiff):
+                            print("Before Conversion:", file_path_tiff)
+
+                            # Convert the .tiff image to .png format
+                            img = Image.open(file_path_tiff)
+                            img.save(file_path_png, 'PNG')
+                            img.close()
+                            print("After Conversion:", file_path_png)
+
+                            # Open the converted .png file in binary read mode
+                            with open(file_path_png, 'rb') as file:
+                                # Read the file data
+                                file_data = file.read()
+
+                            # Delete the .tiff and .png files after reading the data to avoid filling up the server disk
+                            os.remove(file_path_tiff)
+                            #os.remove(file_path_png)
+
+                            # Convert binary data to base64-encoded string
+                            file_data_base64 = base64.b64encode(file_data).decode('utf-8')
+                            images.append(file_data_base64)
+
+                else:
+                    images = []
+
+        return images, count, countImage
 

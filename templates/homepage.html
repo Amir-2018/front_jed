@@ -324,12 +324,12 @@
                             <li class="page-item ">
                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
                             </li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#"><span id="num1">10</span> / <span id="num2">1000</span></a>
+                            <li class="page-item active" aria-current="page" >
+                                <a  class="page-link" href="#"><span id="num1">x</span> / <span id="num2">xxxx</span></a>
                             </li>
 
-                            <li class="page-item">
-                                <a class="page-link" href="#">التالي</a>
+                            <li class="page-item" id="myLink">
+                                <a class="page-link" onclick="get_images_plus()">التالي</a>
                             </li>
                         </ul>
                     </nav> 
@@ -414,75 +414,7 @@
                     <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
                         <button id="goToImageBtn" class="btn btn-success">Go</button>
                     </div>
-                    <div class="mytable">
-                        <table style="font-size: 12px;" class="tab1 tab3">
-                            <tr>
-                                
-                                <th><span style="font-size: 10px;"><select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    {% for item in gouv_list %}
-                                    <option name="gouvtitre" value="{{ item.0 }}">{{ item.1 }}</option>
-                                    {% endfor %}
-                                </select></span></th>
-    
-                                <th><span style="font-size: 10px;"> الولاية</span></th>
-    
-                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
-                                <th><span style="font-size: 10px;">الرسم العقاري</span></th>
-    
-                                
-                            </tr>
-    
-                            <tr>
-                                
-                                <th><span style="font-size: 10px;"><input type="number" style="width: 80%;"></span></th>
-    
-                                <th><span style="font-size: 10px;"> صفحة عدد</span></th>
-    
-                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
-                                <th><span style="font-size: 10px;">عدد الصفحات </span></th>
-    
-                                
-                            </tr>
-                         
-    
-                            <tr>
-                                
-                                <th><span style="font-size: 10px;"></span></th>
-    
-                                <th><span style="font-size: 10px;"> </span></th>
-    
-                                <th><span style="font-size: 10px;"><input type="date" style="width: 80%;"></span></th>
-                                <th><span style="font-size: 10px;"><span>تاريخ التخزين</span></th>
-    
-                                
-                            </tr>
-                            <tr>
-                                
-                                <th><span style="font-size: 10px;"></span></th>
-    
-                                <th><span style="font-size: 10px;"> </span></th>
-    
-                                <th><span style="font-size: 10px;"><input type="text" style="width: 80%;"></span></th>
-                                <th ><span style="font-size: 10px;"><span>بيانات الماسحة الضوئية</span></th>
-    
-                                
-                            </tr>
-                            <tr>
-                                <td>اختيار السكانار</td>
-                                <td><input type="checkbox" name="" id=""></td>
-    
-                                <td>اظهار بيانات السكانار</td>
-                                <td><input type="checkbox" name="" id=""></td>
-    
-                            </tr>
-                          
-                            
-                          
-                        </table>
-                    </div>
                     
-                    <br>
-                    <div class="add"><span>اضافة مراجع</span></div>
 <!--                     
                     <table style="font-size: 12px; overflow:scroll;" class="tab1 tab3">
                         <tr>
@@ -624,11 +556,33 @@ function get_images() {
     // Display a loading indicator while waiting for images
     $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
     
+
     $.ajax({
         type: "GET",
         url: "/display_images/",
         success: function(data) {
-    console.log(data); // Output the received data to the console
+            if (data.images.length < 10) {
+                localStorage.setItem('countImage', '0');
+
+                // Get references to the div elements
+                var num1Element = document.getElementById('num1');
+                var num2Element = document.getElementById('num2');
+
+                // Update the content of the div elements
+                num1Element.textContent = data.images.length ; 
+                num2Element.textContent = data.count ; 
+            }else{
+                // Define the local storage 
+
+                localStorage.setItem('countImage', '10');
+                var num1Element = document.getElementById('num1');
+                var num2Element = document.getElementById('num2');
+                num1Element.textContent = 10 ; 
+
+                // Update the content of the div elements
+                num2Element.textContent = data.count;
+
+            }
     var msgDiv = $("#msg");
     var myModal2 = $("#myModal2");
 
@@ -666,16 +620,109 @@ function get_images() {
             
             // Add red border to the clicked image
             $(this).css("border", "5px solid green");
-           
+
 
         });
     });
+    // console.log(imageData)
+
 },
         error: function(error) {
             console.error("Error:", error);
         }
     });
 }
+
+localStorage.setItem('posFrom', 1);
+localStorage.setItem('posTo', 10);
+
+var link = document.getElementById('myLink');
+
+// Add a class to the element
+link.classList.remove('disabled');
+
+function get_images_plus() {
+    var posFromStr = localStorage.getItem('posFrom');
+    var posFrom = parseInt(posFromStr);
+    posFrom = posFrom + 10;
+
+    var posToStr = localStorage.getItem('posTo');
+    var posTo = parseInt(posToStr);
+    posTo = posTo + 10;
+
+    // Update the localstorage 
+    localStorage.setItem('posFrom', posFrom); // Set posTo to a new value, e.g., 20
+    localStorage.setItem('posTo', posTo); // Set posTo to a new value, e.g., 20
+
+
+    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
+    console.log('this1 = ' + posFrom);
+    console.log('this2 = ' + posTo);
+
+    $.ajax({
+        type: "POST",
+        url: "/display_images_pagination/",
+        data: {
+            "posFrom": posFrom,
+            "posTo": posTo
+        },
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (data) {
+
+            console.log("data = " + data[0]);
+
+            var myModal2 = $("#myModal2");
+
+            myModal2.modal('hide'); // Hide the modal
+
+            var imagesArray = data.images;
+            console.log(imagesArray.length)
+            var imagesContainer = $("#images_db");
+            imagesContainer.empty(); // Clear existing images
+
+            // Iterate through the array of image data
+            imagesArray.forEach(function (imageData, index) {
+                // Create an <img> element and set its src attribute to the image data
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+                console.log('image')
+                // Set a unique ID for each image based on the index
+                img.attr("id", "img" + (index + 1));
+                img.addClass("zoomable");
+
+                // Append the <img> element to the #images_db div
+                imagesContainer.append(img);
+                img.on("click", function () {
+                    var imageId = this.id;
+                    console.log("Clicked on image with ID: " + imageId);
+                    clickedImageId = imageId; // Save the clicked image ID
+                    // Remove red border from all images
+                    $(".zoomable").css("border", "none");
+
+                    // Add red border to the clicked image
+                    $(this).css("border", "5px solid green");
+                });
+            });
+            if(imagesArray.length <10){
+                document.getElementById('num1').textContent = data.count ; 
+                // Get the element by its ID
+                var link = document.getElementById('myLink');
+
+                // Add a class to the element
+                link.classList.add('disabled');
+            }else{
+                document.getElementById('num1').textContent = posTo ; 
+
+            }
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
 
 
 // Delete selected title 
@@ -979,6 +1026,8 @@ function processNextRequest() {
 
 
 // work on pagination 
+
+
 
 
 
