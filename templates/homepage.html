@@ -211,7 +211,30 @@
     background-color: #3498db; /* You can change the color */
     vertical-align: middle;
     margin: 0 10px;
-  }
+  } 
+.page-item{
+    cursor: pointer;
+}
+/* Styles pour les cadres d'image */
+.image-container {
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-shadow: 0px 0px 5px #888;
+}
+
+/* Styles pour les images à l'intérieur des cadres */
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
+.small-image {
+    width: 100px; /* Largeur de l'image */
+    height: 100px; /* Hauteur de l'image */
+    margin-right: 10px; /* Marge entre les images (ajustez selon vos besoins) */
+}
+
 
   /* Media query for smaller screens */
   @media (max-width: 768px) {
@@ -289,13 +312,15 @@
               
               </div>
               <br>
-                    
+
+
+  
             <div class="grid-container">
                 <div >
 
                     <ul class="div-activate" >
-                    <li class="btn btn-success">
-                    <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" ></i> 
+                    <li class="btn btn-success" >
+                    <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" onclick="get_images_from_folder();"></i> 
 
 
                     </a></li>
@@ -314,25 +339,25 @@
 
                  
                    
-                    <!-- <li><a href="" class="btn btn-success"><i class="fas fa-trash"></i></a></li> -->
+                    <li><a href="" class="btn btn-success"><i class="fas fa-trash"></i></a></li>
                     <li>  <a class="btn btn-success" href=""> <i class="fas fa-redo"></i></a> </li>              
                   </ul>
                 </div>
                 <div id="over" style="padding: 10px;">
-                    <nav aria-label="Pagination">
+                    <nav aria-label="Pagination" id="nav-items">
                         <ul class="pagination justify-content-center">
-                            <li class="page-item ">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+                            <li class="page-item" id="myLinkP">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true" onclick="get_images_back()">السابق</a>
                             </li>
-                            <li class="page-item active" aria-current="page" >
-                                <a  class="page-link" href="#"><span id="num1">x</span> / <span id="num2">xxxx</span></a>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#" style="background-color: #198754; color: white; border: 1px solid #198754;"><span id="num1"></span> / <span id="num2"></span></a>
                             </li>
-
                             <li class="page-item" id="myLink">
                                 <a class="page-link" onclick="get_images_plus()">التالي</a>
                             </li>
                         </ul>
-                    </nav> 
+                    </nav>
+
                     <!-- <h1>Page test</h1> -->
                     <h5 id="msg" class="mt-2"></h5>
                     <h1>{{response_data}}</h1>
@@ -351,14 +376,20 @@
                                     <form enctype="multipart/form-data" id="uploadForm">
                                         <div class="mb-3">
                                             <label for="fileInput" class="form-label">إدراج أكثر من وثيقة</label>
-                                            <input type="file" class="form-control" id="fileInput" name="files" multiple>
+                                            <!-- <input type="file" class="form-control" id="fileInput" name="files" multiple> -->
+                                        </div>
+                                       
+                                        <div id="msg2"></div>
+                                        
+                                        <div id="msgCade">
+                                            <div class="image-grid" id="imageGrid"></div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">غلق</button>
                                             <button type="button" class="btn btn-primary" id="uploadButton">تحميل</button>
                                         </div>
-                                        <div id="msg2"></div>
                                     </form>
+
                                 </div>
                               
                             </div>
@@ -411,7 +442,7 @@
                         </table>
                   
                     <br>
-                    <div class="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
+                    <div class="add" id="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
                         <button id="goToImageBtn" class="btn btn-success">Go</button>
                     </div>
                     
@@ -525,10 +556,7 @@
                     </div>
                     <div class="mb-3">
 
-                      <div class="mb-3">
-                        <label for="dreg" class="form-label">عدد الصفحات</label>
-                        <input type="number" class="form-control" id="nbpage" name="nbpag">
-                      </div>
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addtitle">إضافة</button>
@@ -547,15 +575,20 @@
     </div>
  
 
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+<script>    
+
+
+
+
+
 var clickedImageId; // Global variable to store the clicked image ID
 
 function get_images() {
     // Display a loading indicator while waiting for images
     $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
     
+    return new Promise(function(resolve, reject) {
 
     $.ajax({
         type: "GET",
@@ -625,12 +658,16 @@ function get_images() {
         });
     });
     // console.log(imageData)
+    resolve(); // Resolve the Promise when images are loaded
 
 },
         error: function(error) {
             console.error("Error:", error);
+            reject(error); // Reject the Promise if there's an error
+
         }
     });
+});
 }
 
 localStorage.setItem('posFrom', 1);
@@ -641,7 +678,15 @@ var link = document.getElementById('myLink');
 // Add a class to the element
 link.classList.remove('disabled');
 
+var link = document.getElementById('myLinkP');
+
+// Add a class to the element
+link.classList.add('disabled');
 function get_images_plus() {
+    var link = document.getElementById('myLinkP');
+
+// Add a class to the element
+link.classList.remove('disabled');
     var posFromStr = localStorage.getItem('posFrom');
     var posFrom = parseInt(posFromStr);
     posFrom = posFrom + 10;
@@ -704,6 +749,12 @@ function get_images_plus() {
                     $(this).css("border", "5px solid green");
                 });
             });
+            if(posFrom==1){
+                var link = document.getElementById('myLink');
+
+// Add a class to the element
+link.classList.add('disabled');
+            }
             if(imagesArray.length <10){
                 document.getElementById('num1').textContent = data.count ; 
                 // Get the element by its ID
@@ -722,6 +773,89 @@ function get_images_plus() {
     });
 }
 
+
+function get_images_back() {
+
+    var posFromStr = localStorage.getItem('posFrom');
+    var posFrom = parseInt(posFromStr);
+    posFrom = posFrom - 10;
+
+    var posToStr = localStorage.getItem('posTo');
+    var posTo = parseInt(posToStr);
+    posTo = posTo - 10;
+
+    // Update the localstorage 
+    localStorage.setItem('posFrom', posFrom); // Set posTo to a new value, e.g., 20
+    localStorage.setItem('posTo', posTo); // Set posTo to a new value, e.g., 20
+
+
+    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
+    console.log('posFrom = ' + posFrom);
+    console.log('posTo = ' + posTo);
+
+    $.ajax({
+        type: "POST",
+        url: "/display_images_pagination/",
+        data: {
+            "posFrom": posFrom,
+            "posTo": posTo
+        },
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (data) {
+
+            console.log("data = " + data[0]);
+
+            var myModal2 = $("#myModal2");
+
+            myModal2.modal('hide'); // Hide the modal
+
+            var imagesArray = data.images;
+            console.log(imagesArray.length)
+            var imagesContainer = $("#images_db");
+            imagesContainer.empty(); // Clear existing images
+
+            // Iterate through the array of image data
+            imagesArray.forEach(function (imageData, index) {
+                // Create an <img> element and set its src attribute to the image data
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+                console.log('image')
+                // Set a unique ID for each image based on the index
+                img.attr("id", "img" + (index + 1));
+                img.addClass("zoomable");
+
+                // Append the <img> element to the #images_db div
+                imagesContainer.append(img);
+                img.on("click", function () {
+                    var imageId = this.id;
+                    console.log("Clicked on image with ID: " + imageId);
+                    clickedImageId = imageId; // Save the clicked image ID
+                    // Remove red border from all images
+                    $(".zoomable").css("border", "none");
+
+                    // Add red border to the clicked image
+                    $(this).css("border", "5px solid green");
+                });
+            });
+            console.log('posFrom = '+posFrom)
+            if(posFrom==1){
+                var link = document.getElementById('myLinkP');
+                // Add a class to the element
+                link.classList.add('disabled');
+                document.getElementById('num1').textContent = 10 ; 
+
+            }else{
+                document.getElementById('num1').textContent = posTo ; 
+
+            }
+
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
 
 
 
@@ -763,13 +897,15 @@ function deleteImage() {
 }
 
 
-
- $(document).ready(function() {
+var add = $('#add')
+add.hide()
+ $(document).ready(async function() {
  $('.div-activate').hide();
  $('.pages').hide();
-
+ $('#nav-items').hide();
  $('#msg').text("وثائق السجل العقاري");
-
+ var bt = $("#bt");
+  bt.hide()
   $('#checkTitleButton').on('click', function() {
     var numtitre = $('#numtitre').val();
     var gouvtitre = $('#gouvtitre').val();
@@ -794,18 +930,50 @@ function deleteImage() {
         // Contrôler l'affichage du div en fonction de la réponse
         var divToToggle = $('.div-activate');
         var pageToToggle = $('.pages');
+        var nav_items = $('#nav-items')
+        console.log(response.msg.response_data)
         if (response.msg.response_data === '0') {
            
         // Show the message 
-          $("#msg").html('<div class="alert alert-danger">الرّجاء التثبت من معلومات البحث</div>');
+          $("#msg").html('<div class="alert alert-danger">الرسم العقاري غير موجود في قاعدة البيانات الأصلية</div>');
+          var imagesContainer = $("#images_db");
+          imagesContainer.empty(); // Clear existing images
           divToToggle.hide(); // Masquer le div
-          pageToToggle.hide(); // Masquer le div
+          pageToToggle.hide(); // Masquer le div    
+          nav_items.hide()
+          bt.hide()
+          add.hide()
+
         } else if (response.msg.response_data === '1') {
          $('#msg').text("");
-
           divToToggle.show(); // Afficher le div
           pageToToggle.show()
-          get_images()
+          bt.hide()
+          add.show()
+
+
+          get_images().then(function() {
+    // Execute nav_items.show() after a 2-second delay
+   
+        nav_items.show();
+   
+});
+   
+
+          
+        }else if(response.msg.response_data === '2'){
+            $("#msg").html('<div class="alert alert-success">    الرسم العقاري  موجود في قاعدة البيانات الأصلية يمكنك اضافة رسم جديد   </div>');
+            var imagesContainer = $("#images_db");
+
+            imagesContainer.empty(); // Clear existing images
+          divToToggle.hide(); // Masquer le div
+          pageToToggle.hide(); // Masquer le div    
+          nav_items.hide()
+          bt.show()
+          add.hide()
+
+
+
         }
       },
       error: function(xhr, textStatus, errorThrown) {
@@ -817,50 +985,14 @@ function deleteImage() {
 });
 
 
-$(document).ready(function() {
 
-    $("#uploadButton").on("click", function() {
-        var formData = new FormData($("#uploadForm")[0]);
 
-        $.ajax({
-            type: "POST",
-            url: "/import_files_with_codetitre/",
-            data: formData,
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                var msgDiv = $("#msg2");
-                if (data.message === '1') {
-                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');             
-                } else {
-                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافة</div>');
-                }
-                
-                // Fade in the message with animation
-                msgDiv.fadeIn();
 
-                // Automatically fade out and remove the message after 2 seconds
-                setTimeout(function() {
-                    msgDiv.fadeOut(function() {
-                        msgDiv.empty(); // Clear the content after fading out
-                    });
-                }, 2000); // 2000 milliseconds = 2 seconds
-            },
-            error: function(error) {
-                console.error("Error:", error);
-            }
-            
 
-        }).then(res=>{
 
-        })
-    });
+// test function 
 
-});
-
+////////////
 
 
 
@@ -869,12 +1001,10 @@ $(document).ready(function() {
     $("#addtitle").on("click", function() {
         var gouvtitre = $("select[name='gouvtitr']").val();
         var doubtitre = $("select[name='doubtitr']").val();
-        var nbpage = $("input[name='nbpag']").val();
 
         var postData = {
             'gouvtitre': gouvtitre,
             'doubtitre': doubtitre,
-            'nbpage': nbpage
         };
 
         $.ajax({
@@ -1031,12 +1161,128 @@ function processNextRequest() {
 
 
 
+var csrfToken = $('body').data('csrf-token');
+var imgs = [];
+var images_data = [];
+
+function get_images_from_folder(callback) {
+    $.ajax({
+        type: "GET",
+        url: "/list_images/",
+        headers: {
+            "X-CSRFToken": csrfToken
+        },
+        success: function(data) {
+            var imagesArray = data.images;
+            var imageGrid = $("#imageGrid");
+            imageGrid.empty(); // Clear the old images
+            
+            imgs = data.imgs; // Assign the image filenames to the imgs array
+
+            imagesArray.forEach(function(imageData, index) {
+                // Create a container for each image
+                var imageContainer = $("<div>").addClass("image-container");
+
+                // Create an image element and set its src attribute
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+                img.addClass("small-image"); // Make sure this line is present
+
+                // Add the image to its container
+                imageContainer.append(img);
+
+                // Add the image container to the grid
+                imageGrid.append(imageContainer);
+
+                // Add the image data to the images_data array
+                images_data.push(imageData);
+            });
+
+            // Pass the selected images to the callback function
+            if (typeof callback === "function") {
+                callback(imagesArray);
+            }
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $("#uploadButton").on("click", function() {
+        var formData = new FormData(); // Create a FormData object
+
+        for (var i = 0; i < imgs.length; i++) {
+            var fileName = imgs[i]; // Get the filename
+            var imageContent = images_data[i]; // Get the base64-encoded image content
+
+            // Convert the base64-encoded image content back to a Blob
+            var byteCharacters = atob(imageContent);
+            var byteNumbers = new Array(byteCharacters.length);
+            for (var j = 0; j < byteCharacters.length; j++) {
+                byteNumbers[j] = byteCharacters.charCodeAt(j);
+            }
+            var byteArray = new Uint8Array(byteNumbers);
+            var blob = new Blob([byteArray], { type: 'image/png' }); // Assuming the images are in PNG format
+
+            // Append the Blob object to FormData with the appropriate filename
+            formData.append('imgs[]', blob, fileName);
+        }
+
+        // Append the CSRF token to the FormData
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        $.ajax({
+            type: "POST",
+            url: "/import_files_with_codetitre/",
+            data: formData, // Use the FormData object
+            processData: false,
+            contentType: false,
+            dataType: 'json', // Add this line to ensure proper JSON parsing of the response
+
+            success: function(data) {
+                var msgDiv = $("#msg2");
+                if (data.message === '1') {
+                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+                } else {
+                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافة</div>');
+                }
+
+                // Fade in the message with animation
+                msgDiv.fadeIn();
+
+                // Automatically fade out and remove the message after 2 seconds
+                setTimeout(function() {
+                    msgDiv.fadeOut(function() {
+                        msgDiv.empty(); // Clear the content after fading out
+                    });
+                }, 2000); // 2000 milliseconds = 2 seconds
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+});
 
 
 
 
 
 
+
+
+// Get a reference to the button element by its ID
+var sendTestButton = document.getElementById("sendTest");
+
+// Add a click event listener to the button
+sendTestButton.addEventListener("click", function(event) {
+    // Prevent the default form submission behavior (which includes refreshing the page)
+    event.preventDefault();
+   
+    // Code to execute when the button is clicked
+});
 
 
 

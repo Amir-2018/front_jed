@@ -34,11 +34,12 @@ def test_exist_in_tfich(request):
         logical_instance2 = Logical()
         # tester l'existance dans la table tfich 
         response_data=logical_instance.GetTitreExiste(numtitre,gouvtitre,0,9)  
+
         # tester l'existance dans la tables titres dans la base de données de dged 
         res =logical_instance2.tester_ged_existance(response_data,numtitre,gouvtitre,0)
         # ça veut dire existe dans les deux tables 
 
-        if(res == '1'):
+        if(response_data =='1' and res == '1'):
               request.session['session_code_titre'] = numtitre
                   #response_data=logical_instance.GetTitreExiste(12457,9,0,9)
               context = {
@@ -46,7 +47,12 @@ def test_exist_in_tfich(request):
               }
 
         # ça veut dire existe dans la tables tfich et non dans la table titres dans titres
-        else : 
+        elif (response_data =='1' and res=='0'): 
+             request.session['session_code_titre'] = numtitre
+             context = {
+                'response_data': '2'  # Assuming 'gouv_list' is the key you want to use in the template
+              } 
+        elif (response_data =='0' and res=='0'): 
               context = {
                 'response_data': '0'  # Assuming 'gouv_list' is the key you want to use in the template
               } 
@@ -54,16 +60,17 @@ def test_exist_in_tfich(request):
 
 # import multiple files into database 
 
+
 def testgvs3(request):
      if request.method =='POST' : 
-            
+            numtitre = request.session['session_code_titre']
             gouvtitre = request.POST.get('gouvtitre')
             doubtitre = request.POST.get('doubtitre')
-            nbpage = request.POST.get('nbpage')  # You need to provide 'dreg' in your POST data
+           
             logical_instance = LogicalDB() 
-            numtitre =logical_instance.Increment_num_titre()
-            print(numtitre)
-            res = logical_instance.ajouter_titre(numtitre,gouvtitre,doubtitre,nbpage)
+            codetitre = logical_instance.Increment_num_titre()
+            #codetitre =logical_instance.get_next_title_code()
+            res = logical_instance.ajouter_titre(codetitre,gouvtitre,doubtitre,numtitre)
             print(res)
             if(res) : 
                 return JsonResponse({'msg' : '1'})
@@ -464,7 +471,6 @@ def display_images_view(request):
     print('posTo = ',posTo)
     # Call the display_images_paginations method
     images, count, countImage = ins.display_images_paginations(request, posFrom,posTo)
-    print('countImage = ',countImage)
     # Create a response data dictionary
     response_data = {
         'images': images,
@@ -474,3 +480,68 @@ def display_images_view(request):
 
     # Return the response as JSON
     return JsonResponse(response_data)
+
+
+from PIL import Image
+import os
+import base64
+
+def tiff_to_png(input_path, output_path):
+    try:
+        with Image.open(input_path) as img:
+            img = img.convert("RGB")
+            img.save(output_path, "PNG")
+        
+        return True
+    except Exception as e:
+        print(f"Error converting TIFF to PNG: {e}")
+        return False
+
+def display_images_from_folder(request):
+    folder_path = 'C:/Users/Amir/Desktop/tiffFiles'  # Replace with your folder path
+    
+    try:
+        images_data = []
+        
+
+        # Get a list of all files in the folder
+        files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+        imgs = files
+        for file_name in files:
+            # Check if the file is a TIFF file
+            if file_name.lower().endswith('.tiff') or file_name.lower().endswith('.tif'):
+                # Convert TIFF to PNG and save it to a temporary file
+                tiff_path = os.path.join(folder_path, file_name)
+                png_path = os.path.join(folder_path, os.path.splitext(file_name)[0] + '.png')
+                
+                if tiff_to_png(tiff_path, png_path):
+                    # Read the PNG file and convert it to base64
+                    with open(png_path, 'rb') as file:
+                        image_data = base64.b64encode(file.read()).decode('utf-8')
+                        images_data.append(image_data)
+                    
+                    # Remove the temporary PNG file
+                    os.remove(png_path)
+
+        response_data = {
+            'images': images_data,
+            'imgs' : imgs
+        }
+        print(imgs)
+        return JsonResponse(response_data)
+    except Exception as e:
+        # Handle any exceptions or errors here
+        error_message = str(e)
+        response_data = {
+            'error': error_message,
+        }
+        return JsonResponse(response_data, status=500)
+
+
+
+
+
+
+
+
+

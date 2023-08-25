@@ -55,7 +55,15 @@ urlpatterns = [
 
     path('change_password_view/', views.change_password_view, name='change_password_view'),
 
-    path('display_images_pagination/', views.display_images_view, name='display_images')
+    path('display_images_pagination/', views.display_images_view, name='display_images'),
+
+    # Module de scanner 
+
+    path('list_images/', views.display_images_from_folder, name='display_images')
+
+
+
+
 
 ]
 urlpatterns += staticfiles_urlpatterns()

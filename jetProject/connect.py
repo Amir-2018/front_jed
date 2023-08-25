@@ -101,14 +101,19 @@ class Logical :
         elif titre_exists == "2":
             return JsonResponse({'message': 'Titre exists with typfiche=3'})
 
-    # Add a new title
 
-    def ajouter_titre(self,numtitre,gouvtitre,doubtitre,nbpage):
-            insert_query = '''INSERT INTO titres (numtitre, gouvtitre, doubtitre, nbpage) VALUES (%s, %s, %s, %s)'''
-            print(numtitre,gouvtitre,doubtitre,nbpage)
-            cursor = self.conn.cursor()
-            cursor.execute(insert_query, [numtitre, gouvtitre, doubtitre, nbpage])
-            self.conn.commit() 
+    def ajouter_titre(self,numtitre,gouvtitre,doubtitre):
+            test_tfich_exist = self.GetTitreExiste(numtitre, gouvtitre, 0, 9)
+            if(test_tfich_exist =='1') : 
+                print('Existe')
+            else : 
+                print('Not existe')
+           # insert_query = '''INSERT INTO titres (codetitre,numtitre, gouvtitre, doubtitre) VALUES (%s, %s, %s,%s)'''
+           # print(numtitre,gouvtitre,doubtitre,nbpage)
+            #cursor = self.conn.cursor()
+            #print('num = ',get_next_title_code)
+            #cursor.execute(insert_query, [get_next_title_code,numtitre, gouvtitre, doubtitre])
+            #self.conn.commit() 
             return "titre inserted with success"
 
     # Tester l'existance d'un titre dans la table titres de la base de GED
@@ -206,13 +211,15 @@ class Logical :
 
   # ... (other methods)
 
+  
+
     @transaction.atomic
     def import_files_with_codetitre(self, request):
-        if request.method == 'POST' and request.FILES:
+        if request.method == 'POST':
             self.delete_all_files()
             print("Files deleted with success")
-            uploaded_files = request.FILES.getlist('files')
-
+            uploaded_files = request.FILES.getlist('imgs[]')  # Replace 'file_0' with the appropriate key
+            print("Files = ",uploaded_files)
             if 'session_code_titre' not in request.session:
                 return HttpResponse("Session variable session_code_titre is not set")
 
@@ -222,7 +229,7 @@ class Logical :
             existing_images_count = self.get_count(request)  # Replace with your count retrieval function
 
             with self.conn.cursor() as cursor3:
-    # Get the current maximum numpage for the given codetitre
+                # Get the current maximum numpage for the given codetitre
                 cursor3.execute("SELECT MAX(numpage) FROM titresimages WHERE codetitre = %s", [codetitre])
                 max_numpage = cursor3.fetchone()[0]
 
@@ -234,7 +241,7 @@ class Logical :
                     unique_num = self.get_unique_number(cursor3)
 
                     # Create the new filename using unique number and original file name
-                    file_name = f"{unique_num}_{uploaded_file.name}"
+                    file_name = f"{unique_num}_{uploaded_file}"
                     file_path = os.path.join('D:/tempd/', file_name)
 
                     with open(file_path, 'wb') as destination:
@@ -254,8 +261,11 @@ class Logical :
                         return '0'
 
                 return '1'
-
+        print('Not Post request')
         return '0'
+
+
+
 
 # ... (imports and class definition)
 
