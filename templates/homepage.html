@@ -296,13 +296,14 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title text-center" id="exampleModalLabel4">إختر الموقع الذي تريد فيه إضافة الصورة</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_insert"></button>
                     </div>
                     <div class="modal-body">
                       <div class="d-flex flex-wrap justify-content-center" id="myDivBlock">
                         <!-- Repeat this for a total of 10 boxes -->
 
                       </div>
+                      <div id="insert"></div>
                     </div>
                
                   </div>
@@ -339,8 +340,7 @@
 
                  
                    
-                    <li><a href="" class="btn btn-success"><i class="fas fa-trash"></i></a></li>
-                    <li>  <a class="btn btn-success" href=""> <i class="fas fa-redo"></i></a> </li>              
+                    <li onclick="get_images()">  <a class="btn btn-success" > <i class="fas fa-redo"></i></a> </li>              
                   </ul>
                 </div>
                 <div id="over" style="padding: 10px;">
@@ -370,7 +370,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">تحميل الوثائق</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_it"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form enctype="multipart/form-data" id="uploadForm">
@@ -526,7 +526,7 @@
       <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">إضافة رسم عقاري</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
           </div>
 
           <!-- Modal body -->
@@ -1091,6 +1091,21 @@ inputFile.addEventListener("change", () => {
     
     // Call the sendPostRequest function here
     sendPostRequest(i + 1, selectedFile);
+    get_images()
+    var msgDiv = $("#insert");
+    
+    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+
+// Use setTimeout to wait for 2 seconds and then trigger the button click
+setTimeout(function() {
+    var closeButton = document.getElementById('close_insert');
+
+    // Check if the button element exists
+    if (closeButton) {
+        // Trigger a click event on the button
+        closeButton.click();
+    }
+}, 1500); // 2000 milliseconds = 2 seconds
 });
 
 
@@ -1229,7 +1244,7 @@ $(document).ready(function() {
             // Append the Blob object to FormData with the appropriate filename
             formData.append('imgs[]', blob, fileName);
         }
-
+        
         // Append the CSRF token to the FormData
         formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
 
@@ -1244,7 +1259,27 @@ $(document).ready(function() {
             success: function(data) {
                 var msgDiv = $("#msg2");
                 if (data.message === '1') {
-                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+// Set the success message
+msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+
+// Use setTimeout to display the message for 2 seconds
+setTimeout(function() {
+    // Clear the message
+    msgDiv.empty();
+
+    // Click the button with the ID "close_it"
+    var closeButton = document.getElementById('close_it');
+
+    // Check if the button element exists
+    if (closeButton) {
+        // Trigger a click event on the button
+        closeButton.click();
+    }
+}, 1500); // 2000 milliseconds = 2 seconds
+                    get_images()
+                    
+
+
                 } else {
                     msgDiv.html('<div class="alert alert-warning">خطأ في الأضافة</div>');
                 }
