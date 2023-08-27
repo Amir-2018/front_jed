@@ -1,0 +1,1459 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Homepage</title>
+        <style>
+            
+
+            html, body {
+                height: 100%;
+            }
+            .container-fluid {
+                height: 95%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                margin: 0px;
+
+            }
+            .container-fluid .row .col{
+                padding-top: 10px;
+            }
+            .row {
+                height: 100%;
+            }
+            .col {
+                height: 100%;
+            }
+            .create_space{
+                gap: 10px;
+            }
+            .cntr1{
+                margin-top: 10px;
+            }
+            
+          .btnlock{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+          }
+           .pages{
+            width: 20%;
+            position: relative;
+            left: 33%;
+           
+           }
+           .pages >ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            gap: 10px;
+
+           }
+           .pages >ul >li{
+            list-style: none;
+            color: white;
+           }
+
+           .grid-container {
+
+  display: grid;
+  grid-template-columns: 7% 73% auto;
+  gap: 2px;
+  padding: 10px;
+  position: relative;
+  top: 60px;
+  
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: px;
+  height: 98vh;
+  border: 1px solid black;
+
+}
+.grid-container > div >ul >li{
+    list-style: none;
+    margin: 10px;
+}
+.grid-container > div >ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-right: 30px;
+   
+}
+.table tr td{
+    padding: 2px ;
+   
+}
+.table tr td span{
+    font-size: 15px ;
+   
+}
+.tab1{
+    border: 1px solid black;
+    width: 95%;
+    height: 20%;
+    position: relative;
+    top: 5px;
+    left: 8px;
+
+}
+.tab2{
+    position: relative;
+    top: 15px;
+}
+
+.tab3 {
+    position: relative;
+    top: 15px;
+    padding: 5px;
+}
+
+
+.add{
+    width: 80%;
+    transform: translate(13%);
+    font-size: 15px;
+    padding: 5px;
+    color: white;
+    background-color: #212529;
+}
+.loading{
+    color: green;
+    text-align: center;
+    font-size: 30px;
+}
+
+#checkTitleButton:hover{
+    transform: scale(1.1);
+}
+#bt{
+    transform: scale(1.1);
+}
+#images_db {
+    overflow: hidden;
+}
+#images_db >img{
+    width: 100%;
+    height: 80vh;
+}
+#over{
+    overflow: scroll;
+}
+
+.zoom-1 {
+    transform: scale(1.1);
+}
+
+.zoom-2 {
+    transform: scale(1.2);
+}
+.box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+  .box:hover {
+    background-color: lightcyan;
+  }
+
+  .box.clicked {
+    animation: bounce 0.5s;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-20px);
+    }
+    60% {
+      transform: translateY(-10px);
+    }
+  }
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 120px;
+  }
+
+  .modal-title::before,
+  .modal-title::after {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background-color: #3498db; /* You can change the color */
+    vertical-align: middle;
+    margin: 0 10px;
+  } 
+.page-item{
+    cursor: pointer;
+}
+/* Styles pour les cadres d'image */
+.image-container {
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-shadow: 0px 0px 5px #888;
+}
+
+/* Styles pour les images à l'intérieur des cadres */
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
+.small-image {
+    width: 100px; /* Largeur de l'image */
+    height: 100px; /* Hauteur de l'image */
+    margin-right: 10px; /* Marge entre les images (ajustez selon vos besoins) */
+}
+
+
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    .modal-title {
+      font-size: 20px;
+    }
+  }
+  .title-box {
+    display: inline-block;
+    padding: 5px 5px;
+    background-color: #212529;
+    border: 2px solid #212529;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    width: 70%;
+}
+
+.title-text {
+    font-weight: bold;
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.div-activate {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+
+.add {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+.pagination {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#bt{
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#header{
+    background-color: #198754;
+}
+.navbar ul li a{
+    font-family: sans-serif;
+    color: white;
+    font-size: 18px;
+}
+
+
+/* Add more classes for different zoom levels */
+
+
+        </style>
+        <script>
+
+        </script>
+    </head>
+    <body>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Navbar Example</title>
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+            <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+          
+            <!-- Google Fonts -->
+            
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+          
+            <!-- Vendor CSS Files -->
+            <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/aos/aos.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css '%}" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Template Main CSS File -->
+            <link href="{% static 'assets/css/main.css '%}" rel="stylesheet">
+
+        </head>
+        <body>
+            <header id="header" class="header d-flex align-items-center">
+
+                <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+                  <a href="/index" class="logo d-flex align-items-center" style="position: absolute; right: 0px;;">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1>ادارة الملكية العقارية</h1>
+                  </a>
+                  <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a href="/logout">  خروج </a></li>
+
+                        <!-- <li><a href="/get_list_gouv">  إدارة الرسوم العقارية    </a></li> -->
+
+                      <li><a href="/mdfPass"> تغيير كلمة العبور</a></li>
+                      <!-- <li><a href="/get_dash" data-bs-toggle="modal" data-bs-target="#updateUserModal">الموظفين</a></li> -->
+
+
+
+
+                      
+
+            
+                    
+                    </ul>
+                  </nav><!-- .navbar -->
+            
+                  <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+                  <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+            
+                </div>
+              </header><!-- End Header -->
+
+            <!-- ////////////////////////////////////////////// -->
+
+            <!-- ////////////////////////////////////////////// -->
+            <div class="modal fade" id="myModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-center" id="exampleModalLabel4">إختر الموقع الذي تريد فيه إضافة الصورة</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_insert"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="d-flex flex-wrap justify-content-center" id="myDivBlock">
+                        <!-- Repeat this for a total of 10 boxes -->
+
+                      </div>
+                      <div id="insert"></div>
+                    </div>
+               
+                  </div>
+                </div>
+              </div>
+              
+              
+              </div>
+              <br>
+
+
+  
+            <div class="grid-container">
+                <div >
+
+                    <ul class="div-activate" >
+                    <!-- <li class="btn btn-success" > -->
+                    <!-- <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" onclick="get_images_from_folder();"></i> 
+
+
+                    </a></li> -->
+                    <!-- <li onclick="deleteImage()" id="deleteBtn"><a  class="btn btn-success"><i class="fas fa-pen"></i> -->
+
+                    </a></li>
+                    <li onclick="zoom()"><a  class="btn btn-success"><i class="fas fa-search-plus"></i>
+
+                    </a></li>
+                    <li onclick="zoomOut()"><a  class="btn btn-success"><i class="fas fa-search-minus"></i>
+
+                    </a></li>
+                    <!-- <li onclick="get_count()" data-bs-toggle="modal" data-bs-target="#myModal4"><a  class="btn btn-success"><i class="fas fa-download"></i> -->
+
+                    </a></li>
+
+                 
+                   
+                    <li onclick="get_images()">  <a class="btn btn-success" > <i class="fas fa-redo"></i></a> </li>              
+                  </ul>
+                </div>
+                <div id="over" style="padding: 10px;">
+                    <div aria-label="Pagination" id="nav-items">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" id="myLinkP">
+                                    <!-- <a class="page-link" href="#" tabindex="-1" aria-disabled="true" onclick="get_images_back()">السابق</a> -->
+                            </li>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#" style="background-color: #198754; color: white; border: 1px solid #198754;"><span id="num1"></span> / <span id="num2"></span></a>
+                            </li>
+                            <li class="page-item" id="myLink">
+                                <a class="page-link" onclick="get_images_plus()"><i class="fas fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- <h1>Page test</h1> -->
+                    <h5 id="msg" class="mt-2"></h5>
+                    <h1>{{response_data}}</h1>
+                    <div id="images_db" >
+
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">تحميل الوثائق</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_it"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data" id="uploadForm">
+                                        <div class="mb-3">
+                                            <label for="fileInput" class="form-label">إدراج أكثر من وثيقة</label>
+                                            <!-- <input type="file" class="form-control" id="fileInput" name="files" multiple> -->
+                                        </div>
+                                       
+                                        <div id="msg2"></div>
+                                        
+                                        <div id="msgCade">
+                                            <div class="image-grid" id="imageGrid"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">غلق</button>
+                                            <button type="button" class="btn btn-primary" id="uploadButton">تحميل</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <h1>{{response_data}}</h1>
+
+
+
+                </div>
+                <div class="droit_div">
+
+                    <!-- <a href="#img6">go to link 6 </a> -->
+                    <div class="title-box">
+                        يومية الترسيم
+                    </div>
+                        <table style="font-size: 12px;" class="tab1">
+                            <tr>
+                                <td ><a id="checkTitleButton" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;"><i class="fas fa-search" ></i>
+                                </a></td>
+                                <td><input type="text" class="form-control" style="font-size: 10px;" name="numtitre" id="numtitre"></td>
+                                <td><span style="font-size: 10px;">الرسم العقاري</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href=""  style="padding: 5px 10px; font-size: 10px;"></a></td>
+                                <td>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitre" id="gouvtitre">
+                                        {% for item in gouv_list %}
+                                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td><span style="font-size: 10px;">الولاية</span></td>
+                            </tr>
+                            <tr>
+                                <td><a id="bt" href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;" data-bs-toggle="modal" data-bs-target="#myModal"></a></td>
+                                <td>
+                                    
+                                        <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitre" id="doubtitre">
+                                                <option value="0"></option>
+                                                <option value="1">مكرر</option>
+                                                <option value="2">مثلث</option>
+    
+                                        </select>
+                                
+                                </td>
+                                <td><span style="font-size: 10px;">مكرر </span></td>
+                            </tr>
+                           
+                           
+                        </table>
+                  
+                    <br>
+                    <div class="add" id="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" style="text-align: center;">
+                        <button id="goToImageBtn" class="btn btn-success" style="margin-top: 10px;"><i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
+                    
+<!--                     
+                    <table style="font-size: 12px; overflow:scroll;" class="tab1 tab3">
+                        <tr>
+                            
+                            <th><span style="font-size: 10px;">ص</span></th>
+
+                            <th><span style="font-size: 10px;"> نوع العملية</span></th>
+
+                            <th><span style="font-size: 10px;">العدد</span></th>
+                            <th><span style="font-size: 10px;">التاريخ</span></th>
+
+                            <th><span>المجلد</span></a></th>
+                            <th>الايداع</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                     
+                        
+                        
+                      
+                    </table> -->
+                </div>  
+              
+              </div>
+
+              <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+              <script src="{% static 'assets/vendor/aos/aos.js '%}"></script>
+              <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js '%}"></script>
+              <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/php-email-form/validate.js '%}"></script>
+            
+              <!-- Template Main JS File -->
+              <script src="{% static 'assets/js/main.js '%}"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>       
+         </body>
+        </html>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">إضافة رسم عقاري</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="container mt-5">
+                <form >   
+
+             
+                    <div class="mb-3">
+                        <label for="numtitre" class="form-label">الولاية</label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitr" >
+                            {% for item in gouv_list %}
+                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-3"></div>
+                            <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitr" id="doubtitr">
+                                <option value="0"></option>
+                                <option value="1">مكرر</option>
+                                <option value="2">مثلث</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addtitle">إضافة</button>
+                      </div>
+                </form>
+
+
+         
+          <!-- Modal footer -->
+          
+<!-- Modal -->
+      
+          
+        </div>
+      </div>
+    </div>
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>    
+
+
+
+
+
+var clickedImageId; // Global variable to store the clicked image ID
+
+function get_images() {
+    localStorage.setItem('posFrom', 1);
+    localStorage.setItem('posTo', 10);
+    var myLink = $("#myLink");
+    myLink.removeClass('disabled');
+    localStorage.setItem('Goto', '10');
+
+
+    // Display a loading indicator while waiting for images
+    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
+    
+    return new Promise(function(resolve, reject) {
+
+    $.ajax({
+        type: "GET",
+        url: "/display_images/",
+        success: function(data) {
+
+            if (data.images.length < 10) {
+
+            // Comparez les valeurs
+                // Les valeurs sont égales, exécutez le code
+                var myLink = $("#myLink");
+                myLink.addClass('disabled');
+                localStorage.setItem('posFrom', 1);
+                localStorage.setItem('posTo', 10);
+            
+                localStorage.setItem('countImage', '0');
+
+                // Get references to the div elements
+                var num1Element = document.getElementById('num1');
+                var num2Element = document.getElementById('num2');
+                
+
+                // Update the content of the div elements
+                num1Element.textContent = data.images.length ; 
+                num2Element.textContent = data.count ; 
+            }else{
+                // Define the local storage 
+
+                localStorage.setItem('countImage', '10');
+                var num1Element = document.getElementById('num1');
+                var num2Element = document.getElementById('num2');
+               
+                num1Element.textContent = 10 ; 
+
+                // Update the content of the div elements
+                num2Element.textContent = data.count;
+               
+
+            }
+    var msgDiv = $("#msg");
+    var myModal2 = $("#myModal2");
+
+    if (data.message === '0') {
+        msgDiv.html('<div class="alert alert-warning">No such files here</div>');
+    } else if (data.message === '1') {
+        msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+    } else {
+        msgDiv.html('');
+    }
+
+    myModal2.modal('hide'); // Hide the modal
+
+    var imagesArray = data.images;
+    var imagesContainer = $("#images_db");
+    imagesContainer.empty(); // Clear existing images
+
+    // Iterate through the array of image data
+    imagesArray.forEach(function(imageData, index) {
+        // Create an <img> element and set its src attribute to the image data
+        var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+        // Set a unique ID for each image based on the index
+        img.attr("id", "img" + (index + 1));
+        img.addClass("zoomable");
+
+        // Append the <img> element to the #images_db div
+        imagesContainer.append(img);
+        img.on("click", function() {
+            var imageId = this.id;
+            console.log("Clicked on image with ID: " + imageId);
+            clickedImageId = imageId; // Save the clicked image ID
+            // Remove red border from all images
+            $(".zoomable").css("border", "none");
+            
+            // Add red border to the clicked image
+            $(this).css("border", "5px solid green");
+
+
+        });
+    });
+    // console.log(imageData)
+    resolve(); // Resolve the Promise when images are loaded
+
+},
+        error: function(error) {
+            console.error("Error:", error);
+            reject(error); // Reject the Promise if there's an error
+
+        }
+    });
+});
+}
+
+localStorage.setItem('posFrom', 1);
+localStorage.setItem('posTo', 10);
+
+var link = document.getElementById('myLink');
+
+// Add a class to the element
+link.classList.remove('disabled');
+
+var link = document.getElementById('myLinkP');
+
+// Add a class to the element
+link.classList.add('disabled');
+var imagesContainer = $("#images_db");
+
+localStorage.setItem('Goto', '10');
+
+function get_images_plus() {
+
+    var link = document.getElementById('myLinkP');
+    // Add a class to the element
+    link.classList.remove('disabled');
+    var posFromStr = localStorage.getItem('posFrom');
+    var posFrom = parseInt(posFromStr);
+    posFrom = posFrom + 10;
+
+    var posToStr = localStorage.getItem('posTo');
+    var posTo = parseInt(posToStr);
+    posTo = posTo + 10;
+
+    // Update the localstorage 
+    localStorage.setItem('posFrom', posFrom); // Set posTo to a new value, e.g., 20
+    localStorage.setItem('posTo', posTo); // Set posTo to a new value, e.g., 20
+
+
+    console.log('this1 = ' + posFrom);
+    console.log('this2 = ' + posTo);
+
+    $.ajax({
+        type: "POST",
+        url: "/display_images_pagination/",
+        data: {
+            "posFrom": posFrom,
+            "posTo": posTo
+        },
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (data) {
+
+            console.log("data = " + data[0]);
+
+            var myModal2 = $("#myModal2");
+
+            myModal2.modal('hide'); // Hide the modal
+
+            var imagesArray = data.images;
+            console.log(imagesArray.length)
+            var retrievedValue = localStorage.getItem('Goto');
+            var Goto = parseInt(retrievedValue);
+
+            // Iterate through the array of image data
+            imagesArray.forEach(function (imageData, index) {
+                // Create an <img> element and set its src attribute to the image data
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+                console.log('image')
+                // Set a unique ID for each image based on the index
+                img.attr("id", "img" + (index + 1+Goto));
+                img.addClass("zoomable");
+
+                // Append the <img> element to the #images_db div
+
+                imagesContainer.append(img);
+                img.on("click", function () {
+                    var imageId = this.id;
+                    console.log("Clicked on image with ID: " + imageId);
+                    clickedImageId = imageId; // Save the clicked image ID
+                    // Remove red border from all images
+                    $(".zoomable").css("border", "none");
+
+                    // Add red border to the clicked image
+                    $(this).css("border", "5px solid green");
+                });
+            });
+            Goto +=10
+            localStorage.setItem('Goto', Goto);
+
+            // if(posFrom==1){
+            //     var link = document.getElementById('myLink');
+                
+            //     // Add a class to the element
+            //     link.classList.add('disabled');
+            // }
+            if(imagesArray.length <10){
+                document.getElementById('num1').textContent = data.count ; 
+                // Get the element by its ID
+                var link = document.getElementById('myLink');
+
+                // Add a class to the element
+                link.classList.add('disabled');
+                localStorage.setItem('Goto', '10');
+
+            }else{
+                document.getElementById('num1').textContent = posTo ; 
+
+            }
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+// Récupérez les valeurs des span avec les IDs num1 et num2
+
+
+function get_images_back() {
+
+    var posFromStr = localStorage.getItem('posFrom');
+    var posFrom = parseInt(posFromStr);
+    posFrom = posFrom - 10;
+
+    var posToStr = localStorage.getItem('posTo');
+    var posTo = parseInt(posToStr);
+    posTo = posTo - 10;
+
+    // Update the localstorage 
+    localStorage.setItem('posFrom', posFrom); // Set posTo to a new value, e.g., 20
+    localStorage.setItem('posTo', posTo); // Set posTo to a new value, e.g., 20
+
+
+    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
+    console.log('posFrom = ' + posFrom);
+    console.log('posTo = ' + posTo);
+
+    $.ajax({
+        type: "POST",
+        url: "/display_images_pagination/",
+        data: {
+            "posFrom": posFrom,
+            "posTo": posTo
+        },
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (data) {
+
+            console.log("data = " + data[0]);
+
+            var myModal2 = $("#myModal2");
+
+            myModal2.modal('hide'); // Hide the modal
+
+            var imagesArray = data.images;
+            console.log(imagesArray.length)
+            var imagesContainer = $("#images_db");
+            // imagesContainer.empty(); // Clear existing images
+            print("test = "+ imagesArray.length)
+            // Iterate through the array of image data
+            imagesArray.forEach(function (imageData, index) {
+                // Create an <img> element and set its src attribute to the image data
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+                console.log('image')
+                // Set a unique ID for each image based on the index
+                img.attr("id", "img" + (index + 1));
+                img.addClass("zoomable");
+
+                // Append the <img> element to the #images_db div
+                imagesContainer.append(img);
+                img.on("click", function () {
+                    var imageId = this.id;
+                    console.log("Clicked on image with ID: " + imageId);
+                    clickedImageId = imageId; // Save the clicked image ID
+                    // Remove red border from all images
+                    $(".zoomable").css("border", "none");
+
+                    // Add red border to the clicked image
+                    $(this).css("border", "5px solid green");
+                });
+            });
+            console.log('posFrom = '+posFrom)
+            if(posFrom==1){
+                var link = document.getElementById('myLinkP');
+                // Add a class to the element
+                link.classList.add('disabled');
+                document.getElementById('num1').textContent = 10 ; 
+
+            }else{
+                document.getElementById('num1').textContent = posTo ; 
+
+            }
+
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+
+// Delete selected title 
+function deleteImage() {
+    if (clickedImageId) {
+        var targetImage = $("#" + clickedImageId);
+        
+        if (targetImage.length) {
+            var match = clickedImageId.match(/img(\d+)/);
+
+            if (match && match[1]) {
+                var prefixValue = parseInt(match[1]);
+                console.log("This is your value: " + prefixValue);
+
+                var confirmDelete = confirm("Are you sure you want to delete the selected image? " + prefixValue);
+                if (confirmDelete) {
+                    // Send an AJAX request to the server to delete the image
+                    $.ajax({
+                        type: "POST",  // Use the appropriate HTTP method
+                        url: "/find_dell/",  // Replace with the actual URL for deleting images
+                        data: {prefix_value: prefixValue},
+                        headers: {  
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        success: function(response) {
+                            console.log(response.res)
+                            if (response.res == true) {
+                                targetImage.remove();
+                                alert("Image deleted with success");
+                                clickedImageId = null;  // Clear the clickedImageId
+                                get_images() ; 
+                            } else {
+                                alert("Image deletion failed.");
+                            }
+                        },
+                        error: function(error) {
+                            console.error("Error:", error);
+                        }
+                    });
+                }
+            } else {
+                console.error("Invalid clickedImageId format: " + clickedImageId);
+                // Handle the error here, e.g., show an error message to the user
+            }
+        }
+    }
+}
+
+
+
+var add = $('#add')
+add.hide()
+ $(document).ready(async function() {
+ $('.div-activate').hide();
+ $('.pages').hide();
+ $('#nav-items').hide();
+ $('#msg').text("وثائق السجل العقاري");
+ var bt = $("#bt");
+  bt.hide()
+  $('#checkTitleButton').on('click', function() {
+    var numtitre = $('#numtitre').val();
+    var gouvtitre = $('#gouvtitre').val();
+    var doubtitre = $('#doubtitre').val();
+
+    $.ajax({
+      type: 'POST',
+      url: '/test_exist_in_tfich/',  // Mettez à jour cette URL avec l'URL réelle
+      data: {
+        numtitre: numtitre,
+        gouvtitre: gouvtitre,
+        doubtitre: doubtitre,
+      },
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      success: function(response) {
+        // Display the JSON response on the HTML page
+
+        var responseContainer = $('#responseContainer');
+        responseContainer.html(JSON.stringify(response));
+
+        // Contrôler l'affichage du div en fonction de la réponse
+        var divToToggle = $('.div-activate');
+        var pageToToggle = $('.pages');
+        var nav_items = $('#nav-items')
+        console.log(response.msg.response_data)
+        if (response.msg.response_data === '0') {
+           
+        // Show the message 
+          $("#msg").html('<div class="alert alert-danger">الرسم العقاري غير موجود في قاعدة البيانات الأصلية</div>');
+          var imagesContainer = $("#images_db");
+          imagesContainer.empty(); // Clear existing images
+          divToToggle.hide(); // Masquer le div
+          pageToToggle.hide(); // Masquer le div    
+          nav_items.hide()
+          bt.hide()
+          add.hide()
+
+        } else if (response.msg.response_data === '1') {
+         $('#msg').text("");
+          
+          get_images().then(function() {
+    // Execute nav_items.show() after a 2-second delay
+          nav_items.show();
+          divToToggle.show(); // Afficher le div
+          pageToToggle.show()
+          bt.hide()
+          add.show()
+
+   
+});
+   
+
+          
+        }else if(response.msg.response_data === '2'){
+            $("#msg").html('<div class="alert alert-success">    الرسم العقاري  موجود في قاعدة البيانات الأصلية يمكنك اضافة رسم جديد   </div>');
+            var imagesContainer = $("#images_db");
+
+            imagesContainer.empty(); // Clear existing images
+          divToToggle.hide(); // Masquer le div
+          pageToToggle.hide(); // Masquer le div    
+          nav_items.hide()
+          bt.show()
+          add.hide()
+
+
+
+        }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        // Gérer l'erreur ici
+        console.error('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+});
+
+
+
+
+
+
+
+// test function 
+
+////////////
+
+
+
+
+$(document).ready(function() {
+    $("#addtitle").on("click", function() {
+        var gouvtitre = $("select[name='gouvtitr']").val();
+        var doubtitre = $("select[name='doubtitr']").val();
+
+        var postData = {
+            'gouvtitre': gouvtitre,
+            'doubtitre': doubtitre,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/ajouter_titre/",
+            data: postData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            success: function(data) {
+                var msgDiv = $("#msg");
+                if (data.msg === '1') {
+                    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+                } else if (data.msg === '0') {
+                    msgDiv.html('<div class="alert alert-danger">الرّسم العقاري غير موجود في قاعدة البيانات الأصلية</div>');
+                } else {
+                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافةe</div>');
+                }
+                
+                // Fade in the message with animation
+                msgDiv.fadeIn();
+
+                // Automatically fade out and remove the message after 2 seconds
+                setTimeout(function() {
+                    msgDiv.fadeOut(function() {
+                        msgDiv.empty(); // Clear the content after fading out
+                    });
+                }, 2000); // 2000 milliseconds = 2 seconds
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+
+        });
+    });
+});
+
+
+function get_count() {
+    fetch('/get_count/')
+        .then(response => response.json())
+        .then(data => {
+            const myDivBlock = document.getElementById("myDivBlock");
+
+            // Delete existing content
+            while (myDivBlock.firstChild) {
+                myDivBlock.removeChild(myDivBlock.firstChild);
+            }
+            // Insert new boxes with input elements
+            for (let i = 0; i < data.num; i++) {
+                const box = document.createElement("div");
+                box.classList.add("box");
+
+                const boxNumber = document.createElement("span");
+                boxNumber.textContent = i + 1;
+                box.appendChild(boxNumber);
+
+                const inputFile = document.createElement("input");
+                inputFile.setAttribute("type", "file");
+                inputFile.setAttribute("name", "files"); // Set the name attribute as needed
+                inputFile.style.display = "none"; // Hide the input element
+
+                // Assign unique ID to each box
+                box.setAttribute("id", `pos${i + 1}`);
+
+                box.appendChild(inputFile);
+
+                // Add click event to the box
+             // ... your other code ...
+             box.addEventListener("click", (event) => {
+    event.stopPropagation();
+    
+    console.log(`Box ${i + 1} clicked`);
+    
+    // Trigger the file input when the box is clicked
+    inputFile.click();
+});
+
+inputFile.addEventListener("change", () => {
+    console.log(`Change event triggered for box ${i + 1}`);
+    
+    const selectedFile = inputFile.files[0];
+    console.log(`File selected for box ${i + 1}:`, selectedFile.name);
+    
+    // Call the sendPostRequest function here
+    sendPostRequest(i + 1, selectedFile);
+    get_images()
+    var msgDiv = $("#insert");
+    
+    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+
+// Use setTimeout to wait for 2 seconds and then trigger the button click
+setTimeout(function() {
+    var closeButton = document.getElementById('close_insert');
+    get_images()
+    // Check if the button element exists
+    if (closeButton) {
+        // Trigger a click event on the button
+
+        closeButton.click();
+    }
+}, 1500); // 2000 milliseconds = 2 seconds
+});
+
+
+
+// ... your other code ...
+
+
+                myDivBlock.appendChild(box);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+const requestQueue = [];  // Initialize an empty queue
+
+function sendPostRequest(desiredPosition, file) {
+    requestQueue.push({ desiredPosition, file });  // Add the request to the queue
+
+    if (requestQueue.length === 1) {
+        // If this is the only request in the queue, process it immediately
+        processNextRequest();
+    }
+}
+
+function processNextRequest() {
+    if (requestQueue.length === 0) {
+        return;  // No more requests in the queue
+    }
+
+    const { desiredPosition, file } = requestQueue[0];  // Get the first request
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('desired_position', desiredPosition);
+
+    fetch('/insert_record/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.text())
+    .then(data => {
+        const jsonData = JSON.parse(data);
+        if (jsonData.res === "1") {
+            console.log('Record inserted successfully');
+        } else {
+            console.error('Failed to insert record');
+        }
+
+        requestQueue.shift();  // Remove the processed request from the queue
+        processNextRequest();  // Process the next request in the queue
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+
+        requestQueue.shift();  // Remove the processed request from the queue
+        processNextRequest();  // Process the next request in the queue
+    });
+}
+
+
+// work on pagination 
+
+
+
+
+
+var csrfToken = $('body').data('csrf-token');
+var imgs = [];
+var images_data = [];
+
+function get_images_from_folder(callback) {
+    $.ajax({
+        type: "GET",
+        url: "/list_images/",
+        headers: {
+            "X-CSRFToken": csrfToken
+        },
+        success: function(data) {
+            var imagesArray = data.images;
+            var imageGrid = $("#imageGrid");
+            imageGrid.empty(); // Clear the old images
+            
+            imgs = data.imgs; // Assign the image filenames to the imgs array
+
+            imagesArray.forEach(function(imageData, index) {
+                // Create a container for each image
+                var imageContainer = $("<div>").addClass("image-container");
+
+                // Create an image element and set its src attribute
+                var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+
+                img.addClass("small-image"); // Make sure this line is present
+
+                // Add the image to its container
+                imageContainer.append(img);
+
+                // Add the image container to the grid
+                imageGrid.append(imageContainer);
+
+                // Add the image data to the images_data array
+                images_data.push(imageData);
+            });
+
+            // Pass the selected images to the callback function
+            if (typeof callback === "function") {
+                callback(imagesArray);
+            }
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $("#uploadButton").on("click", function() {
+        var formData = new FormData(); // Create a FormData object
+
+        for (var i = 0; i < imgs.length; i++) {
+            var fileName = imgs[i]; // Get the filename
+            var imageContent = images_data[i]; // Get the base64-encoded image content
+
+            // Convert the base64-encoded image content back to a Blob
+            var byteCharacters = atob(imageContent);
+            var byteNumbers = new Array(byteCharacters.length);
+            for (var j = 0; j < byteCharacters.length; j++) {
+                byteNumbers[j] = byteCharacters.charCodeAt(j);
+            }
+            var byteArray = new Uint8Array(byteNumbers);
+            var blob = new Blob([byteArray], { type: 'image/png' }); // Assuming the images are in PNG format
+
+            // Append the Blob object to FormData with the appropriate filename
+            formData.append('imgs[]', blob, fileName);
+        }
+        
+        // Append the CSRF token to the FormData
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        $.ajax({
+            type: "POST",
+            url: "/import_files_with_codetitre/",
+            data: formData, // Use the FormData object
+            processData: false,
+            contentType: false,
+            dataType: 'json', // Add this line to ensure proper JSON parsing of the response
+
+            success: function(data) {
+                var msgDiv = $("#msg2");
+                if (data.message === '1') {
+// Set the success message
+msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+
+// Use setTimeout to display the message for 2 seconds
+setTimeout(function() {
+    // Clear the message
+    msgDiv.empty();
+
+    // Click the button with the ID "close_it"
+    var closeButton = document.getElementById('close_it');
+
+    // Check if the button element exists
+    if (closeButton) {
+        // Trigger a click event on the button
+        closeButton.click();
+    }
+}, 1500); // 2000 milliseconds = 2 seconds
+                    get_images()
+                    
+
+
+                } else {
+                    msgDiv.html('<div class="alert alert-warning">خطأ في الأضافة</div>');
+                }
+
+                // Fade in the message with animation
+                msgDiv.fadeIn();
+
+                // Automatically fade out and remove the message after 2 seconds
+                setTimeout(function() {
+                    msgDiv.fadeOut(function() {
+                        msgDiv.empty(); // Clear the content after fading out
+                    });
+                }, 2000); // 2000 milliseconds = 2 seconds
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+// Get a reference to the button element by its ID
+var sendTestButton = document.getElementById("sendTest");
+
+// Add a click event listener to the button
+sendTestButton.addEventListener("click", function(event) {
+    // Prevent the default form submission behavior (which includes refreshing the page)
+    event.preventDefault();
+   
+    // Code to execute when the button is clicked
+});
+
+
+
+</script>
+<!-- Add Bootstrap JS scripts (Popper.js and Bootstrap JS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="{% static 'js/test.js'%}"></script>
+
+
+    </body>
+</html>

@@ -59,7 +59,14 @@ urlpatterns = [
 
     # Module de scanner 
 
-    path('list_images/', views.display_images_from_folder, name='display_images')
+    path('list_images/', views.display_images_from_folder, name='display_images'),
+    path('logout/', views.Logout),
+    path('simple_user/', views.simple_user),
+    path('mdfPass/', views.mdfPass)
+
+
+
+
 
 
 

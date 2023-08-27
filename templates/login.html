@@ -212,11 +212,11 @@ $(document).ready(function() {
             success: function(data) {
             
     if (data.res === '1') {
-        // User found, redirect to another page or do something
-        // Display a success alert
-        window.location.href = "/get_dash"; // Redirect to "/get_dash"
-
-
+      console.log('role='+data.role)
+      if(data.role =='1')
+          window.location.href = "/get_dash/?page=1"; // Redirect to "/get_dash"
+      else
+          window.location.href = "/simple_user"; // Redirect to "/get_dash"
         // Automatically hide the success alert after 1500 milliseconds (1.5 seconds)
         setTimeout(function() {
             $('#success-alert').html(''); // Clear the success alert

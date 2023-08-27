@@ -1,0 +1,539 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Homepage</title>
+        <style>
+            
+
+            html, body {
+                height: 100%;
+            }
+            .container-fluid {
+                height: 95%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                margin: 0px;
+
+            }
+            .container-fluid .row .col{
+                padding-top: 10px;
+            }
+            .row {
+                height: 100%;
+            }
+            .col {
+                height: 100%;
+            }
+            .create_space{
+                gap: 10px;
+            }
+            .cntr1{
+                margin-top: 10px;
+            }
+            
+          .btnlock{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+          }
+           .pages{
+            width: 20%;
+            position: relative;
+            left: 33%;
+           
+           }
+           .pages >ul{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            gap: 10px;
+
+           }
+           .pages >ul >li{
+            list-style: none;
+            color: white;
+           }
+
+           .grid-container {
+
+  display: grid;
+  grid-template-columns: 7% 73% auto;
+  gap: 2px;
+  padding: 10px;
+  position: relative;
+  top: 60px;
+  
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: px;
+  height: 98vh;
+  border: 1px solid black;
+
+}
+.grid-container > div >ul >li{
+    list-style: none;
+    margin: 10px;
+}
+.grid-container > div >ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-right: 30px;
+   
+}
+.table tr td{
+    padding: 2px ;
+   
+}
+.table tr td span{
+    font-size: 15px ;
+   
+}
+.tab1{
+    border: 1px solid black;
+    width: 95%;
+    height: 20%;
+    position: relative;
+    top: 5px;
+    left: 8px;
+
+}
+.tab2{
+    position: relative;
+    top: 15px;
+}
+
+.tab3 {
+    position: relative;
+    top: 15px;
+    padding: 5px;
+}
+
+
+.add{
+    width: 80%;
+    transform: translate(13%);
+    font-size: 15px;
+    padding: 5px;
+    color: white;
+    background-color: #212529;
+}
+.loading{
+    color: green;
+    text-align: center;
+    font-size: 30px;
+}
+
+#checkTitleButton:hover{
+    transform: scale(1.1);
+}
+#bt{
+    transform: scale(1.1);
+}
+#images_db {
+    overflow: hidden;
+}
+#images_db >img{
+    width: 100%;
+    height: 80vh;
+}
+#over{
+    overflow: scroll;
+}
+
+.zoom-1 {
+    transform: scale(1.1);
+}
+
+.zoom-2 {
+    transform: scale(1.2);
+}
+.box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+  .box:hover {
+    background-color: lightcyan;
+  }
+
+  .box.clicked {
+    animation: bounce 0.5s;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-20px);
+    }
+    60% {
+      transform: translateY(-10px);
+    }
+  }
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 120px;
+  }
+
+  .modal-title::before,
+  .modal-title::after {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background-color: #3498db; /* You can change the color */
+    vertical-align: middle;
+    margin: 0 10px;
+  } 
+.page-item{
+    cursor: pointer;
+}
+/* Styles pour les cadres d'image */
+.image-container {
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-shadow: 0px 0px 5px #888;
+}
+
+/* Styles pour les images à l'intérieur des cadres */
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
+.small-image {
+    width: 100px; /* Largeur de l'image */
+    height: 100px; /* Hauteur de l'image */
+    margin-right: 10px; /* Marge entre les images (ajustez selon vos besoins) */
+}
+
+
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    .modal-title {
+      font-size: 20px;
+    }
+  }
+  .title-box {
+    display: inline-block;
+    padding: 5px 5px;
+    background-color: #212529;
+    border: 2px solid #212529;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    width: 70%;
+}
+
+.title-text {
+    font-weight: bold;
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.div-activate {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+
+.add {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+.pagination {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#bt{
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#header{
+    background-color: #198754;
+}
+.navbar ul li a{
+    font-family: sans-serif;
+    color: white;
+    font-size: 18px;
+}
+#CahngePass{
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+/* Add more classes for different zoom levels */
+
+
+        </style>
+        <script>
+
+        </script>
+    </head>
+    <body>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Navbar Example</title>
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+            <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+          
+            <!-- Google Fonts -->
+            
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+          
+            <!-- Vendor CSS Files -->
+            <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/aos/aos.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css '%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css '%}" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Template Main CSS File -->
+            <link href="{% static 'assets/css/main.css '%}" rel="stylesheet">
+
+        </head>
+        <body>
+            <header id="header" class="header d-flex align-items-center">
+
+                <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+                  <a href="/index" class="logo d-flex align-items-center" style="position: absolute; right: 0px;;">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1>ادارة الملكية العقارية</h1>
+                  </a>
+                  <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a href="/logout">  خروج </a></li>
+
+                        <!-- <li><a href="/get_list_gouv">  إدارة الرسوم العقارية    </a></li> -->
+
+                      <li><a href="/changepass"> تغيير كلمة العبور</a></li>
+                      <!-- <li><a href="/get_dash" data-bs-toggle="modal" data-bs-target="#updateUserModal">الموظفين</a></li> -->
+
+
+
+
+                      
+
+            
+                    
+                    </ul>
+                  </nav><!-- .navbar -->
+            
+                  
+            
+                </div>
+              </header><!-- End Header -->
+
+
+              <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+              <script src="{% static 'assets/vendor/aos/aos.js '%}"></script>
+              <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js '%}"></script>
+              <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js '%}"></script>
+              <script src="{% static 'assets/vendor/php-email-form/validate.js '%}"></script>
+            
+              <!-- Template Main JS File -->
+              <script src="{% static 'assets/js/main.js '%}"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>       
+            <section id="about" class="about">
+
+                <form id="CahngePass" >
+             
+                  <div class="mb-3">
+                      <label for="username" class="form-label">كلمة العبور القديمة </label>
+                      <input type="password" class="form-control" id="old" name="old" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="password" class="form-label ">كلمة العبور الجديدة  </label>
+                      <input type="password" class="form-control" id="new" name="new" required>
+                  </div>
+                  <div class="text-center"> 
+                      <button type="reset" class="btn btn-warning"> إلغاء</button>
+                      <button type="submit" class="btn btn-primary" id="ChangePassForm">موافق</button>
+          
+          
+                  </div>
+                  <br>
+                
+              </form>
+              <div id="msg2"></div>
+           
+          
+              </section><!-- End About Section -->
+         </body>
+        </html>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">إضافة رسم عقاري</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="container mt-5">
+                <form >   
+
+             
+                    <div class="mb-3">
+                        <label for="numtitre" class="form-label">الولاية</label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gouvtitr" >
+                            {% for item in gouv_list %}
+                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-3"></div>
+                            <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitr" id="doubtitr">
+                                <option value="0"></option>
+                                <option value="1">مكرر</option>
+                                <option value="2">مثلث</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addtitle">إضافة</button>
+                      </div>
+                </form>
+
+
+                
+
+         
+          <!-- Modal footer -->
+          
+<!-- Modal -->
+      
+          
+        </div>
+      </div>
+    </div>
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>    
+
+
+$("#ChangePassForm").click(function(event) {
+                event.preventDefault();
+
+                var oldPassword = $("#old").val();
+                var newPassword = $("#new").val();
+
+                // Send a POST request using AJAX
+                $.ajax({
+                    url: "/change_password_view/",  // Replace with your actual URL
+                    type: "POST",
+                    data: {
+                        old: oldPassword,
+                        new: newPassword
+                    },
+                    headers: {  
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        var msgDiv = $("#msg2");
+                        if (data.res === '1') {
+                            msgDiv.html('<div class="alert alert-success"> تم تغيير كلمة العبور بنجاح </div>');   
+                            setTimeout(function() {
+                                $('.alert-success').html('');
+                                $('.alert-success').removeClass('alert-success'); // Clear the 'alert-success' class
+                            }, 1500);   
+                        } else  {
+                            msgDiv.html('<div class="alert alert-warning"> لم يتم تغيير كلمة العبور  </div>');
+                            setTimeout(function() {
+                                $('.alert-warning').html(''); // Clear the error message
+                                $('.alert-warning').removeClass('alert-warning'); // Clear the 'alert-success' class
+
+                            }, 1500);   
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error:", error);
+                    }
+                });
+});
+
+
+
+
+
+
+</script>
+<!-- Add Bootstrap JS scripts (Popper.js and Bootstrap JS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="{% static 'js/test.js'%}"></script>
+
+
+    </body>
+</html>

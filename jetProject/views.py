@@ -7,16 +7,21 @@ from .dbcertconnect import LogicalDB
 #cslcn=Logical()
 
 
-def testgvs(request):
-    logical_instance = Logical()  # Create an instance of the class
-    res = logical_instance.get_list_gouv()
-    #logical_instance = LogicalDB() 
 
-    context = {
-        'gouv_list': res,
-    }
+def testgvs(request):
+    if 'user_id' in request.session and request.session['role'] ==1 :
+        logical_instance = Logical()  # Create an instance of the class
+        res = logical_instance.get_list_gouv()
     
-    return render(request, 'homepage.html', context) 
+        context = {
+            'gouv_list': res,
+        }
+        
+        return render(request, 'homepage.html', context)
+    else:
+        # Handle the case where 'user_id' is not in the session
+        return render(request, 'login.html')
+
 
 
 # tester l'existance d'un titre dans la table tfich 
@@ -108,9 +113,17 @@ def login(request):
     return render(request, 'login.html')
 
 
-def ChangePass(request):
+def ChangePass(request): 
     # return HttpResponse('about')
-    return render(request, 'ChangePass.html')
+    ins = Logical()
+    user = ins.check_user_id(request)
+    if user:
+        # The user exists, you can use the 'user' dictionary as needed
+        return render(request, 'ChangePass.html')  # Provide the correct template name
+    else:
+        # Handle the case where the user doesn't exist or 'user_id' is not in the session
+        return render(request, 'login.html')  # Provide the correct template name
+    
 def consulterSimple(request):
     return render(request, 'viewconsult.html')
 
@@ -125,17 +138,45 @@ def consulter(request):
     print(BASE_DIR) 
     return render(request, 'consultation.html')
 
+
+
+
+
+from django.core.paginator import Paginator, Page
+
 def get_dash(request):
-    logical_instance = Logical()  # Create an instance of the Logical class
-    
-    # Call the select_users function from the logical_instance
-    selected_users = logical_instance.select_users()
-    
-    context = {
-        'selected_users': selected_users
-    }
-    
-    return render(request, 'dash.html', context)
+    if 'user_id' in request.session and request.session['role'] == 1:
+        logical_instance = Logical()  # Create an instance of the Logical class
+
+        # Get the current page number from the request
+        page_number = int(request.GET.get('page', 1))  # Default to page 1 if not specified
+
+        # Calculate the start and end indices for the current page
+        items_per_page = 7  # Change this to the desired number of records per page
+
+        # Call the select_users function from the logical_instance
+        selected_users = logical_instance.select_users()
+
+        # Use Paginator to create a Page object for the current page
+        paginator = Paginator(selected_users, items_per_page)
+        page_users = paginator.get_page(page_number)
+
+        context = {
+            'page_users': page_users,
+        }
+
+        return render(request, 'dash.html', context)
+    else:
+        # Handle the case where 'user_id' is not in the session or the user does not have the required role
+        return render(request, 'login.html')
+
+
+
+
+
+
+
+
 
 def get_dashtitres(request):
     return render(request, 'dashtitres.html')
@@ -431,8 +472,9 @@ def login_emp(request):
             # Log the user in and set session or cookies
             request.session['user_id'] = user_data[0]
             request.session['username'] = user_data[1]
+            request.session['role'] = user_data[7]
             
-            return JsonResponse({'res': '1'})  # User found
+            return JsonResponse({'res': '1','role' : user_data[7]})  # User found
         else:
             return JsonResponse({'res': '0'})  # User not found
 
@@ -540,9 +582,33 @@ def display_images_from_folder(request):
 
 
 
+def Logout(request):
+    # Delete 'user_id' from the session if it exists
+    if 'user_id' in request.session:
+        del request.session['user_id']
+    return render(request, 'login.html')
 
 
+def simple_user(request):
+    if 'user_id' in request.session:
+        logical_instance = Logical()  # Create an instance of the class
+        res = logical_instance.get_list_gouv()
+    
+        context = {
+            'gouv_list': res,
+        }
+        
+        return render(request, 'simpuser.html', context)
+    else:
+        # Handle the case where 'user_id' is not in the session
+        return render(request, 'login.html')
 
 
+def mdfPass(request):
+    if 'user_id' in request.session:
 
-
+        
+        return render(request, 'ChangeForSimple.html')
+    else:
+        # Handle the case where 'user_id' is not in the session
+        return render(request, 'login.html')

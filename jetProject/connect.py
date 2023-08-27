@@ -472,21 +472,37 @@ class Logical :
 
 
 
-
-
-    # Crud for Users
-    def select_users(self):
-        selected_users = []  # List to store selected users
-        
+    # In your Logical class
+    def get_total_users_count(self):
         try:
             with self.conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM users_tuser;")
+                cursor.execute("SELECT COUNT(*) FROM users_tuser;")
+                total_count = cursor.fetchone()[0]
+            return total_count
+        except Exception as e:
+            print("Error:", e)
+            return 0  # Return 0 in case of an error
+
+
+    # In your Logical class
+    def select_users(self, start_index=None, end_index=None):
+        selected_users = []  # List to store selected users
+
+        try:
+            with self.conn.cursor() as cursor:
+                if start_index is not None and end_index is not None:
+                    # Fetch a subset of users based on start_index and end_index
+                    cursor.execute("SELECT * FROM users_tuser LIMIT %s OFFSET %s;", [end_index - start_index, start_index])
+                else:
+                    # Fetch all users if no start and end indices are provided
+                    cursor.execute("SELECT * FROM users_tuser;")
                 selected_users = cursor.fetchall()  # Fetch all rows
-            
+
             return selected_users  # Return the list of selected user data
         except Exception as e:
-            print("Error:", e)  
+            print("Error:", e)
             return []  # Return an empty list in case of an error
+
 
 
     def delete_users_by_id(self, user_id):
@@ -717,3 +733,28 @@ class Logical :
             print(len(images))
         return images, count, countImage
 
+
+    # protect link 
+    def check_user_id(self, request):
+            test = False
+            # Check if 'user_id' is in the session
+            if 'user_id' in request.session:
+                user_id = request.session['user_id']
+                print('You are connected')
+                
+                # Manually create a database cursor
+                with self.conn.cursor() as cursor:
+                    try:
+                        # Execute a SQL query to retrieve the user based on user_id
+                        cursor.execute("SELECT * FROM users_tuser WHERE idemp = %s", [user_id])
+                        user_data = cursor.fetchone()
+                        
+                        if user_data:
+                            # User with the provided id exists
+                            test = True
+                    except Exception as e:
+                        # Handle any database errors
+                        messages.error(request, f"Error: {str(e)}")
+            
+            # If 'user_id' is not in the session or user doesn't exist, return None
+            return test

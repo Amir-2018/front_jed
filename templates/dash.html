@@ -105,7 +105,7 @@
           <li class="list" id="list2"><a href="/get_list_gouv/" class="nav-link scrollto "><i class="bx bx-home"></i> <span> إدارة الرسوم العقارية</span></a></li>
           <!-- <li class="list" id="list3"><a href="/get_stat/" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>الإحصائيات</span></a></li> -->
           <li class="list" id="list4"><a href="/changepass/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>تغيير كلمة العبور</span></a></li>
-          <li class="list" id="list4"><a href="/login/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>خروج</span></a></li>
+          <li class="list" id="list4"><a href="/logout/" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>خروج</span></a></li>
 
 
         </ul>
@@ -139,62 +139,83 @@
 
     
         
-        <table class="table">
-          <thead>
-              <tr>
-                  <th scope="col">Actions</th>
-                  <th scope="col">active</th>
-                  <th scope="col">etat</th>
-                  <th scope="col">acategorie</th>
-
-                  <th scope="col">role</th>
-                  <th scope="col">UserAuth</th>
-
-              </tr>
-          </thead>
-          <tbody>
-              {% for user in selected_users %}
-              <tr>
-                <td>
-                  <button class="btn btn-danger" onclick="confirmDelete(this, '{{ user.0 }}')">حذف</button>
-                  <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp = '{{ user.0 }}' id="view-details-btn">تحديث</button>
-                </td>
-                  <!-- <td><p>{{ user.0}}</p></td> -->
-                  <!-- <td>{{ user.2 }}</td> -->
-                  <td>{{ user.4 }}</td>
-
-                  <td>{{ user.6 }}</td>
-                  <td>{{ user.3 }}</td>
-                  <!-- <td>{{ user.5 }}</td> -->
-                  <td>{{user.7}}</td>
-
-                  <td><p>{{ user.1 }}</p></td>
-
-                  
-              </tr>
-              {% endfor %}
-          </tbody>
-      </table>
       
-          <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">التالي</a>
-                </li>
-            </ul>
-        </nav>
+
+
+              <table class="table">
+                <thead>
+                  <tr>
+                      <th scope="col" >فعل</th>
+                      <th scope="col" >نشط</th>
+                      <th scope="col" >حالة</th>
+                      <th scope="col">فئة</th>
+                      <th scope="col" >الدور</th>
+                      <th scope="col" >إسم المستخدم</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in page_users %}
+                  <tr>
+                    <td>
+                      <div class="btn-group" role="group">
+                          <button class="btn btn-danger" onclick="confirmDelete(this, '{{ user.0 }}')">حذف</button>
+                          <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp="{{ user.0 }}" id="view-details-btn">تحديث</button>
+                      </div>
+                  </td>
+                  <td >{{ user.6 }}</td>
+                  <td>{{ user.5 }}</td>
+                  <td>{{ user.4 }}</td>
+                  <td>{{ user.7 }}</td>
+
+
+                  <td>{{ user.1 }}</td>                  
+                </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+<!-- Display user data here -->
+<!-- ... -->
+
+<nav aria-label="Pagination">
+  <ul class="pagination justify-content-center">
+    {% if page_users.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="false">السابق</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" tabindex="-1" aria-disabled="true">السابق</span>
+      </li>
+    {% endif %}
+
+    {% for page_num in page_users.paginator.page_range %}
+      <li class="page-item{% if page_num == page_users.number %} active{% endif %}">
+        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+      </li>
+    {% endfor %}
+
+    {% if page_users.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_users.next_page_number }}">التالي</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">التالي</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
     </div>
       </div>
 
