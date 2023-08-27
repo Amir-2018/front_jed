@@ -670,9 +670,10 @@ var clickedImageId; // Global variable to store the clicked image ID
 
 function get_images() {
     localStorage.setItem('posFrom', 1);
-localStorage.setItem('posTo', 10);
+    localStorage.setItem('posTo', 10);
     var myLink = $("#myLink");
     myLink.removeClass('disabled');
+    localStorage.setItem('Goto', '10');
 
 
     // Display a loading indicator while waiting for images
@@ -785,7 +786,9 @@ var link = document.getElementById('myLinkP');
 // Add a class to the element
 link.classList.add('disabled');
 var imagesContainer = $("#images_db");
+
 localStorage.setItem('Goto', '10');
+
 function get_images_plus() {
 
     var link = document.getElementById('myLinkP');
@@ -869,6 +872,8 @@ function get_images_plus() {
 
                 // Add a class to the element
                 link.classList.add('disabled');
+                localStorage.setItem('Goto', '10');
+
             }else{
                 document.getElementById('num1').textContent = posTo ; 
 
