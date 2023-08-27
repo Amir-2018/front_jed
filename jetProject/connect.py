@@ -134,23 +134,18 @@ class Logical :
             return "0"
     # import multiple files into database 
 
-    def upload_files_from_database(self,codetitre):
+    def upload_files_from_database(self, codetitre):
         folder_path = 'D:/tempd/'
         test = False
 
         try:
-            # Get the count of titres 
-            #with self.conn.cursor() as cursor:
-               #cursor.execute("SELECT COUNT(*) FROM titresimages WHERE codetitre = %s;", [codetitre])
-               #count = cursor.fetchone()[0]
-
             with self.conn.cursor() as cursor:
-                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s limit 10 ; ", [codetitre])
+                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s ORDER BY numpage ASC LIMIT 10;", [codetitre])
                 files_to_export = cursor.fetchall()
 
                 if len(files_to_export) == 0:
                     return True
-                
+
                 for (codetitre, numpage, oid_value) in files_to_export:
                     file_name = f"{str(numpage)}_{str(codetitre)}.tiff"
                     new_file_path = os.path.join(folder_path, file_name)
@@ -171,18 +166,23 @@ class Logical :
         return test
 
 
-    def upload_files_from_database_pages(self, codetitre, posFrom,posTo):
+
+    def upload_files_from_database_pages(self, codetitre, posFrom, posTo):
         folder_path = 'D:/tempd/'
         test = False
-        files_exported_count = 0  # Initialize the count of exported files
+        files_exported_count = 0  # Initialiser le compteur des fichiers exportés
 
         try:
             with self.conn.cursor() as cursor:
-                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s AND numpage BETWEEN %s AND %s ORDER BY numpage", [codetitre, posFrom, posTo])
+                # Sélectionnez les images en fonction de la colonne numpage
+                cursor.execute("SELECT codetitre, numpage, doc FROM titresimages WHERE codetitre = %s AND numpage BETWEEN %s AND %s", [codetitre, posFrom, posTo])
                 files_to_export = cursor.fetchall()
 
                 if len(files_to_export) == 0:
-                    return (test, files_exported_count)  # Return both values
+                    return (test, files_exported_count)  # Retourner les deux valeurs
+
+                # Triez les fichiers localement en fonction de la dernière colonne (numpage)
+                files_to_export.sort(key=lambda x: x[-1])  # Triez par la dernière colonne (numpage)
 
                 for (codetitre, numpage, oid_value) in files_to_export:
                     file_name = f"{str(numpage)}_{str(codetitre)}.tiff"
@@ -193,16 +193,21 @@ class Logical :
 
                     if os.path.exists(new_file_path):
                         test = True
-                        files_exported_count += 1  # Increment the count of exported files
+                        files_exported_count += 1  # Incrémenter le compteur des fichiers exportés
                     else:
                         test = False
-                        break  # Stop processing if export fails
+                        break  # Arrêter le traitement en cas d'échec de l'export
 
         except Exception as e:
             print(e)
             test = False
 
-        return (test, files_exported_count)  # Return both values
+        return (test, files_exported_count)  # Retourner les deux valeurs
+
+
+    
+
+
 
 
 
@@ -407,26 +412,44 @@ class Logical :
             test = False
         return test
 
-    def find_to_delete(self,request,prefix_value):
+    def find_to_delete(self, request, prefix_value):
         folder_path = 'D:/tempd/'
-        code_titre = int(request.session['session_code_titre'])
-        print(code_titre)
-        try:
-            file_names = [os.path.splitext(f[2:])[0] for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f.startswith(str(prefix_value) + '_')]
-            if file_names:
-                file_name = file_names[0]  # Get the first file_name
-                print(file_name)
-                with self.conn.cursor() as cursor2:
-                    # Delete the row based on 'code_titre' and 'file_name'
-                    cursor2.execute("DELETE FROM titresimages WHERE codetitre = %s AND doc = %s;", [code_titre, int(file_name)])
-                    self.conn.commit()  # Commit the transaction
+        num_titre = int(request.session['session_code_titre'])
 
-                return True  # Return True to indicate successful deletion
-            else:
-                return False  # Return False to indicate no file found
+        try:
+            # Retrieve the code_titres from the titres table
+            with self.conn.cursor() as cursor1:
+                cursor1.execute("SELECT codetitre FROM titres WHERE numtitre = %s;", [num_titre])
+                result = cursor1.fetchone()
+
+                if result:
+                    code_titre = result[0]
+
+                    file_names = [os.path.splitext(f[2:])[0] for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f)) and f.startswith(str(prefix_value) + '_')]
+                    
+                    if file_names:
+                        file_name = file_names[0]  # Get the first file_name
+                        with self.conn.cursor() as cursor2:
+                            # Delete the row based on 'code_titre' and 'file_name'
+                            print('Im gonna delete ', prefix_value)
+                            cursor2.execute("DELETE FROM titresimages WHERE codetitre = %s AND numpage = %s ;", [code_titre, prefix_value])
+                            self.conn.commit()  # Commit the transaction
+
+                        # Update the numpage values for images with numpage > prefix_value
+                        with self.conn.cursor() as cursor3:
+                            cursor3.execute("UPDATE titresimages SET numpage = numpage - 1 WHERE codetitre = %s AND numpage > %s ;", [code_titre, prefix_value])
+                            self.conn.commit()
+
+                        return True  # Return True to indicate successful deletion
+                    else:
+                        return False  # Return False to indicate no file found
+                else:
+                    return False  # Return False if code_titre is not found
         except Exception as e:
             print("Error:", e)
             return False  # Return False to indicate an error
+
+
 
 
 
@@ -635,17 +658,15 @@ class Logical :
 
 
 
-
-
     def display_images_paginations(self, request, posFrom,posTo):
+
+        images = []  
+
         folder_path = 'D:/tempd/'  # Path to the folder containing images
-        images = []
         codetitre = request.session['session_code_titre']
 
-        # Modify this line to get the count of records for pagination
+                # Modify this line to get the count of records for pagination
         count = self.get_count(request)
-
-        # Calculate the starting position for records
 
         if self.delete_all_files():  # Execute delete function and check its result
                 result, countImage = self.upload_files_from_database_pages(codetitre, posFrom,posTo)
@@ -687,9 +708,12 @@ class Logical :
                             # Convert binary data to base64-encoded string
                             file_data_base64 = base64.b64encode(file_data).decode('utf-8')
                             images.append(file_data_base64)
+                            print(len(images))
+                            #os.remove(file_path_png)
 
-                else:
-                    images = []
-
+                
+        else:
+            images = []
+            print(len(images))
         return images, count, countImage
 

@@ -307,6 +307,7 @@ def display_images_from_tempd(request):
 def find_dell(request):
     if(request.method == 'POST') : 
         prefix_value = request.POST.get('prefix_value')
+        print("Prefix = "+prefix_value)
         ins = Logical()
         doc_file = ins.find_to_delete(request,prefix_value)
         return JsonResponse({'res' : doc_file})

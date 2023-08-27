@@ -66,7 +66,7 @@
   gap: 2px;
   padding: 10px;
   position: relative;
-  /*top: 60px;*/
+  top: 60px;
   
 }
 
@@ -242,9 +242,56 @@
       font-size: 20px;
     }
   }
-/* Custom CSS for adjusting modal height */
+  .title-box {
+    display: inline-block;
+    padding: 5px 5px;
+    background-color: #212529;
+    border: 2px solid #212529;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    width: 70%;
+}
 
+.title-text {
+    font-weight: bold;
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
+.div-activate {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+
+.add {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+.pagination {
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#bt{
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
+}
+#header{
+    background-color: #198754;
+}
+.navbar ul li a{
+    font-family: sans-serif;
+    color: white;
+    font-size: 18px;
+}
 
 
 /* Add more classes for different zoom levels */
@@ -282,12 +329,46 @@
             <link href="{% static 'assets/vendor/aos/aos.css '%}" rel="stylesheet">
             <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css '%}" rel="stylesheet">
             <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css '%}" rel="stylesheet">
-          
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+
             <!-- Template Main CSS File -->
             <link href="{% static 'assets/css/main.css '%}" rel="stylesheet">
 
         </head>
         <body>
+            <header id="header" class="header d-flex align-items-center">
+
+                <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+                  <a href="/index" class="logo d-flex align-items-center" style="position: absolute; right: 0px;;">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1>ادارة الملكية العقارية</h1>
+                  </a>
+                  <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a href="/login">  خروج </a></li>
+
+                        <li><a href="/get_list_gouv">  إدارة الرسوم العقارية    </a></li>
+
+                      <li><a href="/changepass"> تغيير كلمة العبور</a></li>
+                      <li><a href="/get_dash" data-bs-toggle="modal" data-bs-target="#updateUserModal">الموظفين</a></li>
+
+
+
+
+                      
+
+            
+                    
+                    </ul>
+                  </nav><!-- .navbar -->
+            
+                  <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+                  <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+            
+                </div>
+              </header><!-- End Header -->
+
             <!-- ////////////////////////////////////////////// -->
 
             <!-- ////////////////////////////////////////////// -->
@@ -344,19 +425,20 @@
                   </ul>
                 </div>
                 <div id="over" style="padding: 10px;">
-                    <nav aria-label="Pagination" id="nav-items">
+                    <div aria-label="Pagination" id="nav-items">
                         <ul class="pagination justify-content-center">
                             <li class="page-item" id="myLinkP">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true" onclick="get_images_back()">السابق</a>
+                                    <!-- <a class="page-link" href="#" tabindex="-1" aria-disabled="true" onclick="get_images_back()">السابق</a> -->
                             </li>
                             <li class="page-item active" aria-current="page">
                                 <a class="page-link" href="#" style="background-color: #198754; color: white; border: 1px solid #198754;"><span id="num1"></span> / <span id="num2"></span></a>
                             </li>
                             <li class="page-item" id="myLink">
-                                <a class="page-link" onclick="get_images_plus()">التالي</a>
+                                <a class="page-link" onclick="get_images_plus()"><i class="fas fa-arrow-right"></i>
+                                </a>
                             </li>
                         </ul>
-                    </nav>
+                    </div>
 
                     <!-- <h1>Page test</h1> -->
                     <h5 id="msg" class="mt-2"></h5>
@@ -403,8 +485,9 @@
                 <div class="droit_div">
 
                     <!-- <a href="#img6">go to link 6 </a> -->
-                    <a href="" class="text-center btn btn-info">يومية الترسيم</a>
-                    
+                    <div class="title-box">
+                        يومية الترسيم
+                    </div>
                         <table style="font-size: 12px;" class="tab1">
                             <tr>
                                 <td ><a id="checkTitleButton" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;"><i class="fas fa-search" ></i>
@@ -442,8 +525,9 @@
                         </table>
                   
                     <br>
-                    <div class="add" id="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" >
-                        <button id="goToImageBtn" class="btn btn-success">Go</button>
+                    <div class="add" id="add"><span>الذهاب مباشرة الى الصفحة عدد</span><input type="number" class="form-control"id="go" style="text-align: center;">
+                        <button id="goToImageBtn" class="btn btn-success" style="margin-top: 10px;"><i class="fas fa-arrow-down"></i>
+                        </button>
                     </div>
                     
 <!--                     
@@ -585,6 +669,12 @@
 var clickedImageId; // Global variable to store the clicked image ID
 
 function get_images() {
+    localStorage.setItem('posFrom', 1);
+localStorage.setItem('posTo', 10);
+    var myLink = $("#myLink");
+    myLink.removeClass('disabled');
+
+
     // Display a loading indicator while waiting for images
     $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
     
@@ -594,12 +684,22 @@ function get_images() {
         type: "GET",
         url: "/display_images/",
         success: function(data) {
+
             if (data.images.length < 10) {
+
+            // Comparez les valeurs
+                // Les valeurs sont égales, exécutez le code
+                var myLink = $("#myLink");
+                myLink.addClass('disabled');
+                localStorage.setItem('posFrom', 1);
+                localStorage.setItem('posTo', 10);
+            
                 localStorage.setItem('countImage', '0');
 
                 // Get references to the div elements
                 var num1Element = document.getElementById('num1');
                 var num2Element = document.getElementById('num2');
+                
 
                 // Update the content of the div elements
                 num1Element.textContent = data.images.length ; 
@@ -610,10 +710,12 @@ function get_images() {
                 localStorage.setItem('countImage', '10');
                 var num1Element = document.getElementById('num1');
                 var num2Element = document.getElementById('num2');
+               
                 num1Element.textContent = 10 ; 
 
                 // Update the content of the div elements
                 num2Element.textContent = data.count;
+               
 
             }
     var msgDiv = $("#msg");
@@ -682,11 +784,13 @@ var link = document.getElementById('myLinkP');
 
 // Add a class to the element
 link.classList.add('disabled');
+var imagesContainer = $("#images_db");
+localStorage.setItem('Goto', '10');
 function get_images_plus() {
-    var link = document.getElementById('myLinkP');
 
-// Add a class to the element
-link.classList.remove('disabled');
+    var link = document.getElementById('myLinkP');
+    // Add a class to the element
+    link.classList.remove('disabled');
     var posFromStr = localStorage.getItem('posFrom');
     var posFrom = parseInt(posFromStr);
     posFrom = posFrom + 10;
@@ -700,7 +804,6 @@ link.classList.remove('disabled');
     localStorage.setItem('posTo', posTo); // Set posTo to a new value, e.g., 20
 
 
-    $("#images_db").html('<div class="alert alert-success"><p class="loading"> ... جاري التحميل </p></div>');
     console.log('this1 = ' + posFrom);
     console.log('this2 = ' + posTo);
 
@@ -724,8 +827,8 @@ link.classList.remove('disabled');
 
             var imagesArray = data.images;
             console.log(imagesArray.length)
-            var imagesContainer = $("#images_db");
-            imagesContainer.empty(); // Clear existing images
+            var retrievedValue = localStorage.getItem('Goto');
+            var Goto = parseInt(retrievedValue);
 
             // Iterate through the array of image data
             imagesArray.forEach(function (imageData, index) {
@@ -733,10 +836,11 @@ link.classList.remove('disabled');
                 var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
                 console.log('image')
                 // Set a unique ID for each image based on the index
-                img.attr("id", "img" + (index + 1));
+                img.attr("id", "img" + (index + 1+Goto));
                 img.addClass("zoomable");
 
                 // Append the <img> element to the #images_db div
+
                 imagesContainer.append(img);
                 img.on("click", function () {
                     var imageId = this.id;
@@ -749,12 +853,15 @@ link.classList.remove('disabled');
                     $(this).css("border", "5px solid green");
                 });
             });
-            if(posFrom==1){
-                var link = document.getElementById('myLink');
+            Goto +=10
+            localStorage.setItem('Goto', Goto);
 
-// Add a class to the element
-link.classList.add('disabled');
-            }
+            // if(posFrom==1){
+            //     var link = document.getElementById('myLink');
+                
+            //     // Add a class to the element
+            //     link.classList.add('disabled');
+            // }
             if(imagesArray.length <10){
                 document.getElementById('num1').textContent = data.count ; 
                 // Get the element by its ID
@@ -772,6 +879,8 @@ link.classList.add('disabled');
         }
     });
 }
+
+// Récupérez les valeurs des span avec les IDs num1 et num2
 
 
 function get_images_back() {
@@ -814,8 +923,8 @@ function get_images_back() {
             var imagesArray = data.images;
             console.log(imagesArray.length)
             var imagesContainer = $("#images_db");
-            imagesContainer.empty(); // Clear existing images
-
+            // imagesContainer.empty(); // Clear existing images
+            print("test = "+ imagesArray.length)
             // Iterate through the array of image data
             imagesArray.forEach(function (imageData, index) {
                 // Create an <img> element and set its src attribute to the image data
@@ -865,36 +974,46 @@ function deleteImage() {
         var targetImage = $("#" + clickedImageId);
         
         if (targetImage.length) {
-            var confirmDelete = confirm("Are you sure you want to delete the selected image?");
-            if (confirmDelete) {
-                var prefixValue = parseInt(clickedImageId[clickedImageId.length - 1]);
-                
-                // Send an AJAX request to the server to delete the image
-                $.ajax({
-                    type: "POST",  // Use the appropriate HTTP method
-                    url: "/find_dell/",  // Replace with the actual URL for deleting images
-                    data: {prefix_value: prefixValue},
-                    headers: {  
-                        "X-CSRFToken": "{{ csrf_token }}"
-                    },
-                    success: function(response) {
-                        console.log(response.res)
-                        if (response.res==true) {
-                            targetImage.remove();
-                            alert("Image deleted with success");
-                            clickedImageId = null;  // Clear the clickedImageId
-                        } else {
-                            alert("Image deletion failed.");
+            var match = clickedImageId.match(/img(\d+)/);
+
+            if (match && match[1]) {
+                var prefixValue = parseInt(match[1]);
+                console.log("This is your value: " + prefixValue);
+
+                var confirmDelete = confirm("Are you sure you want to delete the selected image? " + prefixValue);
+                if (confirmDelete) {
+                    // Send an AJAX request to the server to delete the image
+                    $.ajax({
+                        type: "POST",  // Use the appropriate HTTP method
+                        url: "/find_dell/",  // Replace with the actual URL for deleting images
+                        data: {prefix_value: prefixValue},
+                        headers: {  
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        success: function(response) {
+                            console.log(response.res)
+                            if (response.res == true) {
+                                targetImage.remove();
+                                alert("Image deleted with success");
+                                clickedImageId = null;  // Clear the clickedImageId
+                                get_images() ; 
+                            } else {
+                                alert("Image deletion failed.");
+                            }
+                        },
+                        error: function(error) {
+                            console.error("Error:", error);
                         }
-                    },
-                    error: function(error) {
-                        console.error("Error:", error);
-                    }
-                });
+                    });
+                }
+            } else {
+                console.error("Invalid clickedImageId format: " + clickedImageId);
+                // Handle the error here, e.g., show an error message to the user
             }
         }
     }
 }
+
 
 
 var add = $('#add')
@@ -924,6 +1043,7 @@ add.hide()
       },
       success: function(response) {
         // Display the JSON response on the HTML page
+
         var responseContainer = $('#responseContainer');
         responseContainer.html(JSON.stringify(response));
 
@@ -946,16 +1066,15 @@ add.hide()
 
         } else if (response.msg.response_data === '1') {
          $('#msg').text("");
+          
+          get_images().then(function() {
+    // Execute nav_items.show() after a 2-second delay
+          nav_items.show();
           divToToggle.show(); // Afficher le div
           pageToToggle.show()
           bt.hide()
           add.show()
 
-
-          get_images().then(function() {
-    // Execute nav_items.show() after a 2-second delay
-   
-        nav_items.show();
    
 });
    
@@ -1099,10 +1218,11 @@ inputFile.addEventListener("change", () => {
 // Use setTimeout to wait for 2 seconds and then trigger the button click
 setTimeout(function() {
     var closeButton = document.getElementById('close_insert');
-
+    get_images()
     // Check if the button element exists
     if (closeButton) {
         // Trigger a click event on the button
+
         closeButton.click();
     }
 }, 1500); // 2000 milliseconds = 2 seconds
@@ -1322,6 +1442,9 @@ sendTestButton.addEventListener("click", function(event) {
 
 
 </script>
+<!-- Add Bootstrap JS scripts (Popper.js and Bootstrap JS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="{% static 'js/test.js'%}"></script>
