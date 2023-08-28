@@ -719,16 +719,16 @@ function get_images() {
                
 
             }
-    var msgDiv = $("#msg");
-    var myModal2 = $("#myModal2");
+            var msgDiv = $("#msg");
+            var myModal2 = $("#myModal2");
 
-    if (data.message === '0') {
-        msgDiv.html('<div class="alert alert-warning">No such files here</div>');
-    } else if (data.message === '1') {
-        msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
-    } else {
-        msgDiv.html('');
-    }
+            if (data.message === '0') {
+                msgDiv.html('<div class="alert alert-warning">No such files here</div>');
+            } else if (data.message === '1') {
+                msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+            } else {
+                msgDiv.html('');
+            }
 
     myModal2.modal('hide'); // Hide the modal
 
@@ -738,8 +738,10 @@ function get_images() {
 
     // Iterate through the array of image data
     imagesArray.forEach(function(imageData, index) {
+        
         // Create an <img> element and set its src attribute to the image data
         var img = $("<img>").attr("src", "data:image/png;base64," + imageData);
+        console.log(imageData);
 
         // Set a unique ID for each image based on the index
         img.attr("id", "img" + (index + 1));
@@ -761,6 +763,13 @@ function get_images() {
 
 
         });
+        img.on("error", function(err) {
+        // Handle image loading error here
+        console.log(this.scr);
+
+    // Replace the broken image with a base64-encoded image data URI
+});
+
     });
     // console.log(imageData)
     resolve(); // Resolve the Promise when images are loaded
@@ -1287,7 +1296,7 @@ function processNextRequest() {
         const jsonData = JSON.parse(data);
         if (jsonData.res === "1") {
             console.log('Record inserted successfully');
-                        get_images();
+            get_images();
 
             setTimeout(function() {
     
@@ -1450,16 +1459,16 @@ setTimeout(function() {
 
 
 
-// Get a reference to the button element by its ID
-var sendTestButton = document.getElementById("sendTest");
+// // Get a reference to the button element by its ID
+// var sendTestButton = document.getElementById("sendTest");
 
-// Add a click event listener to the button
-sendTestButton.addEventListener("click", function(event) {
-    // Prevent the default form submission behavior (which includes refreshing the page)
-    event.preventDefault();
+// // Add a click event listener to the button
+// sendTestButton.addEventListener("click", function(event) {
+//     // Prevent the default form submission behavior (which includes refreshing the page)
+//     event.preventDefault();
    
-    // Code to execute when the button is clicked
-});
+//     // Code to execute when the button is clicked
+// });
 
 
 

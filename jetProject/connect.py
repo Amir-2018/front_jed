@@ -244,7 +244,7 @@ class Logical :
                 for idx, uploaded_file in enumerate(uploaded_files, start=max_numpage + 1):
                     # Generate a unique number for each uploaded file
                     unique_num = self.get_unique_number(cursor3)
-
+                    print('your uploaded file is = ',uploaded_file)
                     # Create the new filename using unique number and original file name
                     file_name = f"{unique_num}_{uploaded_file}"
                     file_path = os.path.join('D:/tempd/', file_name)
@@ -316,7 +316,6 @@ class Logical :
                     """, [codetitre, file_path, new_numpage])
 
                     self.conn.commit()
-                    self.display_images(request)
                     print('Record inserted successfully')
 
                 except Exception as e:
@@ -348,51 +347,53 @@ class Logical :
         return unique_num
 
         
+    
+
     def display_images(self, request):
-        folder_path = 'D:/tempd/'  # Path to the folder containing images
+        from PIL import Image
+        import io
+        folder_path = 'D:/tempd/'  # Path to the folder containing TIFF images
         images = []
         codetitre = request.session['session_code_titre']
         count = self.get_count(request)
+        
         if self.delete_all_files():  # Execute delete function and check its result
             if self.upload_files_from_database(codetitre):
                 image_files = [filename for filename in os.listdir(folder_path)]
-
+        
                 print("codetitre =", codetitre)
                 for image_file in image_files:
                     file_path_tiff = os.path.join(folder_path, image_file)
-                    file_path_png = os.path.splitext(file_path_tiff)[0] + '.png'
-
-                    with self.conn.cursor() as cursor2:
-                        # Execute the lo_export query
-                        cursor2.execute("SELECT lo_export(doc, %s) FROM titresimages WHERE codetitre = %s ;", [file_path_tiff, codetitre])
-
-                    if os.path.exists(file_path_tiff):
-                        print("Before Conversion:", file_path_tiff)
-
-                        # Convert the .tiff image to .png format
-                        img = Image.open(file_path_tiff)
-                        img.save(file_path_png, 'PNG')
-                        img.close()
-                        print("After Conversion:", file_path_png)
-                        # Open the converted .png file in binary read mode
-                        with open(file_path_png, 'rb') as file:
-                            # Read the file data
-                            file_data = file.read()
-
-                        # Delete the .tiff and .png files after reading the data to avoid filling up the server disk
-                        os.remove(file_path_tiff)
-                        #os.remove(file_path_png)
-
-                        # Convert binary data to base64-encoded string
-                        file_data_base64 = base64.b64encode(file_data).decode('utf-8')
-                        images.append(file_data_base64)
-                        print('images')
-                        
-
-        else:
-            images = []
         
-        return images , count
+                    # Check if the file is a TIFF image
+                    if file_path_tiff.lower().endswith(".tiff") or file_path_tiff.lower().endswith(".tif"):
+                        # Open the TIFF image using PIL
+                        tiff_image = Image.open(file_path_tiff)
+                        
+                        # Convert to PNG format
+                        png_image = tiff_image.convert('RGB')
+                        
+                        # Create an in-memory stream to store the PNG data
+                        png_data = io.BytesIO()
+                        
+                        # Save the PNG image to the in-memory stream
+                        png_image.save(png_data, format='PNG')
+                        
+                        # Get the binary PNG data
+                        png_data.seek(0)
+                        png_binary = png_data.read()
+                        
+                        # Convert binary data to base64-encoded string
+                        png_base64 = base64.b64encode(png_binary).decode('utf-8')
+                        
+                        images.append(png_base64)
+                        
+            else:
+                images = []
+
+        return images, count
+
+
 
 
 
@@ -686,7 +687,8 @@ class Logical :
 
         if self.delete_all_files():  # Execute delete function and check its result
                 result, countImage = self.upload_files_from_database_pages(codetitre, posFrom,posTo)
-                if(result) : 
+                if(result) :
+                    print('My result id ',result) 
                     image_files = [filename for filename in os.listdir(folder_path)]
 
                     print("codetitre =", codetitre)
@@ -731,6 +733,7 @@ class Logical :
         else:
             images = []
             print(len(images))
+        print('images = ',images)
         return images, count, countImage
 
 

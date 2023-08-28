@@ -159,7 +159,7 @@
                     <td>
                       <div class="btn-group" role="group">
                           <button class="btn btn-danger" onclick="confirmDelete(this, '{{ user.0 }}')">حذف</button>
-                          <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp="{{ user.0 }}" id="view-details-btn">تحديث</button>
+                          <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp="{{ user.0 }}" id="view-details-btn" >تحديث</button>
                       </div>
                   </td>
                   <td >{{ user.6 }}</td>
@@ -492,6 +492,8 @@ $(document).ready(function() {
     // Click event for the "View Details" button
     $(".update_user").click(function() {
       var idemp = $(this).data("idemp"); // Get the idemp from the data attribute
+      localStorage.setItem('userID', idemp.toString());
+
       console.log('idemp=' + idemp);
       $.ajax({
         url: '/get_user_details/', // URL of the get_user_details endpoint
@@ -522,15 +524,21 @@ $(document).ready(function() {
 });
 
 
-
+function confirmUpdate(button,id_user){
+  
+}
 $(document).ready(function() {
     // Handle form submission
     $("#upuser").click(function(event) {
         event.preventDefault();
 
         // Get form data
+        var storedItem = localStorage.getItem('userID');
+
+        var IdUSER = parseInt(storedItem, 10);
+
         var formData = {
-            idemp : 22 , 
+            idemp :  IdUSER,
             username1: $('#username1').val(),
             password1: $('#password1').val(),
             type1: $('#type1').val(),
@@ -551,14 +559,21 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
               if (data.res === '1') {
-  // Handle success
-  $("#alert-message").removeClass("alert-danger").addClass("alert-success");
-  $("#alert-text").text("User updated with success");
-} else {
-  // Handle failure
-  $("#alert-message").removeClass("alert-success").addClass("alert-danger");
-  $("#alert-text").text("User update failed.");
-}
+                  // Handle success
+                  alert('Updated with success')
+                  var closeButton = document.querySelector(".btn-close");
+
+                  // Check if the button was found
+                  if (closeButton) {
+                      // Trigger a click event on the button
+                      closeButton.click();
+                  }
+              } else {
+                  // Handle failure
+                  $().addClass("alert-danger");
+                  alert('Failed to update')
+              }
+
 
 $("#alert-message").fadeIn();
 
