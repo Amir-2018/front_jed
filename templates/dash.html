@@ -383,8 +383,9 @@
 <!-- ... your existing HTML code ... -->
 
 <script>
-  function confirmDelete(button, userId) {
-    var row = button.parentNode.parentNode;
+function confirmDelete(button, userId) {
+    var row = button.closest('tr'); // Get the closest <tr> element (the parent row)
+
     var shouldDelete = confirm("هل أنت متأكد من حذف السجل رقم " + userId + "؟");
     if (shouldDelete) {
         // Send a DELETE request to the delete endpoint using AJAX
@@ -397,7 +398,7 @@
             success: function(data) {
                 // Rest of your code...
                 console.log('Deleted with success');
-                row.style.display = "none";  // Hide the row (you can also remove it from the DOM)
+                row.style.display = "none";  // Hide the entire row
                 $("#msg").html('<div class="alert alert-success">تم حذف السجل بنجاح</div>');
                 setTimeout(function() {
                     $("#msg").empty();
@@ -415,6 +416,7 @@
         });
     }
 }
+
 
 
 $(document).ready(function() {

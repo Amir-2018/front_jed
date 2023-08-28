@@ -1086,15 +1086,15 @@ add.hide()
 
           
         }else if(response.msg.response_data === '2'){
-            $("#msg").html('<div class="alert alert-success">    الرسم العقاري  موجود في قاعدة البيانات الأصلية يمكنك اضافة رسم جديد   </div>');
-            var imagesContainer = $("#images_db");
+            $("#msg").html('<div class="alert alert-danger">الرسم العقاري غير موجود في قاعدة البيانات </div>');
+        var imagesContainer = $("#images_db");
 
-            imagesContainer.empty(); // Clear existing images
+        imagesContainer.empty(); // Clear existing images
           divToToggle.hide(); // Masquer le div
           pageToToggle.hide(); // Masquer le div    
           nav_items.hide()
-          bt.show()
-          add.hide()
+          // bt.show()
+          //add.hide()
 
 
 

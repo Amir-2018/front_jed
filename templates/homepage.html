@@ -351,7 +351,7 @@
                         <li><a href="/get_list_gouv">  إدارة الرسوم العقارية    </a></li>
 
                       <li><a href="/changepass"> تغيير كلمة العبور</a></li>
-                      <li><a href="/get_dash" data-bs-toggle="modal" data-bs-target="#updateUserModal">الموظفين</a></li>
+                      <li><a href="/get_dash" >الموظفين</a></li>
 
 
 
@@ -749,7 +749,9 @@ function get_images() {
         imagesContainer.append(img);
         img.on("click", function() {
             var imageId = this.id;
-            console.log("Clicked on image with ID: " + imageId);
+            var newValue = imageId.substring(3); // This removes the first three characters
+            document.getElementById('num1').textContent = newValue;
+
             clickedImageId = imageId; // Save the clicked image ID
             // Remove red border from all images
             $(".zoomable").css("border", "none");
@@ -944,6 +946,7 @@ function get_images_back() {
                 img.on("click", function () {
                     var imageId = this.id;
                     console.log("Clicked on image with ID: " + imageId);
+
                     clickedImageId = imageId; // Save the clicked image ID
                     // Remove red border from all images
                     $(".zoomable").css("border", "none");
@@ -984,6 +987,8 @@ function deleteImage() {
             if (match && match[1]) {
                 var prefixValue = parseInt(match[1]);
                 console.log("This is your value: " + prefixValue);
+                console.log("Clicked on image with ID: " + prefixValue);
+
 
                 var confirmDelete = confirm("Are you sure you want to delete the selected image? " + prefixValue);
                 if (confirmDelete) {
@@ -1215,22 +1220,24 @@ inputFile.addEventListener("change", () => {
     
     // Call the sendPostRequest function here
     sendPostRequest(i + 1, selectedFile);
-    get_images()
+    // get_images()
     var msgDiv = $("#insert");
     
-    msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+    // msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
 
 // Use setTimeout to wait for 2 seconds and then trigger the button click
 setTimeout(function() {
     var closeButton = document.getElementById('close_insert');
-    get_images()
+    //get_images()
     // Check if the button element exists
     if (closeButton) {
         // Trigger a click event on the button
-
         closeButton.click();
+        msgDiv.html('');
+
     }
-}, 1500); // 2000 milliseconds = 2 seconds
+}, 1000); // 2000 milliseconds = 2 seconds
+
 });
 
 
@@ -1276,9 +1283,19 @@ function processNextRequest() {
     })
     .then(response => response.text())
     .then(data => {
+        var msgDiv = $("#insert");
         const jsonData = JSON.parse(data);
         if (jsonData.res === "1") {
             console.log('Record inserted successfully');
+                        get_images();
+
+            setTimeout(function() {
+    
+            // msgDiv.html('<div class="alert alert-success">تمت الإضافة بنجاح</div>');
+            }, 1500); // 2000 milliseconds (2 seconds)
+            msgDiv.html(''); // This sets the content of the div to an empty string, effectively clearing it
+
+
         } else {
             console.error('Failed to insert record');
         }
