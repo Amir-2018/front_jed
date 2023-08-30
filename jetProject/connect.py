@@ -347,7 +347,7 @@ class Logical :
         return unique_num
 
         
-    
+
 
     def display_images(self, request):
         from PIL import Image
