@@ -59,7 +59,7 @@
             color: white;
            }
 
-           .grid-container {
+    .grid-container {
 
   display: grid;
   grid-template-columns: 7% 73% auto;
@@ -69,9 +69,30 @@
   top: 60px;
   
 }
+/* Lorsque la largeur de l'écran est inférieure à 768px, passez à une seule colonne */
+@media screen and (max-width: 768px) {
+    .grid-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Trois colonnes avec largeur égale */
+  height: 50%;
+}
+
+
+
+/* Vous pouvez personnaliser les styles pour chaque élément .grid-item si nécessaire */
+
+}
+
+
+
+
+
+
+
+
 
 .grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
+  /*background-color: rgba(255, 255, 255, 0.8);*/
   text-align: center;
   padding: 20px 0;
   font-size: px;
@@ -245,8 +266,8 @@
   .title-box {
     display: inline-block;
     padding: 5px 5px;
-    background-color: #212529;
-    border: 2px solid #212529;
+    background-color: #001220;
+    border: 2px solid #001220;
     border-radius: 5px;
     color: #fff;
     text-align: center;
@@ -292,6 +313,10 @@
     color: white;
     font-size: 18px;
 }
+
+/* Styles pour les écrans de petite taille (par exemple, smartphones) */
+
+
 
 
 /* Add more classes for different zoom levels */
@@ -398,11 +423,11 @@
 
   
             <div class="grid-container">
-                <div >
+                <div  class="buttons">
 
                     <ul class="div-activate" >
-                    <li class="btn btn-success" >
-                    <i class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" onclick="get_images_from_folder();"></i> 
+                    <li  >
+                    <a  class="btn btn-success"><i  class="far fa-copy " data-bs-toggle="modal" data-bs-target="#myModal2" onclick="get_images_from_folder();"></i> </a>
 
 
                     </a></li>
@@ -530,58 +555,6 @@
                         </button>
                     </div>
                     
-<!--                     
-                    <table style="font-size: 12px; overflow:scroll;" class="tab1 tab3">
-                        <tr>
-                            
-                            <th><span style="font-size: 10px;">ص</span></th>
-
-                            <th><span style="font-size: 10px;"> نوع العملية</span></th>
-
-                            <th><span style="font-size: 10px;">العدد</span></th>
-                            <th><span style="font-size: 10px;">التاريخ</span></th>
-
-                            <th><span>المجلد</span></a></th>
-                            <th>الايداع</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-                     
-                        
-                        
-                      
-                    </table> -->
                 </div>  
               
               </div>

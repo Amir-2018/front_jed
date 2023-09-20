@@ -7,13 +7,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Impact Bootstrap Template - Index</title>
+  <title>ONPF</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
-  <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+  <!-- <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon"> -->
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +89,16 @@
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 5px;
-    }
+    };
+
+    .success-container {
+    background-color: green; /* New background color */
+    border: 1px solid #c3e6cb; /* New border color */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
 
     .error-message {
         color: #f44336;
@@ -100,9 +109,39 @@
     position: relative;
     bottom: 20px;
    }
-   #hero{
+   /* #hero{
     background-color: #198754;
-   }
+   } */
+   .loading-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 30vh;
+            /*border: 2px solid black;*/  
+        }
+
+        /* Style the loading spinner */
+        .loader {
+            border: 8px solid transparent;
+            border-top: 8px solid #007BFF;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        /* Style the loading title */
+        .loading-title {
+            font-size: 24px;
+            color: #007BFF;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
   </style>
 </head>
 
@@ -147,17 +186,24 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-primary" id="login-form">موافق</button>
                     <button type="reset" class="btn btn-warning">إلغاء</button>
+                    
                 </div>
+                <div class="loading-container">
+                  <div class="loader"></div>
+                  <p class="loading-title">جاري الدخول ...</p>
+              </div>
                 <br>
                 <!-- <div class="text-center">
                     <a class="btn btn-success" href="/changepass">تغيير كلمة العبور</a>
                 </div> -->
                 <br>
 
-                
+               
             </form>
-            <div id="error-container"></div>
-
+            <div id="error-container">
+            
+            </div>
+          
 
           </div><!-- End Contact Form -->
            <!-- Your login page content here -->
@@ -190,11 +236,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
 $(document).ready(function() {
+  $(".loading-container").hide();
+
     $('#login-form').click(function(event) {
         event.preventDefault();
         var username = $('#username').val();
         var password = $('#password').val();
+        var errorMessage = '<div class="alert alert-danger alert-dismissible fade show" role="alert"> جاري التحميل...  </div>';
+        $('#success-container').html(errorMessage);
 
         var formData = {
             userauth: username,
@@ -212,9 +263,16 @@ $(document).ready(function() {
             success: function(data) {
             
     if (data.res === '1') {
+      $(".loading-container").show();
+
       console.log('role='+data.role)
       if(data.role =='1')
+        {
+          
           window.location.href = "/get_dash/?page=1"; // Redirect to "/get_dash"
+          $('#success-container').html(''); // Clear the success alert
+
+        }
       else
           window.location.href = "/simple_user"; // Redirect to "/get_dash"
         // Automatically hide the success alert after 1500 milliseconds (1.5 seconds)
@@ -239,6 +297,24 @@ $(document).ready(function() {
             }
         });
     });
+});
+
+
+// Get a reference to the input field
+var usernameInput = document.getElementById('username');
+
+// Add an event listener for the 'keyup' event
+usernameInput.addEventListener('keyup', function() {
+    // Get the value entered by the user
+    var inputValue = usernameInput.value;
+
+    // Use a regular expression to check if the input contains numbers
+    var containsNumbers = /\d/.test(inputValue);
+
+    // Set the border width and outline to 2px and red
+    usernameInput.style.borderWidth = '2px';
+    usernameInput.style.borderColor = containsNumbers ? 'red' : '';
+    usernameInput.style.outlineColor = containsNumbers ? 'red' : '';
 });
 
   </script>
