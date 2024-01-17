@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>iPortfolio Bootstrap Template - Index</title>
+  <title>ONPF</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -32,6 +32,7 @@
 
 
   <style>
+
       /* Additional custom styles for RTL layout */
       body {
             font-family: 'Tajawal', Arial, sans-serif; /* Use an Arabic font if available */
@@ -84,8 +85,8 @@
 
       <div class="profile">
         <img src="{% static 'assests2/img/pf.jpg'%}" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">إدارة الملكية </a></h1>
-        <h1 class="text-light"><a href="index.html">العقارية</a></h1>
+        <h1 class="text-light">إدارة الملكية </a></h1>
+        <h1 class="text-light">العقارية</a></h1>
 
         
        
@@ -140,9 +141,10 @@
                 <thead>
                   <tr>
                       <th scope="col" >فعل</th>
-                      <th scope="col" >نشط</th>
+                      <th scope="col">العنوان</th>
+
                       <th scope="col" >حالة</th>
-                      <th scope="col">فئة</th>
+
                       <th scope="col" >الدور</th>
                       <th scope="col" >إسم المستخدم</th>
                   </tr>
@@ -156,12 +158,9 @@
                           <button class="btn btn-primary update_user" data-bs-toggle="modal" data-bs-target="#myModal2" data-idemp="{{ user.0 }}" id="view-details-btn" >تحديث</button>
                       </div>
                   </td>
-                  <td >{{ user.6 }}</td>
-                  <td>{{ user.5 }}</td>
-                  <td>{{ user.4 }}</td>
+                  <td >{{ user.5 }}</td>
+                  <td>{{ user.6 }}</td>
                   <td>{{ user.7 }}</td>
-
-
                   <td>{{ user.1 }}</td>                  
                 </tr>
                   {% endfor %}
@@ -245,23 +244,36 @@
                       <input type="number" class="form-control" id="type" placeholder="النوع">
                   </div>
                   <div class="form-group">
-                      <input type="number" class="form-control" id="status" placeholder="نشط">
-                  </div>
 
-                  <div class="form-group">
+                    <select class="form-control" id="status" >
+                        <option value="1" selected>نشط</option>
+                        <option value="0">غير نشط</option>
+                    </select>
+                </div>
+                
+
+              <div class="form-group">
                     <label for="address"></label>
                     <input type="text" class="form-control" id="address" placeholder="العنوان">
-                </div>
-                <div class="form-group">
-                  <label for="status"></label>
-                  <input type="number" class="form-control" id="etat" placeholder="الحالة">
               </div>
-                  <div class="form-group">
-                      <label for="role"></label>
-                      <input type="number" class="form-control" id="role" placeholder="الدور">
-                  </div>
-                
-              </form>
+
+              <div class="form-group">
+                <select class="form-control" id="etat" onchange="toggleRoleOption()">
+                    <option selected>الحالة</option>
+                    <option value="1" {% if etat == 0 %}disabled{% endif %}>مالك</option>
+                    <option value="0" {% if etat == 0 %}selected{% endif %}>غير مالك</option>
+                </select>
+            </div>
+            
+              
+            <div class="form-group">
+              <select class="form-control" id="role" onchange="toggleStatusOption()">
+                  <option disabled selected>الدور</option>
+                  <option value="1" {% if etat == 0 %}disabled{% endif %}>إداري</option>
+                  <option value="0" {% if etat == 0 %}selected{% endif %}>موظف</option>
+              </select>
+          </div>              
+            </form>
           </div>
 
           <!-- Modal footer -->
@@ -287,36 +299,47 @@
               <form id="userForm">
               
                 <div class="form-group">
-                    <input type="text" class="form-control" id="username1" placeholder="إسم المستخدم">
+                  <label for="address">إسم المستخدم</label>
+                  <input type="text" class="form-control" id="username1" placeholder="إسم المستخدم">
                 </div>
                 <div class="form-group">
+                  <label for="address">كلمة العبور</label>
                   <input type="text" class="form-control" id="password1" placeholder="كلمة العبور" required>
                 </div>
                 <div class="form-group">
+                    <label for="address">النوع</label>
                     <input type="number" class="form-control" id="type1" placeholder="النوع">
                 </div>
                 <div class="form-group">
+                    <label for="address">نشط</label>
                     <input type="number" class="form-control" id="status1" placeholder="نشط">
                 </div>
 
                 <div class="form-group">
-                  <label for="address"></label>
+                  <label for="address">العنوان</label>
                   <input type="text" class="form-control" id="address1" placeholder="العنوان">
               </div>
               <div class="form-group">
-                <label for="status"></label>
-                <input type="number" class="form-control" id="etat1" placeholder="الحالة">
-            </div>
+                <label for="status">الحالة</label>
+                <select class="form-control" id="etat1" onchange="toggleRoleOption()">
+                  <option selected disabled>الحالة</option>
+                  <option value="1">مالك</option>
+                  <option value="0">غير مالك</option>
+              </select>            </div>
                 <div class="form-group">
-                    <label for="role"></label>
-                    <input type="number" class="form-control" id="role1" placeholder="الدور">
+                    <label for="role">الدور</label>
+                    <select class="form-control" id="role1" onchange="toggleStatusOption()">
+                      <option disabled selected>الدور</option>
+                      <option value="1">إداري</option>
+                      <option value="0" disabled>موظف</option>
+                  </select>                
                 </div>
               
             </form>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">غلق</button>
-              <button type="button" class="btn btn-primary" onclick="addUser()" id="upuser">تحديث </button>
+              <button type="button" class="btn btn-primary"  id="upuser">تحديث </button>
           </div>
       </div>
   </div>
@@ -377,6 +400,22 @@
 <!-- ... your existing HTML code ... -->
 
 <script>
+    function toggleStatusOption() {
+        var roleDropdown = document.getElementById('role');
+        var statusDropdown = document.getElementById('etat');
+
+        // Activer ou désactiver l'option "موظف" en fonction de la sélection dans le menu déroulant "الحالة"
+        roleDropdown.querySelector('option[value="0"]').disabled = (statusDropdown.value == '1');
+    }
+
+    function toggleRoleOption() {
+        var roleDropdown = document.getElementById('role');
+        var statusDropdown = document.getElementById('etat');
+
+        // Activer ou désactiver l'option "موظف" en fonction de la sélection dans le menu déroulant "الحالة"
+        roleDropdown.querySelector('option[value="0"]').disabled = (statusDropdown.value == '1');
+    }
+
 function confirmDelete(button, userId) {
     var row = button.closest('tr'); // Get the closest <tr> element (the parent row)
 
@@ -473,14 +512,16 @@ $(document).ready(function() {
             },
             error: function(error) {
                 console.error('Error:', error);
-                $("#msg").html('<div class="alert alert-danger">حدث خطأ أثناء إضافة الموظف.</div>');
+                $("#msg2").html('<div class="alert alert-danger">حدث خطأ أثناء إضافة الموظف.</div>');
                 setTimeout(function() {
-                    $("#msg").empty();
+                    $("#msg2").empty();
                 }, 2000);
             }
         });
     });
 });
+
+
 
 $(document).ready(function() {
     // Click event for the "View Details" button
@@ -492,10 +533,13 @@ $(document).ready(function() {
       $.ajax({
         url: '/get_user_details/', // URL of the get_user_details endpoint
         type: 'GET',
-        data: { 'idemp': idemp }, // Pass the idemp as a GET parameter
+        data: { 'idemp': idemp },
+        
+        // Pass the idemp as a GET parameter
         dataType: 'json', // Change to JSON data type
         success: function(data) {
           if (data.res === '1') {
+     
             // Update the user details container with the fetched user data
             $("#username1").val(data.user_data[1]);
             //$("#upuser").attr("data-idemp", data.user_data[0]);
@@ -521,12 +565,17 @@ $(document).ready(function() {
 function confirmUpdate(button,id_user){
   
 }
+
+
+
 $(document).ready(function() {
     // Handle form submission
     $("#upuser").click(function(event) {
         event.preventDefault();
 
         // Get form data
+        var shouldUp = confirm("هل أنت متأكد من التحيين ");
+        if(shouldUp){
         var storedItem = localStorage.getItem('userID');
 
         var IdUSER = parseInt(storedItem, 10);
@@ -554,7 +603,9 @@ $(document).ready(function() {
             success: function(data) {
               if (data.res === '1') {
                   // Handle success
-                  alert('Updated with success')
+                  alert('تم التحيين بنجاح');
+                  location.reload();
+
                   var closeButton = document.querySelector(".btn-close");
 
                   // Check if the button was found
@@ -565,19 +616,19 @@ $(document).ready(function() {
               } else {
                   // Handle failure
                   $().addClass("alert-danger");
-                  alert('Failed to update')
+                  alert('خطأ في التحيين')
               }
 
 
-$("#alert-message").fadeIn();
+              $("#alert-message").fadeIn();
 
             },
             error: function(error) {
                 console.error('Error:', error);
                 // Handle error
-                alert("User update failed.");
+                alert("خطأ في التحيين");
             }
-        });
+        })};
     });
 });
 

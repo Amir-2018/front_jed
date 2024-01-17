@@ -145,29 +145,39 @@ def consulter(request):
 from django.core.paginator import Paginator, Page
 
 def get_dash(request):
-    if 'user_id' in request.session and request.session['role'] == 1:
-        logical_instance = Logical()  # Create an instance of the Logical class
+    if 'user_id' in request.session:
+        role = request.session.get('role')
+        etat = request.session.get('etat')
 
-        # Get the current page number from the request
-        page_number = int(request.GET.get('page', 1))  # Default to page 1 if not specified
+        if role is not None and etat is not None:
+            logical_instance = Logical()  # Create an instance of the Logical class
 
-        # Calculate the start and end indices for the current page
-        items_per_page = 7  # Change this to the desired number of records per page
+            # Get the current page number from the request
+            page_number = int(request.GET.get('page', 1))  # Default to page 1 if not specified
 
-        # Call the select_users function from the logical_instance
-        selected_users = logical_instance.select_users()
+            # Calculate the start and end indices for the current page
+            items_per_page = 7  # Change this to the desired number of records per page
 
-        # Use Paginator to create a Page object for the current page
-        paginator = Paginator(selected_users, items_per_page)
-        page_users = paginator.get_page(page_number)
+            # Call the select_users function from the logical_instance
+            selected_users = logical_instance.select_users(role=role, etat=etat)
+            show_option = etat == 1
+            # Use Paginator to create a Page object for the current page
+            paginator = Paginator(selected_users, items_per_page)
+            page_users = paginator.get_page(page_number)
+            context = {
+                'page_users': page_users,
+                'show_option': show_option,
+                'selected_role': 0,
+                'etat':etat  # Remplacez 0 par la valeur réelle de selected_role
 
-        context = {
-            'page_users': page_users,
-        }
+            }
 
-        return render(request, 'dash.html', context)
+            return render(request, 'dash.html', context)
+        else:
+            # Handle the case where 'user_id' is in the session, but 'role' or 'etat' is missing
+            return render(request, 'error.html')  # Change 'error.html' to the appropriate template
     else:
-        # Handle the case where 'user_id' is not in the session or the user does not have the required role
+        # Handle the case where 'user_id' is not in the session
         return render(request, 'login.html')
 
 
@@ -473,8 +483,9 @@ def login_emp(request):
             request.session['user_id'] = user_data[0]
             request.session['username'] = user_data[1]
             request.session['role'] = user_data[7]
+            request.session['etat'] = user_data[6]
             
-            return JsonResponse({'res': '1','role' : user_data[7]})  # User found
+            return JsonResponse({'res': '1','role' : user_data[7],'etat' : user_data[6]})  # User found
         else:
             return JsonResponse({'res': '0'})  # User not found
 

@@ -485,24 +485,30 @@ class Logical :
             return 0  # Return 0 in case of an error
 
 
-    # In your Logical class
-    def select_users(self, start_index=None, end_index=None):
-        selected_users = []  # List to store selected users
+        # In your Logical class
+    # Dans votre classe Logical
+    def select_users(self, role=None, etat=None):
+        selected_users = []  # Liste pour stocker les utilisateurs sélectionnés
 
         try:
             with self.conn.cursor() as cursor:
-                if start_index is not None and end_index is not None:
-                    # Fetch a subset of users based on start_index and end_index
-                    cursor.execute("SELECT * FROM users_tuser LIMIT %s OFFSET %s;", [end_index - start_index, start_index])
-                else:
-                    # Fetch all users if no start and end indices are provided
+                if etat is not None and etat == 1:
+                    # Sélectionner tous les utilisateurs si etat est 1
                     cursor.execute("SELECT * FROM users_tuser;")
-                selected_users = cursor.fetchall()  # Fetch all rows
+                elif etat is not None and etat == 0:
+                    # Sélectionner les utilisateurs avec etat = 0 et role = 0 si etat est 0
+                    cursor.execute("SELECT * FROM users_tuser WHERE etat = 0 AND role = 0;")
+                else:
+                    # Sélectionner tous les utilisateurs si aucun etat n'est fourni
+                    cursor.execute("SELECT * FROM users_tuser;")
 
-            return selected_users  # Return the list of selected user data
+                selected_users = cursor.fetchall()  # Récupérer toutes les lignes
+
+            return selected_users  # Retourner la liste des données d'utilisateurs sélectionnées
         except Exception as e:
-            print("Error:", e)
-            return []  # Return an empty list in case of an error
+            print("Erreur :", e)
+            return []  # Retourner une liste vide en cas d'erreur
+
 
 
 
@@ -530,6 +536,11 @@ class Logical :
             strpwd = password + str(username)
             hashed_password = hashlib.md5(strpwd.encode()).hexdigest()
 
+            # Check if the username already exists
+            if self.username_exists(username):
+                print("Error: Username already exists")
+                return False
+
             # Find the next available idemp value
             idemp = self.get_next_available_idemp()
 
@@ -543,6 +554,17 @@ class Logical :
         except Exception as e:
             print("Error:", e)
             return False
+
+    def username_exists(self, username):
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT COUNT(*) FROM users_tuser WHERE userauth = %s;", [username])
+                count = cursor.fetchone()[0]
+            return count > 0
+        except Exception as e:
+            print("Error:", e)
+            return False
+
 
     def get_next_available_idemp(self):
         try:

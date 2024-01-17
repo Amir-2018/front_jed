@@ -61,27 +61,23 @@
 
     .grid-container {
 
-  display: grid;
-  grid-template-columns: 7% 73% auto;
-  gap: 2px;
-  padding: 10px;
-  position: relative;
-  top: 60px;
+        display: grid;
+        grid-template-columns: 7% 73% auto;
+        gap: 2px;
+        padding: 10px;
+        position: relative;
+        top: 60px;
   
 }
 /* Lorsque la largeur de l'écran est inférieure à 768px, passez à une seule colonne */
-@media screen and (max-width: 768px) {
-    .grid-container {
-  display: grid;
-  grid-template-columns: 1fr; /* Trois colonnes avec largeur égale */
-  height: 50%;
-}
+
+
+
 
 
 
 /* Vous pouvez personnaliser les styles pour chaque élément .grid-item si nécessaire */
 
-}
 
 
 
@@ -95,7 +91,6 @@
   /*background-color: rgba(255, 255, 255, 0.8);*/
   text-align: center;
   padding: 20px 0;
-  font-size: px;
   height: 98vh;
   border: 1px solid black;
 
@@ -111,6 +106,32 @@
     align-items: center;
     padding-right: 30px;
    
+}
+
+@media screen and (max-width: 768px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 17% 4% auto;
+        height: auto; 
+    }
+    .grid-container > div > ul {
+    display: flex;
+    flex-direction: row;
+}
+
+    .grid-container > *:nth-child(1) {
+    order: 2;
+}
+
+.grid-container > *:nth-child(2) {
+    order: 3;
+}
+
+.grid-container > *:nth-child(3) {
+    order: 1;
+}
+
 }
 .table tr td{
     padding: 2px ;
@@ -262,6 +283,7 @@
     .modal-title {
       font-size: 20px;
     }
+  
   }
   .title-box {
     display: inline-block;
@@ -334,7 +356,7 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Navbar Example</title>
+            <title>ONPF</title>
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -365,7 +387,7 @@
             <header id="header" class="header d-flex align-items-center">
 
                 <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-                  <a href="/index" class="logo d-flex align-items-center" style="position: absolute; right: 0px;;">
+                  <a href="/get_list_gouv" class="logo d-flex align-items-center" style="position: absolute; right: 0px;;">
                     <!-- Uncomment the line below if you also wish to use an image logo -->
                     <!-- <img src="assets/img/logo.png" alt=""> -->
                     <h1>ادارة الملكية العقارية</h1>
@@ -373,10 +395,10 @@
                   <nav id="navbar" class="navbar">
                     <ul>
                         <li><a href="/logout">  خروج </a></li>
+                        <li><a href="/changepass"> تغيير كلمة العبور</a></li>
 
                         <li><a href="/get_list_gouv">  إدارة الرسوم العقارية    </a></li>
 
-                      <li><a href="/changepass"> تغيير كلمة العبور</a></li>
                       <li><a href="/get_dash" >الموظفين</a></li>
 
 
@@ -536,15 +558,15 @@
                                 <td><a id="bt" href="" class="btn btn-success" style="padding: 5px 10px; font-size: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">+</a></td>
                                 <td>
                                     
-                                        <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitre" id="doubtitre">
+                                        <!-- <select class="form -select form-select-sm" aria-label=".form-select-sm example" name="doubtitre" id="doubtitre">
                                                 <option value="0"></option>
                                                 <option value="1">مكرر</option>
                                                 <option value="2">مثلث</option>
     
-                                        </select>
+                                        </select> -->
                                 
                                 </td>
-                                <td><span style="font-size: 10px;">مكرر </span></td>
+                                <!-- <td><span style="font-size: 10px;">مكرر </span></td> -->
                             </tr>
                            
                            
@@ -973,7 +995,7 @@ function deleteImage() {
                 console.log("Clicked on image with ID: " + prefixValue);
 
 
-                var confirmDelete = confirm("Are you sure you want to delete the selected image? " + prefixValue);
+                var confirmDelete = confirm("تأكيد الحذف?  " + prefixValue);
                 if (confirmDelete) {
                     // Send an AJAX request to the server to delete the image
                     $.ajax({
